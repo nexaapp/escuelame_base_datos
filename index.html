@@ -137,6 +137,11 @@ table tbody tr:hover{background:#f8f6f2;}
 
 .top-btn{padding:5px 11px;border:1px solid #d1d5db;border-radius:6px;background:white;cursor:pointer;font-size:12px;color:#374151;white-space:nowrap}
 .top-btn:hover{background:#f9fafb;border-color:#9ca3af}
+
+.cloud-status{font-size:11px;padding:3px 8px;border-radius:10px;white-space:nowrap;transition:opacity .3s}
+.cloud-status.ok{background:#d1fae5;color:#065f46}
+.cloud-status.warn{background:#fef3c7;color:#92400e}
+.cloud-status.err{background:#fee2e2;color:#991b1b}
 </style>
 </head>
 <body>
@@ -150,6 +155,7 @@ table tbody tr:hover{background:#f8f6f2;}
 <div id="main">
   <div id="topbar">
     <div id="breadcrumb">—</div>
+    <span id="cloud-status" class="cloud-status"></span>
     <input class="search-box" id="db-search" placeholder="🔍 Buscar alumnos..." oninput="renderDB()" style="display:none">
     <div id="topbar-actions" style="display:flex;gap:6px;align-items:center">
       <button class="top-btn" id="btn-import" onclick="openImport()" title="Importar alumnos desde CSV/Excel" style="display:none">⬆ Importar</button>
@@ -173,17 +179,11 @@ table tbody tr:hover{background:#f8f6f2;}
   </div>
 </div>
 
-<div class="detail-ov" id="detail-ov" onclick="if(event.target===this)this.style.display='none'">
-  <div class="detail-box" id="detail-box">
-    <button class="detail-close" onclick="document.getElementById('detail-ov').style.display='none'">✕</button>
-    <div id="detail-content"></div>
-  </div>
-</div>
-</body>
-
+<div class="detail-ov" id="detail-ov" onclick="if(event.target===this)this.sty
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-const YEARS=[2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
+let YEARS=[2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
 const ALL_MONTHS=["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 let MC={},ST={};
 (MC[2023]=MC[2023]||{})["Enero"]=[{"id":"c0001","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":""}];
@@ -255,6 +255,17 @@ PC["PRO 26"].push({id:"p005",label:"Profesional de v\u00eddeo",cls:"ch-teal",pil
 PS["PRO 26"]["p005"]=[{"n": "JESUS", "ap": "CUEVAS", "t": "", "m": "jesulito.avenger@gmail.com", "l": "", "ma": 195, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "MARISA", "ap": "MORENO", "t": "", "m": "morenojimenezmarisa@gmail.com", "l": "", "ma": 195, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "JAVI", "ap": "NUCHE", "t": "", "m": "javimarnu8@gmail.com", "l": "", "ma": 0, "tu": "", "cu": "195", "p": "Pendiente", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "CARLOS", "ap": "", "t": "", "m": "zijdeveld7@gmail.com", "l": "", "ma": 0, "tu": "", "cu": "", "p": "Pendiente", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195}, "o": ""}, {"n": "ANA", "ap": "ABASCAL", "t": "", "m": "anabastor063@gmail.com", "l": "", "ma": 200, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 200, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195}, "o": ""}, {"n": "JOSÉ FÉLIX", "ap": "SÁNCHEZ PANÉS", "t": "", "m": "jfsp74@gmail.com", "l": "", "ma": 0, "tu": "", "cu": "", "p": "Pendiente", "pm": {}, "o": ""}, {"n": "FLOR", "ap": "DAVID VACA", "t": "684 228 112", "m": "flordavidvaca@gmail.com", "l": "", "ma": 195, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "JEREMÍAS", "ap": "", "t": "", "m": "", "l": "", "ma": 0, "tu": "", "cu": "195", "p": "Pendiente", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}];
 
 const MO_ORDER=['OCT','NOV','DIC','ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP'];
+
+// ── SUPABASE ──────────────────────────────────────────────────────────────────
+
+function showStatus(msg, type) {
+  let el = document.getElementById('cloud-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'cloud-status ' + (type||'');
+}
+
+
 // ALL_MONTHS already declared above
 const PAGOS=['Pendiente','Efectivo','Tarjeta','Transferencia','Bizum','Regalo'];
 const COLORS=[
@@ -993,6 +1004,7 @@ function copyMonthData(){
 }
 
 function render(){
+  scheduleSave();
   renderNav();
   // Show/hide topbar action buttons
   var isMonth=!showDB&&!selPro;
@@ -1007,8 +1019,86 @@ function render(){
   else if(selPro)renderPro();
   else renderMonth();
 }
+
+
+// Init - render immediately, then try Supabase
 render();
+if(typeof supabase !== 'undefined'){
+  loadFromSupabase().then(function(){ render(); });
+} else {
+  // CDN not loaded yet - wait for it
+  window.addEventListener('load', function(){
+    if(typeof supabase !== 'undefined'){
+      loadFromSupabase().then(function(){ render(); });
+    } else {
+      showStatus('⚠️ Sin conexión a la nube', 'warn');
+    }
+  });
+}
+
+
+// ── SUPABASE ──────────────────────────────────────────────────────────────────
+const SUPA_URL = 'https://ngpggumhsdqqlintrvlh.supabase.co';
+const SUPA_KEY = 'sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-';
+let db = null;
+function getDB(){ if(!db) db = supabase.createClient(SUPA_URL, SUPA_KEY); return db; }
+
+let _saveTimer = null;
+let _supaLoaded = false;
+
+async function loadFromSupabase() {
+  if(typeof supabase === 'undefined'){ showStatus('⚠️ Sin conexión', 'warn'); return; }
+  try {
+    const { data, error } = await getDB().from('app_data').select('*').eq('id','main').single();
+    if (error && error.code !== 'PGRST116') {
+      showStatus('⚠️ Sin conexión a la nube', 'warn');
+      return;
+    }
+    if (data) {
+      if (data.years && data.years.length) {
+        YEARS.splice(0, YEARS.length, ...data.years);
+      }
+      if (data.mc) { Object.keys(data.mc).forEach(k => { MC[parseInt(k)||k] = data.mc[k]; }); }
+      if (data.st) { Object.keys(data.st).forEach(k => { ST[parseInt(k)||k] = data.st[k]; }); }
+      if (data.pc) Object.assign(PC, data.pc);
+      if (data.ps) Object.assign(PS, data.ps);
+    }
+    _supaLoaded = true;
+    showStatus('✅ Datos cargados', 'ok');
+    setTimeout(function(){ showStatus('',''); }, 3000);
+  } catch(err) {
+    console.warn('Supabase:', err);
+    showStatus('⚠️ Sin conexión', 'warn');
+  }
+}
+
+async function saveToSupabase() {
+  if (!_supaLoaded) return;
+  try {
+    const { error } = await getDB().from('app_data').upsert({
+      id:'main', years:YEARS, mc:MC, st:ST, pc:PC, ps:PS,
+      updated_at: new Date().toISOString()
+    }, {onConflict:'id'});
+    if (error) { showStatus('❌ ' + error.message, 'err'); }
+    else { showStatus('☁️ Guardado', 'ok'); setTimeout(function(){showStatus('','');}, 2000); }
+  } catch(err) {
+    showStatus('❌ Sin conexión', 'err');
+  }
+}
+
+function scheduleSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(saveToSupabase, 1500);
+}
+
+function showStatus(msg, type) {
+  var el = document.getElementById('cloud-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'cloud-status ' + (type||'');
+}
 
 </script>
+
 </body>
 </html>
