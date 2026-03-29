@@ -185,6 +185,21 @@ table tbody tr:hover{background:#f8f6f2;}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// Supabase state - declared early to avoid TDZ errors
+let _saveTimer = null;
+let _supaLoaded = false;
+let db = null;
+function getDB(){
+  if(!db && typeof supabase !== 'undefined'){
+    db = supabase.createClient(
+      'https://ngpggumhsdqqlintrvlh.supabase.co',
+      'sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-'
+    );
+  }
+  return db;
+}
+
+
 
 let YEARS=[2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
 const ALL_MONTHS=["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -1041,13 +1056,9 @@ if(typeof supabase !== 'undefined'){
 
 
 // ── SUPABASE ──────────────────────────────────────────────────────────────────
-const SUPA_URL = 'https://ngpggumhsdqqlintrvlh.supabase.co';
-const SUPA_KEY = 'sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-';
-let db = null;
-function getDB(){ if(!db) db = supabase.createClient(SUPA_URL, SUPA_KEY); return db; }
+// db/getDB defined above
 
-let _saveTimer = null;
-let _supaLoaded = false;
+// _saveTimer/_supaLoaded defined above
 
 async function loadFromSupabase() {
   if(typeof supabase === 'undefined'){ showStatus('⚠️ Sin conexión', 'warn'); return; }
