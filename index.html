@@ -158,13 +158,12 @@ table tbody tr:hover{background:#f8f6f2;}
     <span id="cloud-status" class="cloud-status"></span>
     <input class="search-box" id="db-search" placeholder="🔍 Buscar alumnos..." oninput="renderDB()" style="display:none">
     <div id="topbar-actions" style="display:flex;gap:6px;align-items:center">
-      <button class="top-btn" id="btn-import" onclick="openImport()" title="Importar alumnos desde CSV/Excel" style="display:none">⬆ Importar</button>
-      <button class="top-btn" id="btn-export" onclick="doExport()" title="Exportar a CSV" style="display:none">⬇ Exportar</button>
-      <button class="top-btn" id="btn-copy-month" onclick="copyMonthData()" title="Copiar todos los datos del mes" style="display:none">📋 Copiar datos</button>
-      <label class="top-btn" id="btn-import-lbl" style="display:none;cursor:pointer" title="Importar alumnos CSV/Excel">
+      <button class="top-btn" id="btn-copy-month" onclick="copyMonthData()" style="display:none">📋 Copiar datos</button>
+      <label class="top-btn" id="btn-import-lbl" style="display:none;cursor:pointer">
         ⬆ Importar
         <input type="file" id="import-file" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleImportFile(this)">
       </label>
+      <button class="top-btn" id="btn-export" onclick="doExport()" style="display:none">⬇ Exportar</button>
     </div>
   </div>
   <div id="stats"></div>
@@ -179,7 +178,11 @@ table tbody tr:hover{background:#f8f6f2;}
   </div>
 </div>
 
-<div class="detail-ov" id="detail-ov" onclick="if(event.target===this)this.sty
+<div class="detail-ov" id="detail-ov" onclick="if(event.target===this)this.style.display='none'">
+  <div class="detail-box" id="detail-box">
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
@@ -1098,7 +1101,7 @@ function showStatus(msg, type) {
   el.className = 'cloud-status ' + (type||'');
 }
 
-</script>
 
+</script>
 </body>
 </html>
