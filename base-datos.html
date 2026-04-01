@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Escuela M.E.</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f6f9;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;overflow-y:auto}
+#sidebar-top{padding:16px;border-bottom:1px solid #e2e8f0}
+#sidebar-top h1{font-size:15px;font-weight:700;color:#1a202c}
+#sidebar-top p{font-size:11px;color:#718096;margin-top:2px}
+#nav{flex:1;padding:8px 0;overflow-y:auto}
+.year-btn{width:100%;text-align:left;background:none;border:none;padding:8px 16px;font-size:13px;font-weight:600;color:#2d3748;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-left:3px solid transparent}
+.year-btn:hover{background:#f7fafc}
+.year-btn.active{color:#2b6cb0;background:#ebf4ff;border-left-color:#3182ce}
+.months-list{padding:2px 0 4px 20px}
+.month-btn{width:100%;text-align:left;background:none;border:none;padding:5px 12px;font-size:12px;color:#4a5568;cursor:pointer;border-radius:4px}
+.month-btn:hover{background:#f7fafc}
+.month-btn.active{background:#ebf4ff;color:#2b6cb0;font-weight:600}
+.add-year-btn{width:100%;text-align:left;background:none;border:none;padding:8px 16px;font-size:12px;color:#718096;cursor:pointer}
+.add-year-btn:hover{color:#2b6cb0}
+.pro-sep{padding:14px 16px 4px;font-size:10px;font-weight:700;letter-spacing:.1em;color:#9a7ec8;text-transform:uppercase;border-top:1px solid #f0ebff;margin-top:8px}
+.pro-year-btn{border-left-color:#c8b8ef!important}
+.pro-year-btn.active{color:#6b21a8!important;background:#f5f3ff!important;border-left-color:#7c3aed!important}
+#sidebar-bot{padding:8px;border-top:1px solid #e2e8f0}
+.db-btn{width:100%;padding:8px;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;background:#2b6cb0;color:#fff}
+.db-btn.off{background:#f0f4f8;color:#4a5568}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{padding:12px 20px;background:#fff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:12px}
+#breadcrumb{font-size:14px;color:#4a5568;flex:1}
+.search-box{padding:6px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;width:200px}
+#stats{display:flex;gap:12px;padding:12px 20px;background:#fff;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}
+.stat{background:#f7fafc;border-radius:8px;padding:10px 16px;min-width:120px}
+.stat-l{font-size:11px;color:#718096;margin-bottom:2px}
+.stat-v{font-size:18px;font-weight:700;color:#2d3748}
+#content{flex:1;overflow-y:auto;padding:16px 20px}
+.course-card{background:#fff;border-radius:10px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+.ch{padding:12px 16px;display:flex;align-items:center;cursor:pointer;gap:10px}
+.ch-blue{background:#e8f1fb}.ch-green{background:#eaf3e2}.ch-amber{background:#fef3e2}
+.ch-pink{background:#fceaf1}.ch-purple{background:#eeedf8}.ch-teal{background:#e2f4ef}.ch-gray{background:#f2f0ea}
+.course-name{font-size:14px;font-weight:700;color:#2d3748}
+.course-sub{font-size:12px;color:#718096;margin-top:2px}
+.course-sub.ph{color:#b0bac9;font-style:italic}
+.ch-meta{margin-left:auto;display:flex;align-items:center;gap:8px}
+.pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.pill-blue{background:#bee3f8;color:#1a365d}.pill-green{background:#c6f6d5;color:#1c4532}
+.pill-amber{background:#fefcbf;color:#744210}.pill-pink{background:#fed7e2;color:#702459}
+.pill-purple{background:#e9d8fd;color:#44337a}.pill-teal{background:#b2f5ea;color:#234e52}.pill-gray{background:#e2e8f0;color:#4a5568}
+.eur-lbl{font-size:12px;color:#718096;font-weight:600}
+.icon-btn{background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px}
+.add-course-card{background:none;border:2px dashed #cbd5e0;border-radius:10px;padding:14px;text-align:center;font-size:13px;color:#718096;cursor:pointer;margin-bottom:12px}
+.add-course-card:hover{border-color:#90cdf4;color:#2b6cb0}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#f7fafc;padding:8px 10px;text-align:left;font-weight:600;color:#4a5568;border-bottom:1px solid #e2e8f0;white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid #f0f4f8;vertical-align:top;white-space:nowrap}
+tr:hover td{background:#fafbfc}
+.totals-row td{background:#f7fafc!important;font-weight:600;border-top:2px solid #e2e8f0}
+.empty-row td{color:#a0aec0;text-align:center;padding:16px}
+.mail-link{color:#2b6cb0;max-width:180px;overflow:hidden;text-overflow:ellipsis}
+.obs-td{max-width:160px;overflow:hidden;text-overflow:ellipsis;color:#718096;cursor:pointer}
+.add-row{width:100%;padding:8px;background:#f7fafc;border:none;border-top:1px solid #e2e8f0;color:#4a5568;font-size:12px;cursor:pointer;text-align:left}
+.add-row:hover{background:#ebf4ff;color:#2b6cb0}
+.pago-tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.pp{background:#fde8e8;color:#9b1c1c}.pe{background:#def7ec;color:#14532d}
+.pt{background:#e1effe;color:#1e3a5f}.ptr{background:#f3e8ff;color:#4c1d95}.preg{background:#fce7f3;color:#831843}
+.period-tag{background:#e2e8f0;color:#4a5568;padding:2px 7px;border-radius:10px;font-size:11px}
+.tbl-btn{background:none;border:none;cursor:pointer;font-size:13px;padding:2px 3px;opacity:.6}
+.tbl-btn:hover{opacity:1}
+.tbl-btn.del{color:#c53030}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+.modal-box{background:#fff;border-radius:12px;width:90%;max-width:540px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-hdr{padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center}
+.modal-hdr h2{font-size:15px;font-weight:700}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:#718096}
+.modal-body{padding:16px 20px;overflow-y:auto;flex:1}
+.modal-body label{display:block;font-size:12px;font-weight:600;color:#4a5568;margin-bottom:4px;margin-top:10px}
+.modal-body label:first-child{margin-top:0}
+.modal-body input,.modal-body select,.modal-body textarea{width:100%;padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;outline:none}
+.modal-body input:focus,.modal-body select:focus,.modal-body textarea:focus{border-color:#3182ce}
+.modal-body textarea{height:70px;resize:vertical}
+.modal-ctx{font-size:12px;color:#718096;background:#f7fafc;padding:6px 10px;border-radius:6px;margin-bottom:8px}
+.modal-ftr{padding:12px 20px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center}
+.btn{padding:8px 20px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+.btn-primary{background:#2b6cb0;color:#fff}.btn-primary:hover{background:#2c5282}
+.btn-danger{background:none;border:1px solid #c53030;color:#c53030;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer}
+.turno-btns{display:flex;gap:10px;margin-bottom:8px}
+.turno-btn{flex:1;padding:10px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;text-align:center;font-size:13px;background:#fff;transition:all .15s}
+.turno-btn.am.sel{border-color:#d97706;background:#fffbeb}
+.turno-btn.pm.sel{border-color:#7c3aed;background:#f5f3ff}
+.db-section{background:#fff;border-radius:10px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+.db-hdr{padding:12px 16px;display:flex;align-items:center;cursor:pointer;gap:10px}
+.db-hdr:hover{background:#fafbfc}
+.db-left{display:flex;align-items:center;gap:10px;flex:1}
+.db-name{font-size:14px;font-weight:700;color:#2d3748}
+.db-count{font-size:12px;color:#718096}
+.db-eur{font-size:13px;font-weight:600;color:#4a5568}
+.db-arr{margin-left:auto;color:#a0aec0}
+.no-results{text-align:center;padding:40px;color:#a0aec0}
+.detail-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.detail-box{background:#fff;border-radius:12px;width:90%;max-width:480px;max-height:80vh;overflow-y:auto;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative}
+.detail-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#718096}
+.detail-row{display:flex;margin-bottom:10px;gap:8px}
+.detail-row .lbl{font-size:11px;font-weight:600;color:#718096;width:90px;flex-shrink:0;padding-top:2px}
+.detail-row .val{font-size:13px;color:#2d3748;flex:1;word-break:break-word;white-space:normal}
+.color-sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .1s}
+.color-sw.sel{border-color:#2d3748}
+.color-swatches{display:flex;gap:8px;flex-wrap:wrap;padding:4px 0}
+
+.add-month-btn{width:100%;text-align:left;background:none;border:none;padding:4px 16px 4px 28px;font-size:11px;color:#7c5cbf;cursor:pointer;border-radius:4px;}
+.add-month-btn:hover{background:#f0ebff;}
+.pro-sep{padding:16px 16px 4px;font-size:10px;font-weight:700;letter-spacing:.08em;color:#9a7ec8;text-transform:uppercase;}
+.pro-year{border-left:3px solid #c8b8ef !important;}
+.pro-year.active{background:linear-gradient(90deg,#f0ebff,#f8f5ff) !important;border-left-color:#7c5cbf !important;}
+.turno-btns{display:flex;gap:10px;margin-bottom:10px;}
+.turno-btn{flex:1;padding:9px;border:2px solid #e5e7eb;border-radius:8px;background:white;cursor:pointer;font-size:14px;transition:all .15s;}
+.turno-btn.am.sel{border-color:#d97706;background:#fffbeb;}
+.turno-btn.pm.sel{border-color:#7c3aed;background:#f5f3ff;}
+.det-row{display:flex;gap:12px;padding:8px 4px;border-bottom:1px solid #f0ede6;}
+.det-lbl{width:130px;flex-shrink:0;color:#888;font-size:12px;font-weight:500;padding-top:2px;}
+.det-val{flex:1;word-break:break-word;}
+#detail-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;}
+#detail-box{background:white;border-radius:14px;padding:22px;max-width:480px;width:90%;max-height:80vh;overflow-y:auto;position:relative;}
+.detail-close{position:absolute;top:12px;right:12px;background:none;border:none;font-size:18px;cursor:pointer;color:#888;}
+.btn-danger{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;padding:7px 14px;border-radius:7px;cursor:pointer;font-size:13px;}
+.btn-danger:hover{background:#fca5a5;}
+.icon-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;border-radius:4px;opacity:.7;}
+.icon-btn:hover{opacity:1;background:#f0ede6;}
+.obs-td{color:#aaa;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.no-results{padding:40px;text-align:center;color:#aaa;font-size:15px;}
+.per-tag{background:#e8f1fb;color:#3a6abf;padding:2px 7px;border-radius:10px;font-size:11px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+table tbody tr:hover{background:#f8f6f2;}
+
+
+
+#mobile-topnav{display:none}
+@media(max-width:700px){
+  #sidebar{display:none}
+  #main{width:100%;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:#f4f6f9}
+  #topbar{padding:8px 10px;gap:6px;min-height:44px}
+  #breadcrumb{display:none}
+  #mobile-topnav{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#fff;border-bottom:1px solid #e2e8f0;flex-shrink:0}
+  #mobile-topnav select{flex:1;padding:7px 8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;background:#f9fafb;color:#1a202c;max-width:48%}
+  #mn-db-btn{padding:7px 10px;background:#f0f4ff;border:1px solid #c3dafe;border-radius:8px;font-size:13px;color:#3182ce;cursor:pointer}
+  #mn-db-btn.active{background:#3182ce;color:#fff}
+  #stats{flex-wrap:wrap;gap:6px;padding:8px 10px;flex-shrink:0}
+  .stat{min-width:130px;flex:1}
+  #content{flex:1;overflow-y:auto;padding:8px 10px;background:#f4f6f9;min-height:0}
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{font-size:11px;min-width:520px}
+  table th,table td{padding:5px 6px;white-space:nowrap}
+  .modal-box{width:95vw;max-width:95vw;max-height:88vh}
+  .detail-box{width:92vw;max-width:92vw;padding:14px}
+  .tbl-btn,.icon-btn{font-size:15px;padding:4px 6px}
+  .top-btn{font-size:11px;padding:4px 8px}
+  .course-card{margin-bottom:10px}
+}
+.cloud-status{font-size:11px;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.cloud-status.ok{background:#d1fae5;color:#065f46}
+.cloud-status.warn{background:#fef3c7;color:#92400e}
+.cloud-status.err{background:#fee2e2;color:#991b1b}
+.top-btn{padding:5px 11px;border:1px solid #d1d5db;border-radius:6px;background:white;cursor:pointer;font-size:12px;color:#374151;white-space:nowrap}
+
+#app-topnav{
+  position:fixed;top:0;left:0;right:0;height:50px;
+  background:#fff;border-bottom:1px solid #f0f0f0;
+  display:flex;align-items:center;padding:0 16px;gap:10px;z-index:9999;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+#app-topnav .tn-back{background:none;border:none;font-size:22px;cursor:pointer;color:#999;padding:0 4px;line-height:1;transition:color .15s}
+#app-topnav .tn-back:hover{color:#1a1a1a}
+#app-topnav .tn-logo{width:26px;height:26px;border-radius:50%;object-fit:cover}
+#app-topnav .tn-title{font-size:13px;font-weight:700;color:#1a1a1a;flex:1}
+body{padding-top:50px!important}
+</style>
+</head>
+<body><div id="app-topnav">
+  <button class="tn-back" onclick="window.location.href='dashboard.html'" title="Volver">‹</button>
+  <img class="tn-logo" src="data:image/png;base64,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" alt="ME">
+  <span class="tn-title">Base de datos</span>
+</div>
+<div id="sidebar">
+  <div id="sidebar-top"><h1>📷 Escuela M.E.</h1><p>Base de datos</p></div>
+  <div id="nav"></div>
+  <div id="sidebar-bot">
+    <button class="db-btn off" id="db-btn" onclick="toggleDB()">🌐 Base de datos global</button>
+  </div>
+</div>
+<div id="main">
+  <div id="topbar">
+    <div id="breadcrumb">—</div>
+    <span id="cloud-status" class="cloud-status"></span>
+    <input class="search-box" id="db-search" placeholder="🔍 Buscar..." oninput="renderDB()" style="display:none">
+    <div id="topbar-actions" style="display:flex;gap:6px;align-items:center">
+      <button class="top-btn" id="btn-copy-month" onclick="copyMonthData()" style="display:none">📋 Copiar</button>
+      <label class="top-btn" id="btn-import-lbl" style="display:none;cursor:pointer">⬆ Importar<input type="file" id="import-file" accept=".csv" style="display:none" onchange="handleImportFile(this)"></label>
+      <button class="top-btn" id="btn-export" onclick="doExport()" style="display:none">⬇ Exportar</button>
+    </div>
+  </div>
+  <div id="mobile-topnav">
+    <select id="mn-year" onchange="mnSetYear(this.value)"></select>
+    <select id="mn-month" onchange="mnSetMonth(this.value)"></select>
+    <button id="mn-db-btn" onclick="mnToggleDB()">🌐</button>
+  </div>
+  <div id="stats"></div>
+  <div id="content"></div>
+</div>
+<div class="modal-ov" id="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><h2 id="modal-title"></h2><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-ftr"><div id="modal-left"></div><button class="btn btn-primary" id="modal-ok" onclick="confirmModal()">Guardar</button></div>
+  </div>
+</div>
+<div class="detail-ov" id="detail-ov" onclick="if(event.target===this)this.style.display='none'">
+  <div class="detail-box" id="detail-box"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+let _saveTimer=null,_supaLoaded=false,db=null;
+function getDB(){if(!db&&typeof supabase!=='undefined')db=supabase.createClient('https://ngpggumhsdqqlintrvlh.supabase.co','sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-');return db;}
+
+
+const YEARS=[2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
+const ALL_MONTHS=["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+let MC={},ST={};
+(MC[2023]=MC[2023]||{})["Enero"]=[{"id":"c0001","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":""}];
+(MC[2023]=MC[2023]||{})["Febrero"]=[{"id":"c0002","label":"Avanzado de fotografía","cls":"ch-green","pill":"pill-green","subtitle":"AVANZADO 02 AL 07 MARZO 17 A 20H"}];
+(MC[2023]=MC[2023]||{})["Marzo"]=[{"id":"c0003","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACIÓN 04 Y 05"},{"id":"c0004","label":"Taller Rocío Muriel","cls":"ch-gray","pill":"pill-gray","subtitle":"ROCÍO MURIEL 11 Y 12 DE MARZO"},{"id":"c0005","label":"Avanzado de fotografía","cls":"ch-green","pill":"pill-green","subtitle":"AVANZADO 02 MARZO 17 A 20H"},{"id":"c0006","label":"Iniciación al vídeo","cls":"ch-amber","pill":"pill-amber","subtitle":""}];
+(MC[2023]=MC[2023]||{})["Abril"]=[{"id":"c0007","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACIÓN 15 Y 16"},{"id":"c0008","label":"Iniciación al vídeo","cls":"ch-amber","pill":"pill-amber","subtitle":""}];
+(MC[2023]=MC[2023]||{})["Mayo"]=[{"id":"c0009","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACIÓN COMPLETO 04 AL 06 JULIO"},{"id":"c0010","label":"Iniciación al vídeo","cls":"ch-amber","pill":"pill-amber","subtitle":""}];
+(MC[2023]=MC[2023]||{})["Julio"]=[{"id":"c0011","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACIÓN COMPLETO 04 AL 06 JULIO"},{"id":"c0012","label":"Iniciación al vídeo","cls":"ch-amber","pill":"pill-amber","subtitle":"VÍDEO 24 AL 30"}];
+(MC[2023]=MC[2023]||{})["Septiembre"]=[{"id":"c0013","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":""}];
+((ST[2023]=ST[2023]||{})["Enero"]=ST[2023]["Enero"]||{})["c0001"]=[{"n":"VICTOR MIGUEL","ap":"GONZÁLEZ GARCÍA","t":"601 016 311","m":"victormiguel89@gmail.com","l":"","i":120,"p":"Efectivo","o":"TRANSF"},{"n":"IVONNE DANIELA","ap":"REYES MINOR","t":"613 160 350","m":"daniela.minor@gmail.com","l":"","i":120,"p":"Pendiente","o":"Vino Aquí"},{"n":"YOLANDA","ap":"ARAUZ DÍAZ","t":"645 752 919","m":"yolandaarauz73@gmail.com","l":"","i":0,"p":"Pendiente","o":"LLAMÓ. ES PELUQUERA. POSIBLE AVANZADO. wasapp dir."},{"n":"JUAN SEBASTIÁN","ap":"GONZÁLEZ GALLERO","t":"","m":"","l":"","i":0,"p":"Pendiente","o":"TARJETA REGALO. SU HIJO VICTOR"},{"n":"MANUELA","ap":"RUIZ","t":"","m":"ruizromero.manuela@gmail.com","l":"","i":120,"p":"Efectivo","o":"mail con dir."}];
+((ST[2023]=ST[2023]||{})["Febrero"]=ST[2023]["Febrero"]||{})["c0002"]=[{"n":"HELENA","ap":"","t":"","m":"","l":"","i":290,"p":"Efectivo","o":"TARJETA REGALO. HIZO INICIACIÓN"},{"n":"JOSE MARIA","ap":"FERNANDEZ-LLEBREZ","t":"667 517 202","m":"jmllebrez@gmail.com","l":"","i":290,"p":"Pendiente","o":"HIZO INICIACIÓN. AZORES"},{"n":"CHARO","ap":"MAURY","t":"665 307 376","m":"","l":"","i":290,"p":"Pendiente","o":"HIZO INICIACIÓN. AVISAR CON TIEMPO"},{"n":"LUISA","ap":"SCHINDICHT","t":"622 101 544","m":"","l":"","i":290,"p":"Pendiente","o":"de conil. Alemana"},{"n":"LETICIA","ap":"FRONTADO RIVERO","t":"670 918 506","m":"leticiafrontado91@hotmail.es","l":"CÁDIZ","i":290,"p":"Pendiente","o":"AMIGA DE PACO DE LA CORTE"},{"n":"YOLANDA","ap":"ARAUZ DÍAZ","t":"645 752 919","m":"yolandaarauz73@gmail.com","l":"CÁDIZ","i":0,"p":"Pendiente","o":"LLAMÓ. ES PELUQUERA. POSIBLE AVANZADO. wasapp dir."}];
+((ST[2023]=ST[2023]||{})["Marzo"]=ST[2023]["Marzo"]||{})["c0003"]=[{"n":"ANA","ap":"GOMÉZ ROLDOS","t":"","m":"ana.roldos@gmail.com","l":"PTO STA MARÍA","i":120,"p":"Efectivo","o":"STRIPE"},{"n":"ROSALIA","ap":"VALLEJO PARAZUELO","t":"649096852","m":"Vallejoparazuelorosalia@gmail.com","l":"CADIZ","i":120,"p":"Efectivo","o":"TARJETA REGALO."},{"n":"MANUEL","ap":"SÁNCHEZ FLORES","t":"658 219 053","m":"manuel.sanchez.flores.msf@gmail.com","l":"CÁDIZ","i":0,"p":"Pendiente","o":"CADIZ CF"},{"n":"FRANCISCO JAVIER","ap":"MEDINA RUIZ","t":"617 140 699","m":"frajamero@hotmail.es","l":"PTO STA MARÍA","i":120,"p":"Efectivo","o":"REGALO ENERO"},{"n":"JOSE","ap":"VILLAGRAN JOLY","t":"689 573 684","m":"villagranjoly@gmail.com","l":"PTO STA MARÍA","i":120,"p":"Pendiente","o":""}];
+((ST[2023]=ST[2023]||{})["Marzo"]=ST[2023]["Marzo"]||{})["c0004"]=[{"n":"NARCISO","ap":"RODRIGUEX TIRADO","t":"669 12 54 33","m":"","l":"CONIL","i":100,"p":"Efectivo","o":""},{"n":"ALICIA","ap":"PAVÓN linares","t":"679 681 848","m":"alicia.pavonlinares@gmail.com","l":"CÁDIZ","i":100,"p":"Efectivo","o":""},{"n":"JUAN ANTONIO","ap":"CEREZO RAMOS","t":"620 433 149","m":"cerezo.ramos@gmail.com","l":"CÁDIZ","i":100,"p":"Efectivo","o":""},{"n":"MARÍA","ap":"GALLURT DOMENECH","t":"686 247 346","m":"mariagd3@hotmail.com","l":"CÁDIZ","i":100,"p":"Efectivo","o":"BIZUM"},{"n":"PATRICIA","ap":"","t":"","m":"","l":"","i":100,"p":"Efectivo","o":""}];
+((ST[2023]=ST[2023]||{})["Marzo"]=ST[2023]["Marzo"]||{})["c0005"]=[{"n":"HELENA","ap":"","t":"","m":"","l":"","i":290,"p":"Efectivo","o":"TARJETA REGALO. HIZO INICIACIÓN"},{"n":"JOSE MARIA","ap":"FERNANDEZ-LLEBREZ","t":"667 517 202","m":"jmllebrez@gmail.com","l":"","i":290,"p":"Efectivo","o":"HIZO INICIACIÓN. AZORES"},{"n":"CHARO","ap":"MAURY","t":"665 307 376","m":"","l":"","i":290,"p":"Efectivo","o":"HIZO INICIACIÓN. AVISAR CON TIEMPO"},{"n":"LUISA","ap":"SCHINDICHT","t":"622 101 544","m":"","l":"","i":290,"p":"Efectivo","o":"de conil. Alemana"},{"n":"LETICIA","ap":"FRONTADO RIVERO","t":"670 918 506","m":"leticiafrontado91@hotmail.es","l":"CÁDIZ","i":290,"p":"Efectivo","o":"AMIGA DE PACO DE LA CORTE"}];
+((ST[2023]=ST[2023]||{})["Marzo"]=ST[2023]["Marzo"]||{})["c0006"]=[{"n":"JUAN MANUEL","ap":"AUILAD MOSTERIRO","t":"672 712 153","m":"jdcadista@gmail.com","l":"CÁDIZ","i":120,"p":"Efectivo","o":"LO PAGÓ SU MADRE BIZUM. EL CHICO TIENE DIFICULTADES EN EXPRESARSE"}];
+((ST[2023]=ST[2023]||{})["Abril"]=ST[2023]["Abril"]||{})["c0007"]=[{"n":"VALLE","ap":"PÉREZ RODRÍGUEZ","t":"662 575 405","m":"valletus.tus@hotmail.es","l":"CÄDIZ","i":120,"p":"Efectivo","o":"TARJETA REGALO 2022"},{"n":"TAMARA","ap":"","t":"678 507 558","m":"","l":"CÁDIZ","i":135,"p":"Pendiente","o":""},{"n":"MONTSERRAT","ap":"MONTERO GONZÁLEZ","t":"658 871 216","m":"","l":"","i":120,"p":"Efectivo","o":"TARJETA REGALO"},{"n":"CARMEN","ap":"RAMOS OTERO","t":"636 712 796","m":"adelpuerto_7@hotmail.com","l":"El Puerto","i":120,"p":"Efectivo","o":"INGRESO LA CAIXA"},{"n":"GEMA","ap":"FLORES CARRASCO","t":"617 389 824","m":"gemaflores98fl@gmail.com","l":"CÁDIZ","i":130,"p":"Pendiente","o":"NO VIENE"},{"n":"AMANDA","ap":"JEFFRIES","t":"","m":"amandamarina.jeffries@gmail.com","l":"","i":120,"p":"Efectivo","o":"STRIPE. No puede asistir por enfermedad familiar. Avisar abrio/mayo fechas. Mail eo 03/04"}];
+((ST[2023]=ST[2023]||{})["Abril"]=ST[2023]["Abril"]||{})["c0008"]=[{"n":"JUAN MANUEL","ap":"AUILAD MOSTERIRO","t":"672 712 153","m":"jdcadista@gmail.com","l":"CÁDIZ","i":120,"p":"Efectivo","o":"LO PAGÓ SU MADRE BIZUM. EL CHICO TIENE DIFICULTADES EN EXPRESARSE"}];
+((ST[2023]=ST[2023]||{})["Mayo"]=ST[2023]["Mayo"]||{})["c0009"]=[{"n":"ÁLVARO","ap":"PÉREZ VELASCO","t":"640 201 499","m":"perezvelasco69@gmail.com","l":"SAN FERNANDO","i":0,"p":"Pendiente","o":"HARÁ TRANSFERENCIA A PRIMEROS DE ABRIL."},{"n":"MARÍA DEL CARMEN","ap":"MARTÍN PÉREZ","t":"650 223 943","m":"mari.carmen.martin.perez68@gmail.com","l":"CÁDIZ","i":120,"p":"Efectivo","o":"TARJETA REGALO."},{"n":"TAMARA","ap":"","t":"678 507 558","m":"","l":"CÁDIZ","i":130,"p":"Pendiente","o":""},{"n":"MARISOL","ap":"GONZÁLEZ GARCÍA","t":"680 756 488","m":"gonzalezgarciamarisol@gmail.com","l":"","i":0,"p":"Pendiente","o":"no recuerdo la conversación. Madar mail recordatorio dás antes"}];
+((ST[2023]=ST[2023]||{})["Mayo"]=ST[2023]["Mayo"]||{})["c0010"]=[{"n":"JUAN MANUEL","ap":"AUILAD MOSTERIRO","t":"672 712 153","m":"jdcadista@gmail.com","l":"CÁDIZ","i":120,"p":"Efectivo","o":"LO PAGÓ SU MADRE BIZUM. EL CHICO TIENE DIFICULTADES EN EXPRESARSE"}];
+((ST[2023]=ST[2023]||{})["Julio"]=ST[2023]["Julio"]||{})["c0011"]=[{"n":"JOSÉ ANTONIO","ap":"SOTO SOCOLI","t":"686 400 391","m":"joseantoniosoto.enm@gmail.com","l":"","i":130,"p":"Efectivo","o":"transferencia"},{"n":"PABLO","ap":"PALMERO SANCHO","t":"667 820 698","m":"sanchoeulalia2010@gmail.com","l":"","i":130,"p":"Efectivo","o":"TIENE 13 años"},{"n":"MARIA JOSÉ","ap":"PIZARRO","t":"637140528","m":"mj.pizarro.26@gmail.com","l":"","i":130,"p":"Efectivo","o":",TRANSFERENCIA"},{"n":"AITANA","ap":"CABALLERO FERNÁNDEZ","t":"","m":"aitanacaballerohernandez2006@gmail.com","l":"","i":130,"p":"Efectivo","o":"PAGADO"}];
+((ST[2023]=ST[2023]||{})["Julio"]=ST[2023]["Julio"]||{})["c0012"]=[{"n":"ESTHER","ap":"GALLARDO JÍMENEZ","t":"617552046","m":"info.veronicagallardo@gmail.com","l":"CÁDIZ","i":199,"p":"Pendiente","o":"PAGA EN CLASE"},{"n":"LAURA","ap":"PÉREZ","t":"616 35 43 60","m":"","l":"","i":199,"p":"Pendiente","o":"PAGA EN CLASE"},{"n":"LETICIA MANUEL","ap":"AYLAGAS SEPÚLVEDA","t":"657 563 357","m":"leticia.aylagas@gmail.com","l":"","i":199,"p":"Pendiente","o":"PAGA EN CLASE"},{"n":"MARI ÁNGELES","ap":"GONZALEZ RIVIDIEGO","t":"633152604","m":"Marianlozano@outlook.com","l":"SAN FERNANDO","i":199,"p":"Pendiente","o":"ENVIADO MAIL N DE CUENTA"},{"n":"GUILLERMO","ap":"SERRANO ESCAÑUELA","t":"689 388 733","m":"bang11540@gmail.com","l":"SANLUCAR","i":199,"p":"Pendiente","o":"PAGA EN CLASE"}];
+((ST[2023]=ST[2023]||{})["Septiembre"]=ST[2023]["Septiembre"]||{})["c0013"]=[{"n":"ALINE","ap":"","t":"692 85 42 99","m":"","l":"","i":130,"p":"Pendiente","o":"OK"},{"n":"Assiya Baimagambetova","ap":"","t":"658 99 62 01","m":"asiya0393@gmail.com","l":"","i":130,"p":"Pendiente","o":"ES AMIGA DE UBALDO. ENVIADO MAIL CON DATOS PAGO EL 27/07"},{"n":"Amanda Jeffries","ap":"","t":"","m":"amandamarina.jeffries@gmail.com","l":"","i":120,"p":"Efectivo","o":"PAGADO"},{"n":"ANTONIO","ap":"","t":"661 569 153","m":"","l":"","i":0,"p":"Pendiente","o":"TARJETA REGALO"},{"n":"LORENA SILVA RODRÍGUEZ","ap":"","t":"664 437 860","m":"lorenasilvarodriguez@hotmail.com","l":"","i":130,"p":"Efectivo","o":"TRANSFERENCIA"},{"n":"MARTA","ap":"","t":"619 642 728","m":"burhalkermarta@gmail.com","l":"","i":0,"p":"Pendiente","o":"HACE EL PRO"},{"n":"ISMAEL RAMÍREZ REYES","ap":"","t":"662 478 174","m":"ismaelramirezreyes55@gmail.com","l":"","i":130,"p":"Pendiente","o":"HACE EL PRO"},{"n":"LUISA VIDAL","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":"HACE EL PRO"},{"n":"ISABEL OLIVA MUÑOZ","ap":"","t":"609 973 598","m":"isabel-oliva@outlook.es","l":"","i":0,"p":"Pendiente","o":"HACE EL PRO"}];
+(MC[2024]=MC[2024]||{})["Enero"]=[{"id":"c0015","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 22 al 26 DE 17 a 20 horas"}];
+(MC[2024]=MC[2024]||{})["Febrero"]=[{"id":"c0016","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 19 al 23 DE 17 a 20 horas"}];
+(MC[2024]=MC[2024]||{})["Marzo"]=[{"id":"c0017","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 18 al 22 DE 17 a 20 horas"},{"id":"c0018","label":"Analógico","cls":"ch-gray","pill":"pill-gray","subtitle":""}];
+(MC[2024]=MC[2024]||{})["Junio"]=[{"id":"c0019","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 17 al 2 DE 18 a 21 horas"},{"id":"c0020","label":"Analógico","cls":"ch-gray","pill":"pill-gray","subtitle":""}];
+(MC[2024]=MC[2024]||{})["Julio"]=[{"id":"c0021","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 22 al 26 DE 18 a 21 horas"}];
+(MC[2024]=MC[2024]||{})["Septiembre"]=[{"id":"c0022","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 22 al 26 DE 18 a 21 horas"}];
+((ST[2024]=ST[2024]||{})["Enero"]=ST[2024]["Enero"]||{})["c0015"]=[{"n":"JUAN ANTONIO CALERO","ap":"","t":"677 542 482","m":"jacccadiz@gmail.com","l":"","i":130,"p":"Efectivo","o":""},{"n":"EDDY JOSEPH CHULLUNQUIA APAZA","ap":"","t":"626 148 024","m":"j.dongo2493@gmail.com","l":"","i":130,"p":"Efectivo","o":""},{"n":"CARMEN GÓMEZ MARTÍNEZ","ap":"","t":"606 989 487","m":"carmengomez84@hotmail.com","l":"","i":130,"p":"Efectivo","o":""},{"n":"MARIA ISABEL SÁNCHEZ ROMERO","ap":"","t":"649 85 91 07","m":"mabel@fincanaveda.com","l":"","i":130,"p":"Efectivo","o":""},{"n":"RAFAEL DE LA TORRE MORENO","ap":"","t":"677085545","m":"Delatorremoreno.rafael@gmail.com","l":"","i":130,"p":"Efectivo","o":""},{"n":"DANIEL GODINO","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"ALEJANDRA BUTRÓN SÁNCHEZ","ap":"","t":"650 959 098","m":"ducatimonster18@hotmail.com","l":"CÄDIZ","i":130,"p":"Efectivo","o":""},{"n":"ALEXIA","ap":"","t":"","m":"","l":"","i":130,"p":"Efectivo","o":""},{"n":"ALFONSO GODINO","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"ROSA MARÍA PEREIA IUNFANTE","ap":"","t":"646 362 509","m":"rosapinfante@gmail.com","l":"","i":130,"p":"Efectivo","o":""}];
+((ST[2024]=ST[2024]||{})["Febrero"]=ST[2024]["Febrero"]||{})["c0016"]=[{"n":"INES CASILDA","ap":"","t":"686 395 674","m":"inescasildam06@gmail.com","l":"","i":130,"p":"Efectivo","o":"WHATS APP DE 676 622 527"},{"n":"SARA PÉREZ CABELLO","ap":"","t":"617 842 330","m":"alberto.zapatarodriguez@gmail.com","l":"","i":0,"p":"Pendiente","o":"TARJETA REGALO"},{"n":"ALBERTO DIAZ SERRANO","ap":"","t":"676 41 80 57","m":"","l":"","i":130,"p":"Efectivo","o":"TARJETA REGALO"},{"n":"ABIGAIL LÓPEZ VERONA","ap":"","t":"+57 305 3017502","m":"","l":"","i":130,"p":"Efectivo","o":"TARJETA REGALO"},{"n":"MARIA GAMBOA RODRÍGUEZ","ap":"","t":"626 147 771","m":"mgrmariagamboarodriguez@gmail.com","l":"","i":130,"p":"Efectivo","o":""},{"n":"SALVADOR GARCÍA BARROSO","ap":"","t":"652 239 775","m":"salvidecai@gmail.com","l":"","i":130,"p":"Efectivo","o":"TARJETA REGALO"}];
+((ST[2024]=ST[2024]||{})["Marzo"]=ST[2024]["Marzo"]||{})["c0017"]=[{"n":"JOSE ENRIQUE MONTERO ROSA","ap":"","t":"600 363 925","m":"emr2000@hotmail.com","l":"","i":130,"p":"Efectivo","o":"WASAPP. PAGADO"},{"n":"ERICA ARAGÓN GARCÍA","ap":"","t":"686 030 300","m":"ericaaragongarcia@gmail.com","l":"","i":130,"p":"Pendiente","o":"WASAPP. Enviado mail con datos pago"},{"n":"MIRYAM DEL AVLLE MONTOYA BARRERA","ap":"","t":"622 018 761","m":"miryammontoya21@gmail.com","l":"","i":130,"p":"Efectivo","o":"WASAPP. PAGADO"},{"n":"MARIA JESÚS MORENO ALMENDROS","ap":"","t":"699 508 866","m":"mjmalmendros10@gmail.com","l":"","i":130,"p":"Efectivo","o":"WASAPP. PAGADO"},{"n":"mónica aguilar casanueva","ap":"","t":"653 098 603","m":"monicaguilar86@outlook.es","l":"SAN FERNANDO","i":130,"p":"Pendiente","o":"LO PAGA ANTONIO SECO A LA VUELTA DEL VIAJE"}];
+((ST[2024]=ST[2024]||{})["Marzo"]=ST[2024]["Marzo"]||{})["c0018"]=[{"n":"JULEN","ap":"","t":"+34 674 63 46 74","m":"","l":"","i":120,"p":"Pendiente","o":"AMIGO DE MOREHH"}];
+((ST[2024]=ST[2024]||{})["Junio"]=ST[2024]["Junio"]||{})["c0019"]=[{"n":"JULIA","ap":"","t":"656 83 55 27","m":"","l":"CÁDIZ","i":130,"p":"Efectivo","o":"SE HA APUNTADO AL PRO"},{"n":"ANA VIVAS GALVIN","ap":"","t":"682 18 29 09","m":"Anavivas221@gmail.com","l":"","i":130,"p":"Pendiente","o":"ENVIADO MAIL EL 23/05"},{"n":"ESTEFANIA JURADO RUÍZ","ap":"","t":"693589810","m":"estefaniajurado@icloud.com","l":"","i":130,"p":"Efectivo","o":"ENVIADO MAIL EL 23/05. POSIBLE PRO"},{"n":"DANIEL","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"JUNCAL LAGO DELGADO DE MENDOZA","ap":"","t":"646 849 006","m":"juncalldm@gmail.com","l":"SAN FERNANDO","i":130,"p":"Pendiente","o":"PENTE DE PAGO. POSIBLE PRO"}];
+((ST[2024]=ST[2024]||{})["Junio"]=ST[2024]["Junio"]||{})["c0020"]=[{"n":"JULEN","ap":"","t":"+34 674 63 46 74","m":"","l":"","i":120,"p":"Pendiente","o":"AMIGO DE MOREHH"}];
+((ST[2024]=ST[2024]||{})["Julio"]=ST[2024]["Julio"]||{})["c0021"]=[{"n":"EMMA RODRIGUEZ PÉREZ","ap":"","t":"666 764 355","m":"erodriguezperez@colegioargantonio.net","l":"CÁDIZ","i":130,"p":"Efectivo","o":"BIZUM OK"},{"n":"JOSÉ RAMÓN PÉREZ GARCÍA","ap":"","t":"699 029 852","m":"jrpg2007@gmail.com","l":"CÁDIZ","i":130,"p":"Efectivo","o":"BIZUM OK. MARDE ES SILVIA 654 518 323"},{"n":"SARA SANTIAGO CAPURRO","ap":"","t":"663 630 103","m":"sarasantiago4b@gmail.com","l":"CÁDIZ","i":130,"p":"Efectivo","o":"TRANSFERENCIA OK"},{"n":"DAIANA LOFFREDA","ap":"","t":"549112315","m":"daianaloffreda@gmail.com","l":"ARGENTINA","i":130,"p":"Pendiente","o":""},{"n":"ANNA","ap":"","t":"","m":"","l":"","i":130,"p":"Pendiente","o":""},{"n":"UNAI BELTRÁN GARCÍA","ap":"","t":"601 415 450","m":"unaiowen@gmail.com","l":"CÁDIZ","i":130,"p":"Pendiente","o":""}];
+((ST[2024]=ST[2024]||{})["Septiembre"]=ST[2024]["Septiembre"]||{})["c0022"]=[{"n":"GLORIA","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":"APUNTADA AL PRO"},{"n":"JUAN JOSÉ","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":"APUNTADO AL PRO"},{"n":"CRISTINA DE SANTOS TINOCO","ap":"","t":"615408845","m":"cristina.cdst@gmail.com","l":"","i":130,"p":"Efectivo","o":"BIZUM"},{"n":"AGUSTÍN ALMAGRO BLÁZQUEZ","ap":"","t":"","m":"aablazquez@gmail.com","l":"","i":130,"p":"Efectivo","o":"TARJETA REGALO"}];
+(MC[2025]=MC[2025]||{})["Enero"]=[{"id":"c0024","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 20 al 26 DE 17 a 20 horas"},{"id":"c0025","label":"Avanzado de vídeo","cls":"ch-pink","pill":"pill-pink","subtitle":"VÍDEO AVANZADO"},{"id":"c0026","label":"Taller Walter Astrada","cls":"ch-gray","pill":"pill-gray","subtitle":"WALTER ASTRADA"}];
+(MC[2025]=MC[2025]||{})["Marzo"]=[{"id":"c0027","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACION 17 al 21DE 17 a 20 horas"}];
+(MC[2025]=MC[2025]||{})["Mayo"]=[{"id":"c0028","label":"Avanzado de fotografía","cls":"ch-green","pill":"pill-green","subtitle":"AVANZADO 7, 9, 14, 16, 21, 23, 28, 30"}];
+(MC[2025]=MC[2025]||{})["Junio"]=[{"id":"c0029","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACIÓN Junio: 02, 03, 04, 05, 06, de 18 a 21 horas."},{"id":"c0030","label":"Avanzado de vídeo","cls":"ch-pink","pill":"pill-pink","subtitle":"VÍDEO AVANZADO  2, 4, 6, 9, 11, 13, 16, 18"},{"id":"c0031","label":"Interiorismo","cls":"ch-gray","pill":"pill-gray","subtitle":"INTERIORISMO 07 Y 08"}];
+(MC[2025]=MC[2025]||{})["Septiembre"]=[{"id":"c0032","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACIÓN 15 al 19 de 18 a 21 horas"},{"id":"c0033","label":"Interiorismo","cls":"ch-gray","pill":"pill-gray","subtitle":"INTERIORISMO 07 Y 08"}];
+((ST[2025]=ST[2025]||{})["Enero"]=ST[2025]["Enero"]||{})["c0024"]=[{"n":"CARLOTA RODRÍGUEZ MARTÍN","ap":"","t":"659 60 89 97","m":"carlotarodriguez5@hotmail.com","l":"","i":130,"p":"Efectivo","o":"PENFIENTE DE CUANDO LO PUEDA HACER"},{"n":"JOSÉ LUIS MORENO MORENO","ap":"","t":"669 95 20 43","m":"jmormor65@gmail.com","l":"","i":0,"p":"Pendiente","o":"Es De Jerez. Llamó por teléfono. Contestar en enero para confirmar. Se lo recomendado un antiguo alumno de la escuela."},{"n":"FRANCISCO JAVIER GUTIÉRREZ QUINTANA","ap":"","t":"693 439 802","m":"franciscojaviergutierrezquintana@gmail.com","l":"","i":130,"p":"Pendiente","o":"pnte de pago"},{"n":"NICOLÁS DE CELIS CASTILLA","ap":"","t":"630 13 07 80","m":"Isabelcostilla1982@gmail.com","l":"","i":130,"p":"Pendiente","o":"Mól de su madre Isabel: +34 610 97 00 40. Paga en clase"},{"n":"ADRIÁN RIVERO MORENO","ap":"","t":"610 950 294","m":"armoreno611@gmail.com","l":"","i":130,"p":"Efectivo","o":"TARJETA REGALO"},{"n":"MAY TORRES VELA","ap":"","t":"","m":"maytorresvela@gmail.com","l":"","i":0,"p":"Pendiente","o":"Avisar para el Próximo. Enero no puede. Muy Interesada. Envió email"},{"n":"ROCÓP ROYO DURÁN","ap":"","t":"678 0071 21","m":"comunicacion@espacioc.es","l":"","i":0,"p":"Pendiente","o":"NO LO PUEDE HACER"},{"n":"FÁTIMA BARBOSA GUERRA","ap":"","t":"722 186 309","m":"JAIRO.1994@HOTMAIL.COM","l":"","i":130,"p":"Efectivo","o":"tarjeta regalo"},{"n":"JESÚS","ap":"","t":"","m":"","l":"","i":260,"p":"Efectivo","o":""},{"n":"NOELIA LÓPEZ MUÑOZ","ap":"","t":"615 538 705","m":"","l":"","i":130,"p":"Efectivo","o":"VIENE DE HACE TIEMPO. SOLO PUED LOS FINES DE SEMANA"}];
+((ST[2025]=ST[2025]||{})["Enero"]=ST[2025]["Enero"]||{})["c0025"]=[{"n":"MARTA PACHÓN CLÁ","ap":"","t":"658 25 08 27","m":"marta.pachon@hotmail.com","l":"","i":240,"p":"Pendiente","o":"Es amiga de Antonio Morenilla. PAGA EN CLASE"},{"n":"LIDIA QUIRÓS","ap":"","t":"622 741 029","m":"lidia06qs@gmail.com","l":"VEJER","i":240,"p":"Pendiente","o":"ES DEL PRO 22/23 PAGA EN CLASE"},{"n":"CARMEN SÁNCHEZ GRACIA","ap":"","t":"646 354 763","m":"maricarmensanchezdg@gmail.com","l":"CÁDIZ","i":240,"p":"Pendiente","o":"ES DEL PRO 23/24 PAGA EN CLASE"},{"n":"JUAN DANIEL","ap":"","t":"672 712 153","m":"jdcadista@gmail.com","l":"CÁDIZ","i":240,"p":"Pendiente","o":"LO PAGÓ SU MADRE BIZUM (120€) EL CHICO TIENE DIFICULTADES EN EXPRESARSE"},{"n":"JESUS CUEVAS","ap":"","t":"687 310 810","m":"jesulito.avenger@hotmail.com","l":"SANLUCAR","i":240,"p":"Pendiente","o":"ES DEL PRO 22/23 PAGA EN CLASE"},{"n":"ISABEL FERNÁNDEZ BERNABÉ","ap":"","t":"659 354 693","m":"isadelacalle.photo@gmail.com","l":"","i":0,"p":"Pendiente","o":"NO LO PUEDE HACER. AVISAR DEL PRÓXIMO"},{"n":"MODESTO LLORENTE MÁRQUEZ","ap":"","t":"","m":"estudiomarquezfotografia@gmail.com","l":"CÁDIZ","i":240,"p":"Pendiente","o":"INSTAGRAM. PAGA EN CLASE"},{"n":"MARISA MORENO","ap":"","t":"663 435 195","m":"morenojimenezmarisa@gmail.com","l":"EL PUERTO","i":240,"p":"Pendiente","o":"ES DEL PRO 23/24. PAGA EN CLASE"},{"n":"JAVIER NUCHE","ap":"","t":"677 533 412","m":"javimarnu8@gmail.com","l":"CÁDIZ","i":240,"p":"Pendiente","o":"ES DEL PRO 24/25. PAGA EN CLASE"},{"n":"FRAN ACEDO","ap":"","t":"635 672 336","m":"","l":"SAN FERNAND","i":240,"p":"Pendiente","o":"FACTURADO. VA CON IVA"}];
+((ST[2025]=ST[2025]||{})["Enero"]=ST[2025]["Enero"]||{})["c0026"]=[{"n":"YADA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"ANGIE","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"JOSÉ LLEBREZ","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"CARLOS","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"ROSI","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"ALEXIA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"JOSÉ FÉLIX","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"OLGA","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"MURIA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"PILAR CASTRO CONTE","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"CHEMA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"MARISA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"TOÑI","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"MELI","ap":"","t":"","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"ANA ABASCAL","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"JOSE VALLE","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"PACO DE LA CORTE","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"JOSÉ LUIS REPETO","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"ISA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"ÁLVARO VEGAZO","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"NATI PARRA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"CARMEN VECINA","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"JOSÉ MARÍA RUIZ COELLO","ap":"","t":"610 512 314","m":"jmaria.ruiz67@gmail.com","l":"","i":100,"p":"Pendiente","o":""},{"n":"FERNANDO SÁNCHEZ BALBER","ap":"","t":"617 604 163","m":"baolbo@telefonica.net","l":"","i":100,"p":"Pendiente","o":""},{"n":"ESTEBAN","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"WILLIAM","ap":"","t":"","m":"","l":"","i":100,"p":"Pendiente","o":""},{"n":"DANIEL SANZ GARCIA","ap":"","t":"+34 696 02 00 30","m":"jdsanzg@gmail.com","l":"","i":100,"p":"Pendiente","o":""},{"n":"GUILLERMO RUBIO","ap":"","t":"679 353 593","m":"grubioesteban@gmail.com","l":"","i":0,"p":"Pendiente","o":""}];
+((ST[2025]=ST[2025]||{})["Marzo"]=ST[2025]["Marzo"]||{})["c0027"]=[{"n":"CARMEN TORRES SEDA","ap":"","t":"767 84 21 99","m":"torresamadeo@gmail.com","l":"CÁDIZ","i":130,"p":"Efectivo","o":""},{"n":"PAOLA RUBIO LÓPEZ","ap":"","t":"640 218 932","m":"paolarubiolopez81@gmail.com","l":"CÁDIZ","i":130,"p":"Efectivo","o":""},{"n":"LUCÍA CALERO CRESPO","ap":"","t":"644 488 680","m":"luciacc@me.com","l":"CÁDIZ","i":0,"p":"Pendiente","o":""},{"n":"VICTOR MANURL FIUSA TIZÓN","ap":"","t":"607 670 240","m":"victor.fiusa@gmail.com","l":"CÁDIZ","i":130,"p":"Efectivo","o":""},{"n":"LYDIA MARIN BRENES","ap":"","t":"660 764 144","m":"lydiamarinbrenes@gmail.com","l":"","i":130,"p":"Efectivo","o":""},{"n":"NOELIA LÓPEZ MUÑOZ","ap":"","t":"615 538 705","m":"","l":"","i":130,"p":"Efectivo","o":"VIENE DE HACE TIEMPO. SOLO PUED LOS FINES DE SEMANA"}];
+((ST[2025]=ST[2025]||{})["Mayo"]=ST[2025]["Mayo"]||{})["c0028"]=[{"n":"VICTOR MANURL FIUSA TIZÓN","ap":"","t":"607 670 240","m":"victor.fiusa@gmail.com","l":"CÁDIZ","i":0,"p":"Pendiente","o":""},{"n":"ROSA PEREIRA","ap":"","t":"646 362 509","m":"","l":"","i":0,"p":"Pendiente","o":""}];
+((ST[2025]=ST[2025]||{})["Junio"]=ST[2025]["Junio"]||{})["c0029"]=[{"n":"Javier Gámez Rodríguez","ap":"","t":"655 058 044","m":"Javier.gamezrodriguez@cadiz.es","l":"","i":0,"p":"Pendiente","o":"NO PUEDO HACERLO"},{"n":"RAQUEL BOADA SANTOS","ap":"","t":"610 520 883","m":"raquel.s15@gmail.com","l":"","i":145,"p":"Efectivo","o":""},{"n":"DANIELA VARGAS","ap":"","t":"685 568 046","m":"danielavargassoler@gmail.com","l":"","i":145,"p":"Efectivo","o":""},{"n":"JESÚS FIUSA TIZÓN","ap":"","t":"+34 695 17 08 31","m":"Tizon1331@gmail.com","l":"","i":145,"p":"Efectivo","o":""},{"n":"MARCOS MAZORRO PARODI","ap":"","t":"689 376 872","m":"parodi.m519@gmail.com","l":"","i":145,"p":"Efectivo","o":""}];
+((ST[2025]=ST[2025]||{})["Junio"]=ST[2025]["Junio"]||{})["c0030"]=[{"n":"VICTOR MANURL FIUSA TIZÓN","ap":"","t":"607 670 240","m":"victor.fiusa@gmail.com","l":"CÁDIZ","i":0,"p":"Pendiente","o":""},{"n":"JOSÉ MARÍA RUIZ","ap":"","t":"610 512 314","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"LUISA MATEO","ap":"","t":"667 316 125","m":"","l":"","i":0,"p":"Pendiente","o":""},{"n":"JESUS RAMOS GARCÍA","ap":"","t":"672 274 335","m":"","l":"","i":240,"p":"Pendiente","o":""}];
+((ST[2025]=ST[2025]||{})["Junio"]=ST[2025]["Junio"]||{})["c0031"]=[{"n":"VICTOR MANUEL FIUSA TIZÓN","ap":"","t":"607 670 240","m":"victor.fiusa@gmail.com","l":"CÁDIZ","i":150,"p":"Pendiente","o":""},{"n":"ADRIÁN GALLARDO","ap":"","t":"","m":"","l":"","i":150,"p":"Efectivo","o":""}];
+((ST[2025]=ST[2025]||{})["Septiembre"]=ST[2025]["Septiembre"]||{})["c0032"]=[{"n":"ROCÍO MORENO ARAGÓN","ap":"","t":"665 162 996","m":"rociomorenoaragon@gmail.com","l":"CÁDIZ","i":145,"p":"Efectivo","o":""},{"n":"ESTHER GILBERT PÉREZ","ap":"","t":"649347631","m":"esthergilbertperez@gmail.com","l":"CÁDIZ","i":145,"p":"Efectivo","o":"VIENE DEL PRO"},{"n":"PEDRO MOYA GONZALEZ","ap":"","t":"676733193","m":"lalecturaesunplacer@hotmail.com","l":"CÁDIZ","i":0,"p":"Pendiente","o":"VIENE DEL PRO"},{"n":"LUCIA RIEGO CUEZ","ap":"","t":"630106803","m":"lrc010695@gmail.com","l":"CÁDIZ","i":0,"p":"Pendiente","o":"VIENE DEL PRO"},{"n":"MARIA PARADA GARCÍA","ap":"","t":"625 255 503","m":"mariaparadagarcia1707@gmail.com","l":"VILLAMARTÍN","i":0,"p":"Pendiente","o":"VIENE DEL PRO"}];
+((ST[2025]=ST[2025]||{})["Septiembre"]=ST[2025]["Septiembre"]||{})["c0033"]=[{"n":"VICTOR MANUEL FIUSA TIZÓN","ap":"","t":"607 670 240","m":"victor.fiusa@gmail.com","l":"CÁDIZ","i":150,"p":"Pendiente","o":""},{"n":"ADRIÁN GALLARDO","ap":"","t":"","m":"","l":"","i":150,"p":"Efectivo","o":""}];
+(MC[2026]=MC[2026]||{})["Marzo"]=[{"id":"c0035","label":"Iniciación a la fotografía","cls":"ch-blue","pill":"pill-blue","subtitle":"INICIACIÓN MAYO 11 al 15 de 18 a 21 horas"}];
+((ST[2026]=ST[2026]||{})["Marzo"]=ST[2026]["Marzo"]||{})["c0035"]=[{"n":"INÉS PONCE NARVÁEZ","ap":"","t":"727 790 927","m":"poncenarvaezinesmaria@gmail.com","l":"","i":145,"p":"Efectivo","o":"PAGADO STRIPE"},{"n":"INMACULADA MACÍAS BECERRA","ap":"","t":"653 817 691","m":"inmmacbec@hotmail.com","l":"","i":145,"p":"Efectivo","o":"PAGADO PAYPAL"},{"n":"??","ap":"","t":"657 368 176","m":"","l":"","i":0,"p":"Pendiente","o":"NO SÉ SU NOMBRE. DICE QUE EN PRINCIPIO SI PERO NO SABE. VER WHATSAPP"},{"n":"JESÚS MARÍA TORRES GARCÍA","ap":"","t":"650 582 078","m":"jesusmariatgarcia@gmail.com","l":"","i":145,"p":"Efectivo","o":"PAGADO PAYPAL"},{"n":"CONCHI","ap":"","t":"646 055 131","m":"","l":"","i":0,"p":"Pendiente","o":"Es amiga de José LLEBREZ. En principio si. Avisar antes."},{"n":"INMA HREKOV","ap":"","t":"+34 622 56 33 63","m":"gata357@gmail.com","l":"","i":145,"p":"Efectivo","o":"PAGADO PAYPALL"},{"n":"LETICIA ACEDO","ap":"","t":"630 713 712","m":"leticia.acedo@gm.uca.es","l":"","i":145,"p":"Efectivo","o":"PAGADO TARJETA REGALO"},{"n":"CARMEN LUPION MORALES","ap":"","t":"647 503 513","m":"carmina11010@hotmail.com","l":"","i":145,"p":"Pendiente","o":"PAGA EN CLASE. ARTISTA PLÁSTICA. FOTOS CUADROS"},{"n":"FRANCISCO LÓPEZ-CEPERON PÉRERZ","ap":"","t":"607 532 532","m":"pacocepero@hotmail.com","l":"","i":145,"p":"Pendiente","o":"PAGA EN CLASE. EN PRINCIPIO SI EN MAYO"},{"n":"LION TATOO","ap":"","t":"613 236 196","m":"","l":"","i":145,"p":"Pendiente","o":"PAGA EN CLASE"},{"n":"ELISA MORENO LLAMAS","ap":"","t":"+34 660 87 76 16","m":"Elimorllamas@hotmail.com","l":"","i":145,"p":"Efectivo","o":"PAGADO TARJETA REGALO"},{"n":"SANDRA ARANGO PÉREZ","ap":"","t":"606 32 95 86","m":"Colsamer@hotmail.com","l":"JEREZ","i":145,"p":"Pendiente","o":"PAGA EN CLASE"}];
+const PRO_KEYS=['PRO 23','PRO 24','PRO 25','PRO 26'];
+let PC={},PS={};
+PC["PRO 23"]=[];PS["PRO 23"]={};
+PC["PRO 23"].push({id:"p001",label:"Profesional de fotograf\u00eda",cls:"ch-purple",pill:"pill-purple"});
+PS["PRO 23"]["p001"]=[{"n": "LIDIA", "ap": "QUIRÓS SELLERS", "t": "622 741 029", "m": "lidia06qs@gmail.com", "l": "vejer", "ma": 350, "tu": "Mañana", "cu": "185€ X 12", "p": "Efectivo", "pm": {"OCT": 185, "NOV": 185, "DIC": 185, "ENE": 185, "FEB": 185, "MAR": 185, "ABR": 185, "MAY": 185, "JUN": 185, "JUL": 185, "AGO": 185}, "o": ""}, {"n": "ANA GLORIA", "ap": "ABASCAL TORRES", "t": "672 253 319", "m": "anabastor063@gmail.com", "l": "CÁDIZ", "ma": 350, "tu": "Tarde", "cu": "", "p": "Efectivo", "pm": {"OCT": 2240}, "o": ""}, {"n": "CELIA", "ap": "GARCIA GAGO", "t": "622 405 960", "m": "celia.garciga@gmail.com", "l": "PRADO REY", "ma": 350, "tu": "Mañana", "cu": "", "p": "Efectivo", "pm": {"OCT": 2240}, "o": ""}, {"n": "JON", "ap": "FORRASTER BARRADE", "t": "605 93 44 21", "m": "Jforaster1984@gmail.com", "l": "CÁDIZ", "ma": 350, "tu": "Tarde", "cu": "245€ X 9", "p": "Efectivo", "pm": {"OCT": 245, "NOV": 245, "DIC": 245, "ENE": 245, "FEB": 245, "MAR": 245, "ABR": 245, "MAY": 245, "JUN": 245}, "o": ""}, {"n": "JORGE", "ap": "MORO FREIRE", "t": "653 209 599", "m": "jorge.moro.freire@gmail.com", "l": "CÁDIZ", "ma": 350, "tu": "Mañana", "cu": "245€ X 9", "p": "Efectivo", "pm": {"OCT": 245, "NOV": 245, "DIC": 245, "ENE": 245, "FEB": 245, "MAR": 245, "ABR": 245, "MAY": 245, "JUN": 245}, "o": ""}, {"n": "RAQUEL", "ap": "GARCÍA CARRETO", "t": "655 635 667", "m": "rgarciacarreto@gmail.com", "l": "PUERTO", "ma": 500, "tu": "Tarde", "cu": "209€ X 10", "p": "Efectivo", "pm": {"OCT": 209, "NOV": 209, "DIC": 209, "ENE": 209, "FEB": 209, "MAR": 209, "ABR": 209, "MAY": 209, "JUN": 209, "JUL": 209}, "o": ""}, {"n": "ALEJANDRA", "ap": "GUERRERO", "t": "628 550 104", "m": "sangueji5737@gmail.com", "l": "CÁDIZ", "ma": 1000, "tu": "Mañana", "cu": "110€ X 10", "p": "Efectivo", "pm": {"NOV": 110, "DIC": 110, "ENE": 110, "FEB": 110, "MAR": 110, "ABR": 110, "MAY": 110, "JUN": 110, "JUL": 110, "AGO": 110}, "o": ""}, {"n": "JAVIER", "ap": "CUBIELLA RODRÍGUEZ", "t": "650 001 914", "m": "javicubiella@gmail.com", "l": "CÁDIZ", "ma": 350, "tu": "Tarde", "cu": "245€ X 9", "p": "Efectivo", "pm": {"OCT": 245, "NOV": 245, "DIC": 245, "ENE": 245, "FEB": 245, "MAR": 245, "ABR": 245, "MAY": 245, "JUN": 245}, "o": ""}, {"n": "ROCÍO", "ap": "DE LA ROSA DE LA FLOR", "t": "639 025 387", "m": "delarosadelaflorocio@gmail.com", "l": "JEREZ", "ma": 350, "tu": "Mañana", "cu": "245€ X 9", "p": "Efectivo", "pm": {"OCT": 245, "NOV": 245, "DIC": 245, "ENE": 245, "FEB": 245, "MAR": 245, "ABR": 245, "MAY": 245, "JUN": 245}, "o": ""}, {"n": "ANTONIO", "ap": "ORTIZ VILCHEZ", "t": "615 263 441", "m": "ortzanto@gmail.com", "l": "MADRID", "ma": 350, "tu": "Mañana", "cu": "245€ X 9", "p": "Efectivo", "pm": {"NOV": 245, "DIC": 245, "ENE": 245, "FEB": 245, "MAR": 245, "ABR": 245, "MAY": 245, "JUN": 245, "JUL": 245}, "o": ""}];
+PC["PRO 24"]=[];PS["PRO 24"]={};
+PC["PRO 24"].push({id:"p002",label:"Profesional de fotograf\u00eda",cls:"ch-purple",pill:"pill-purple"});
+PS["PRO 24"]["p002"]=[{"n": "PILAR", "ap": "CASTRO CONTE", "t": "666 829 942", "m": "pilarcastroconte@gmail.com", "l": "CÁDIZ", "ma": 0, "tu": "Tarde", "cu": "", "p": "Pendiente", "pm": {}, "o": ""}, {"n": "PETRI", "ap": "CAUCION TORRES", "t": "627854 762", "m": "petricaucin591@gmail.com", "l": "CHICLANA", "ma": 225, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "ELEA", "ap": "LEBRERO FERNÁNDEZ", "t": "691 811 138", "m": "elea.lebrero@gmail.com", "l": "SF", "ma": 225, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "INMACULADA", "ap": "RUÍZ LEBRERO", "t": "616 024 935", "m": "inmaruizlebrero@gmail.com", "l": "CHICLANA", "ma": 225, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "TOMÁS", "ap": "MARTÍNEZ CALLEJO", "t": "611 144 837", "m": "martinezcallejo89@gmail.com", "l": "CÁDIZ", "ma": 225, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "JOSÉ LUIS", "ap": "REPETO", "t": "639 084 336", "m": "", "l": "CÁDIZ", "ma": 0, "tu": "Mañana", "cu": "195", "p": "Pendiente", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "DOMINGO", "ap": "CAMPOS MIGUELES", "t": "697 294 885", "m": "domingocamposmigueles@gmail.com", "l": "PUERTO REAL", "ma": 225, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "JOSÉ LUIS", "ap": "VÁZQUEZ JIMÉNEZ", "t": "611 683 162", "m": "joseluisvazquezjimenez202@gmail.com", "l": "BARBATE", "ma": 225, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "LUISA MARIA", "ap": "VIDAL CORDERO", "t": "684 085 979", "m": "luisamariavidal@gmail.com", "l": "CHIPIONA", "ma": 225, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "ISABEL", "ap": "OLIVA MUÑOZ", "t": "609 973 598", "m": "isabel-oliva@outlook.es", "l": "EL PUERTO", "ma": 0, "tu": "Mañana", "cu": "195", "p": "Pendiente", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "NATALIA", "ap": "SÁNCHEZ LÓPEZ", "t": "622 930 256", "m": "natalisanchez.zhr@gmail.com", "l": "ZAHARA ATUNES", "ma": 225, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "MARÍA ISABEL", "ap": "MORENO JIMÉNEZ", "t": "663 435 195", "m": "morenojimenezmarisa@gmail.com", "l": "PUERTO REAL", "ma": 225, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195}, "o": ""}, {"n": "YOLANDA", "ap": "VELA MORALES", "t": "662 177 736", "m": "yolandavelamorales10@gmail.com", "l": "JEREZ FRA", "ma": 0, "tu": "Tarde", "cu": "165", "p": "Pendiente", "pm": {"NOV": 165, "DIC": 165, "ENE": 165, "FEB": 165, "MAR": 165, "ABR": 165, "MAY": 165, "JUN": 165, "JUL": 165, "AGO": 165}, "o": ""}, {"n": "MARIA DEL CARMEN", "ap": "SÁNCHEZ GRACIA", "t": "646 354 763", "m": "maricarmensanchezdg@gmail.com", "l": "CÁDIZ", "ma": 0, "tu": "Mañana", "cu": "195", "p": "Pendiente", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195, "ABR": 195, "MAY": 195, "JUN": 195, "JUL": 195, "AGO": 195}, "o": ""}];
+PC["PRO 25"]=[];PS["PRO 25"]={};
+PC["PRO 25"].push({id:"p003",label:"Profesional de fotograf\u00eda",cls:"ch-purple",pill:"pill-purple"});
+PS["PRO 25"]["p003"]=[{"n": "INÉS CASILDA", "ap": "MADRID DEL ÁLAMO", "t": "686 395 674", "m": "inescasildam06@gmail.com", "l": "CÁDIZ", "ma": 150, "tu": "", "cu": "180", "p": "Efectivo", "pm": {"OCT": 180, "NOV": 180}, "o": ""}, {"n": "JULIA", "ap": "REYES DE ALBA", "t": "656 835 527", "m": "juliareyesdealba18@gmail.com", "l": "CÁDIZ", "ma": 150, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195}, "o": ""}, {"n": "MARTA", "ap": "GONZÁLVEZ GALINIER", "t": "671 344 552", "m": "martagonzalvez87@gmail.com", "l": "PUERTOREAL", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195}, "o": ""}, {"n": "JUAN JOSÉ", "ap": "MARTÍNEZ GONZÁLEZ", "t": "605 562 086", "m": "namekadenamek@outlook.es", "l": "CÁDIZ", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "TATIANA", "ap": "GARCÍA TORRES", "t": "722 771 957", "m": "tatianagarcifotografia@gmail.com", "l": "CHICLANA", "ma": 250, "tu": "", "cu": "1950", "p": "Efectivo", "pm": {}, "o": ""}, {"n": "CARLOS ANTONIO", "ap": "ZIJDEVELD ROMÁN", "t": "685 337 767", "m": "zijdeveld7@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "", "cu": "1950", "p": "Efectivo", "pm": {}, "o": ""}, {"n": "ESTEFANÍA", "ap": "JURADO RUÍZ", "t": "693 589 810", "m": "estefaniajurado21@gmail.com", "l": "CHICLANA", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "JUNCAL LAGO", "ap": "DELGADO DE MENDOZA", "t": "646 849 006", "m": "juncalldm@gmail.com", "l": "SAN FERNANDO", "ma": 120, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "FRANCISCO JAVIER", "ap": "MARTÍNEZ NUCHE", "t": "677 533 412", "m": "javimarnu8@gmail.com", "l": "SÁDIZ", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "JOSÉ ANTONIO", "ap": "TOMÁS CASAS", "t": "681 100 423", "m": "jatomas810@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "NURIA TUR", "ap": "BUENO", "t": "620 472 580", "m": "turbuenonuria@gmail.com", "l": "EL PUERTO", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "MELKA", "ap": "JIMÉNEZ RODRÍGUEZ", "t": "678 932 235", "m": "melicam33@gmail.copm", "l": "SANLUCAR", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "OLGA", "ap": "TEY LINARES", "t": "628 106 948", "m": "olgatey@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "ALMUDENA", "ap": "ARAGÓN CAMACHO", "t": "677 318 933", "m": "almu.ac93@gmail.com", "l": "CHICLANA", "ma": 250, "tu": "", "cu": "100", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "ANNA", "ap": "FRANDSEN", "t": "670 506 445", "m": "annajfrandsen@gmail.com", "l": "SANFERNANDO", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "ALEXIA", "ap": "LARA GÓMEZ", "t": "600 889 453", "m": "alexia_lg@hotmail.es", "l": "SANLUCAR", "ma": 0, "tu": "", "cu": "195", "p": "Pendiente", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "ESTEBAN", "ap": "BARBERÁN QUIRÓS", "t": "649 04 08 94", "m": "Tebabq@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "MARÍA", "ap": "TIRADO TORREJÓN", "t": "610 572 291", "m": "mtt_1989@hotmail.com", "l": "CHICLANA", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "GLORIA", "ap": "LLANO COLINO", "t": "659 414 318", "m": "mglllona@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "VICTORIA", "ap": "MANZORRO PÉREZ", "t": "617 603 820", "m": "victoriamanpe@icloud.com", "l": "CONIL", "ma": 125, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 100, "NOV": 100, "DIC": 100, "ENE": 100, "FEB": 100, "MAR": 100, "ABR": 100, "MAY": 100, "JUN": 100, "JUL": 100}, "o": ""}, {"n": "ROSA MARÍA", "ap": "GÓMEZ RENDÓN", "t": "601 177 964", "m": "rosagomezrendon@gmail.com", "l": "CÁDIZ", "ma": 125, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "ANDRÉS", "ap": "TRONCOSO LÓPEZ", "t": "634 414 207", "m": "andresstroncoso1515@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "KEVIN", "ap": "MOSQUERA RAMOS", "t": "647 973 170", "m": "kevinmossqueramos1995@gmail.com", "l": "CHICLANA", "ma": 0, "tu": "", "cu": "100", "p": "Pendiente", "pm": {"OCT": 100, "NOV": 100}, "o": ""}, {"n": "TOÑI", "ap": "MUÑOZ SERRANO", "t": "676 94 08 38", "m": "fotosemuan@gmail.com", "l": "BENALUP", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"NOV": 195, "DIC": 195, "ENE": 195}, "o": ""}, {"n": "ANGIE", "ap": "HARIPRIYA SAJNANI GIL", "t": "616 898585", "m": "angi.saj@gmail.com", "l": "EL PUERTO", "ma": 9, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"DIC": 195, "ENE": 195}, "o": ""}];
+PC["PRO 26"]=[];PS["PRO 26"]={};
+PC["PRO 26"].push({id:"p004",label:"Profesional de fotograf\u00eda",cls:"ch-purple",pill:"pill-purple"});
+PS["PRO 26"]["p004"]=[{"n": "ALBERTO", "ap": "DIAS SERRANO", "t": "676 418 057", "m": "albertdise@gmail.com", "l": "CHICLANA", "ma": 250, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "LYDIA", "ap": "MARÍN BRENES", "t": "660764144", "m": "lydiamarinbrenes@gmail.com", "l": "CONIL", "ma": 250, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "JESÚS", "ap": "DÁVILA GUERRERO", "t": "660455916", "m": "jesus.davila@gm.uca.es", "l": "CÁDIZ", "ma": 250, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "LUCIA", "ap": "RIEGO CUEZ", "t": "630106803", "m": "lrc010695@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "ANTONIO", "ap": "PINO CALVO", "t": "625388795", "m": "antoniopinocalvo@gmail.com", "l": "Cádiz", "ma": 150, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "PEDRO", "ap": "MOYA GONZALEZ", "t": "676733193", "m": "lalecturaesunplacer@gmail.com", "l": "JEREZ", "ma": 250, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "ANDRÉS", "ap": "SABORIDO", "t": "609 693 790", "m": "andressayman@gmail.com", "l": "ARCOS DE LA FRA", "ma": 250, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "DANIELA MARGARETH", "ap": "VARGAS SOLER", "t": "685568046", "m": "danielavargassoler@gmail.com", "l": "CHICLANA", "ma": 250, "tu": "Tarde", "cu": "100", "p": "Efectivo", "pm": {"OCT": 100, "NOV": 100, "DIC": 2400}, "o": ""}, {"n": "JOSÉ ANTONIO", "ap": "REDONDO GARCÍA", "t": "633 038 270", "m": "j.a.redondogarcia@gmail.com", "l": "CÁDIZ", "ma": 250, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "ROCÍO", "ap": "TORRECILLA MONTILLA", "t": "601 749 936", "m": "lasirenita-82@hotmail.com", "l": "SAN FERNANDO", "ma": 250, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "MARÍA", "ap": "PARADA GARCÍA", "t": "625 255 503", "m": "mariaparadagarcia1707@gmail.com", "l": "VILLAMARTÍN", "ma": 250, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "MANUEL JOSÉ", "ap": "LOZANO LOZANO", "t": "678412362", "m": "manuark@gmail.com", "l": "PUERTO REAL", "ma": 125, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "ÁNGEL", "ap": "MILLÁN CHAMORRO", "t": "679216674", "m": "angelmillanchamorro@protonmail.com", "l": "SAN FERNANDO", "ma": 250, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "FRANCISCO JAVIER", "ap": "RIERA ZARAGOCÍN", "t": "630739396", "m": "javirieraz@gmail.com", "l": "CÁDIZ", "ma": 2590, "tu": "Mañana", "cu": "", "p": "Efectivo", "pm": {}, "o": ""}, {"n": "CARMEN", "ap": "RODRÍGUEZ COLLANTES", "t": "639 239 104", "m": "carmenrodriguezcollantes33@gmail.com", "l": "SAN FERNANDO", "ma": 250, "tu": "Tarde", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195}, "o": ""}, {"n": "DAIANA", "ap": "LOFFREDA", "t": "54 911 3600 1285", "m": "daianaloffreda@gmail.com", "l": "ARGENTINA", "ma": 125, "tu": "Mañana", "cu": "", "p": "Efectivo", "pm": {"OCT": 165, "NOV": 165, "DIC": 165, "ENE": 165}, "o": ""}, {"n": "GABRIEL", "ap": "GARÍA CABRAL", "t": "691 701 563", "m": "Javigc19761976@gmail.com", "l": "JEREZ", "ma": 250, "tu": "Mañana", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}];
+PC["PRO 26"].push({id:"p005",label:"Profesional de v\u00eddeo",cls:"ch-teal",pill:"pill-teal"});
+PS["PRO 26"]["p005"]=[{"n": "JESUS", "ap": "CUEVAS", "t": "", "m": "jesulito.avenger@gmail.com", "l": "", "ma": 195, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "MARISA", "ap": "MORENO", "t": "", "m": "morenojimenezmarisa@gmail.com", "l": "", "ma": 195, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "JAVI", "ap": "NUCHE", "t": "", "m": "javimarnu8@gmail.com", "l": "", "ma": 0, "tu": "", "cu": "195", "p": "Pendiente", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "CARLOS", "ap": "", "t": "", "m": "zijdeveld7@gmail.com", "l": "", "ma": 0, "tu": "", "cu": "", "p": "Pendiente", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195}, "o": ""}, {"n": "ANA", "ap": "ABASCAL", "t": "", "m": "anabastor063@gmail.com", "l": "", "ma": 200, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 200, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195}, "o": ""}, {"n": "JOSÉ FÉLIX", "ap": "SÁNCHEZ PANÉS", "t": "", "m": "jfsp74@gmail.com", "l": "", "ma": 0, "tu": "", "cu": "", "p": "Pendiente", "pm": {}, "o": ""}, {"n": "FLOR", "ap": "DAVID VACA", "t": "684 228 112", "m": "flordavidvaca@gmail.com", "l": "", "ma": 195, "tu": "", "cu": "195", "p": "Efectivo", "pm": {"OCT": 195, "NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}, {"n": "JEREMÍAS", "ap": "", "t": "", "m": "", "l": "", "ma": 0, "tu": "", "cu": "195", "p": "Pendiente", "pm": {"NOV": 195, "DIC": 195, "ENE": 195, "FEB": 195, "MAR": 195}, "o": ""}];
+
+const MO_ORDER=['OCT','NOV','DIC','ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP'];
+const PAGOS=['Pendiente','Efectivo','Tarjeta','Transferencia','Bizum','Regalo'];
+const COLORS=[
+  {cls:'ch-blue',  pill:'pill-blue',  bg:'#e8f1fb'},
+  {cls:'ch-green', pill:'pill-green', bg:'#eaf3e2'},
+  {cls:'ch-amber', pill:'pill-amber', bg:'#fef3e2'},
+  {cls:'ch-pink',  pill:'pill-pink',  bg:'#fceaf1'},
+  {cls:'ch-purple',pill:'pill-purple',bg:'#eeedf8'},
+  {cls:'ch-teal',  pill:'pill-teal',  bg:'#e2f4ef'},
+  {cls:'ch-gray',  pill:'pill-gray',  bg:'#f2f0ea'},
+];
+// PRO_KEYS already declared in data section
+
+// State
+let sY=2026, sM='Marzo', selPro=null, showDB=false;
+let expanded={}, dbExp={};
+let _mode='', _ex={};
+
+// Helpers
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escJson(o){return JSON.stringify(o).replace(/'/g,"&#39;");}
+function gv(id){const el=document.getElementById(id);return el?el.value:'';}
+function pCls(p){const m={Pendiente:'pago-pend',Efectivo:'pago-ok',Tarjeta:'pago-card',Transferencia:'pago-trans',Bizum:'pago-biz',Regalo:'pago-gift'};return m[p]||'pago-otro';}
+function pTag(p){return '<span class="pago-tag '+pCls(p)+'">'+esc(p||'—')+'</span>';}
+function sc(l,v){return '<div class="stat"><div class="stat-l">'+l+'</div><div class="stat-v">'+v+'</div></div>';}
+function gM(y,m){return (MC[y]&&MC[y][m])||[];}
+function gS(y,m,cid){return (ST[y]&&ST[y][m]&&ST[y][m][cid])||[];}
+function getColor(){const s=document.querySelector('.color-sw.sel');return s?{cls:s.dataset.cls,pill:s.dataset.pill}:{cls:'ch-blue',pill:'pill-blue'};}
+function selSwatch(el){document.querySelectorAll('.color-sw').forEach(function(s){s.classList.remove('sel');});el.classList.add('sel');}
+function selTurno(t){
+  document.getElementById('btn-am').classList.toggle('sel',t==='am');
+  document.getElementById('btn-pm').classList.toggle('sel',t==='pm');
+}
+
+// ── PRO helpers ───────────────────────────────────────────────────────────────
+function proMonths(students){
+  var s=new Set();
+  students.forEach(function(st){if(st.pm)Object.keys(st.pm).forEach(function(k){s.add(k);});});
+  return MO_ORDER.filter(function(k){return s.has(k);});
+}
+
+// ── PRO table ─────────────────────────────────────────────────────────────────
+function tblProHTML(students,cid,pk){
+  var mos=proMonths(students);
+  var cols=['Nombre','Apellidos','Tel','Mail','Localidad','Matrícula','Turno','Cuota/mes','Pago'].concat(mos).concat(['Total pagado','Obs','']);
+  var totMa=0,totP=0,totPagado=0;
+  var moTot={};
+  var rows=students.length?students.map(function(s,i){
+    totMa+=s.ma||0;
+    if(s.p==='Pendiente')totP+=s.ma||0;
+    var rowPag=0;
+    var moCells=mos.map(function(mo){
+      var v=(s.pm||{})[mo];
+      if(v){moTot[mo]=(moTot[mo]||0)+v;rowPag+=v;}
+      return '<td style="text-align:center;white-space:nowrap">'+(v?v+'€':'<span style="color:#ddd">—</span>')+'</td>';
+    }).join('');
+    totPagado+=rowPag;
+    return '<tr onclick="showDetailPro(this)" style="cursor:pointer" data-json=\''+escJson(Object.assign({},s,{_pk:pk,_cid:cid,_i:i}))+'\'>' +
+      '<td>'+esc(s.n)+'</td><td>'+esc(s.ap)+'</td>' +
+      '<td style="white-space:nowrap">'+esc(s.t)+'</td>' +
+      '<td class="mail-link">'+esc(s.m)+'</td>' +
+      '<td>'+esc(s.l)+'</td>' +
+      '<td><strong>'+(s.ma||0)+'€</strong></td>' +
+      '<td style="white-space:nowrap">'+(s.tu==='Mañana'?'☀ Mañana':s.tu==='Tarde'?'🌙 Tarde':'—')+'</td>' +
+      '<td>'+(s.cu||'—')+'</td>' +
+      '<td>'+pTag(s.p)+'</td>' +
+      moCells +
+      '<td style="text-align:center;font-weight:600;color:#2a7a3a">'+(rowPag?rowPag+'€':'—')+'</td>' +
+      '<td class="obs-td" title="'+esc(s.o)+'">'+esc(s.o)+'</td>' +
+      '<td style="white-space:nowrap">' +
+        '<span class="tbl-btn" onclick="event.stopPropagation();editPS(event,\''+pk+'\',\''+cid+'\','+i+')">✏️</span>' +
+        '<span class="tbl-btn del" onclick="event.stopPropagation();delPS(\''+pk+'\',\''+cid+'\','+i+')">🗑</span>' +
+      '</td></tr>';
+  }).join(''):'<tr class="empty-row"><td colspan="'+cols.length+'">Sin alumnos</td></tr>';
+  var moTotCells=mos.map(function(mo){return '<td style="text-align:center;font-weight:700">'+(moTot[mo]||0)+'€</td>';}).join('');
+  var tot=students.length?
+    '<tr class="totals-row">' +
+      '<td colspan="5" style="text-align:right;font-weight:600">Total:</td>' +
+      '<td><strong>'+totMa+'€</strong></td><td></td><td></td>' +
+      '<td>'+(totP>0?'<span style="color:#b03020">'+totP+'€ pdte</span>':'<span style="color:#2a7a3a">✓</span>')+'</td>' +
+      moTotCells +
+      '<td style="text-align:center;font-weight:700;color:#2a7a3a">'+totPagado+'€</td>' +
+      '<td colspan="2"></td>' +
+    '</tr>':'';
+  var heads=cols.map(function(c){return '<th>'+c+'</th>';}).join('');
+  return '<div class="tbl-wrap"><table><thead><tr>'+heads+'</tr></thead><tbody>'+rows+tot+'</tbody></table></div>';
+}
+
+// ── Regular table ─────────────────────────────────────────────────────────────
+function tblHTML(students,showPer,editable,y,m,cid){
+  var cols=(showPer?['Período']:[]). concat(['Nombre','Apellidos','Tel','Mail','Localidad','Importe','Pago','Obs',editable?'':'']);
+  var totI=0,totP=0;
+  var rows=students.length?students.map(function(s,i){
+    totI+=s.i||0;
+    if(s.p==='Pendiente')totP+=s.i||0;
+    var perCell=showPer?'<td><span class="per-tag">'+esc(s._per||'')+'</span></td>':'';
+    var actions=editable?
+      '<td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editS('+y+',\''+m+'\',\''+cid+'\','+i+')">✏️</span>'+
+      '<span class="tbl-btn del" onclick="event.stopPropagation();delS('+y+',\''+m+'\',\''+cid+'\','+i+')">🗑</span></td>':
+      '<td></td>';
+    return '<tr onclick="showDetail(this)" style="cursor:pointer" data-json=\''+escJson(Object.assign({},s,{_editable:editable,_y:y,_m:m,_cid:cid,_i:i}))+'\'>'+
+      perCell+
+      '<td>'+esc(s.n)+'</td><td>'+esc(s.ap)+'</td>' +
+      '<td style="white-space:nowrap">'+esc(s.t)+'</td>' +
+      '<td class="mail-link">'+esc(s.m)+'</td>' +
+      '<td>'+esc(s.l)+'</td>' +
+      '<td>'+(s.i||0)+'€</td>' +
+      '<td>'+pTag(s.p)+'</td>' +
+      '<td class="obs-td" title="'+esc(s.o)+'">'+esc(s.o)+'</td>' +
+      actions+'</tr>';
+  }).join(''):'<tr class="empty-row"><td colspan="'+cols.length+'">Sin alumnos</td></tr>';
+  var tot=students.length&&editable?
+    '<tr class="totals-row">'+(showPer?'<td></td>':'')+
+    '<td colspan="4" style="text-align:right">Total:</td>' +
+    '<td colspan="1"></td>' +
+    '<td><strong>'+totI+'€</strong></td>' +
+    '<td>'+(totP>0?'<span style="color:#b03020">'+totP+'€ pdte</span>':'<span style="color:#2a7a3a">✓</span>')+'</td>' +
+    '<td colspan="2"></td></tr>':'';
+  var heads=cols.map(function(c){return '<th>'+c+'</th>';}).join('');
+  return '<div class="tbl-wrap"><table><thead><tr>'+heads+'</tr></thead><tbody>'+rows+tot+'</tbody></table></div>';
+}
+
+// ── Detail popups ─────────────────────────────────────────────────────────────
+function showDetail(row){
+  var s=JSON.parse(row.dataset.json);
+  var dbox=document.getElementById('detail-box');
+  var h='<button class="detail-close" onclick="document.getElementById(\'detail-ov\').style.display=\'none\'">✕</button>';
+  h+='<h3 style="margin-bottom:14px;font-size:17px">'+esc(s.n)+' '+esc(s.ap)+'</h3>';
+  var fields=[['Teléfono',s.t],['Mail',s.m],['Localidad',s.l],['Importe',(s.i||0)+'€'],['Estado pago',pTag(s.p)],['Observaciones',esc(s.o)]];
+  if(s._per) fields.unshift(['Período',esc(s._per)]);
+  fields.forEach(function(f){if(f[1])h+='<div class="det-row"><div class="det-lbl">'+f[0]+'</div><div class="det-val">'+f[1]+'</div></div>';});
+  if(s._editable) h+='<div style="display:flex;gap:8px;margin-top:12px">'+
+    '<button class="btn btn-primary" style="flex:1" onclick="document.getElementById(\'detail-ov\').style.display=\'none\';editS('+s._y+',\''+s._m+'\',\''+s._cid+'\','+s._i+')">✏️ Editar</button>'+
+    '<button class="btn btn-danger" style="flex:1" onclick="document.getElementById(\'detail-ov\').style.display=\'none\';delS('+s._y+',\''+s._m+'\',\''+s._cid+'\','+s._i+')">🗑 Eliminar</button></div>';
+  dbox.innerHTML=h;
+  document.getElementById('detail-ov').style.display='flex';
+}
+function showDetailPro(row){
+  var s=JSON.parse(row.dataset.json);
+  var dbox=document.getElementById('detail-box');
+  var h='<button class="detail-close" onclick="document.getElementById(\'detail-ov\').style.display=\'none\'">✕</button>';
+  h+='<h3 style="margin-bottom:14px;font-size:17px">'+esc(s.n)+' '+esc(s.ap)+'</h3>';
+  var fields=[
+    ['Teléfono',s.t],['Mail',s.m],['Localidad',s.l],
+    ['Matrícula',(s.ma||0)+'€'],
+    ['Turno',s.tu==='Mañana'?'☀ Mañana':s.tu==='Tarde'?'🌙 Tarde':'—'],
+    ['Cuota mensual',s.cu?(s.cu+'€/mes'):''],
+    ['Estado pago',pTag(s.p)]
+  ];
+  fields.forEach(function(f){if(f[1])h+='<div class="det-row"><div class="det-lbl">'+f[0]+'</div><div class="det-val">'+f[1]+'</div></div>';});
+  if(s.pm&&Object.keys(s.pm).length){
+    var cells=MO_ORDER.filter(function(mo){return s.pm[mo];}).map(function(mo){
+      return '<span style="background:#e2e8f0;padding:2px 7px;border-radius:4px;margin:2px;display:inline-block;font-size:12px"><b>'+mo+':</b> '+s.pm[mo]+'€</span>';
+    }).join('');
+    h+='<div class="det-row"><div class="det-lbl">Pagos mensuales</div><div class="det-val" style="line-height:2">'+cells+'</div></div>';
+  }
+  if(s.o) h+='<div class="det-row"><div class="det-lbl">Observaciones</div><div class="det-val" style="white-space:pre-wrap">'+esc(s.o)+'</div></div>';
+  h+='<div style="display:flex;gap:8px;margin-top:12px">'+
+    '<button class="btn btn-primary" style="flex:1" onclick="document.getElementById(\'detail-ov\').style.display=\'none\';editPS(null,\''+s._pk+'\',\''+s._cid+'\','+s._i+')">✏️ Editar</button>'+
+    '<button class="btn btn-danger" style="flex:1" onclick="document.getElementById(\'detail-ov\').style.display=\'none\';delPS(\''+s._pk+'\',\''+s._cid+'\','+s._i+')">🗑 Eliminar</button></div>';
+  dbox.innerHTML=h;
+  document.getElementById('detail-ov').style.display='flex';
+}
+
+// ── Nav ────────────────────────────────────────────────────────────────────────
+function renderNav(){
+  var nav=document.getElementById('nav');
+  nav.innerHTML='';
+  // Regular years
+  YEARS.forEach(function(y){
+    var yb=document.createElement('button');
+    yb.className='year-btn'+(y===sY&&!showDB&&!selPro?' active':'');
+    yb.innerHTML=y+'<span class="arr">'+(y===sY&&!showDB&&!selPro?'▾':'▸')+'</span>';
+    yb.onclick=function(){sY=y;sM=ALL_MONTHS.find(function(m){return MC[y]&&MC[y][m];})||'Enero';selPro=null;showDB=false;render();};
+    nav.appendChild(yb);
+    if(y===sY&&!showDB&&!selPro){
+      var ml=document.createElement('div');ml.className='months-list';
+      var hasMos=ALL_MONTHS.filter(function(m){return MC[y]&&MC[y][m];});
+      hasMos.forEach(function(m){
+        var mb=document.createElement('button');
+        mb.className='month-btn'+(m===sM?' active':'');
+        mb.textContent=m;
+        mb.onclick=function(){sM=m;render();};
+        ml.appendChild(mb);
+      });
+      // Add month button
+      var addMo=document.createElement('button');
+      addMo.className='add-month-btn';
+      addMo.textContent='+ Añadir mes';
+      addMo.onclick=function(){openModal('month');};
+      ml.appendChild(addMo);
+      nav.appendChild(ml);
+    }
+  });
+  // Add year button
+  var addY=document.createElement('button');
+  addY.className='add-year-btn';
+  addY.textContent='+ Añadir año';
+  addY.onclick=function(){openModal('year');};
+  nav.appendChild(addY);
+  // PRO separator
+  var sep=document.createElement('div');sep.className='pro-sep';sep.textContent='CURSOS PROFESIONALES';
+  nav.appendChild(sep);
+  PRO_KEYS.forEach(function(pk){
+    if(!(PC[pk]&&PC[pk].length))return;
+    var pb=document.createElement('button');
+    pb.className='year-btn pro-year'+(selPro===pk?' active':'');
+    pb.innerHTML=pk+'<span class="arr">'+(selPro===pk?'▾':'▸')+'</span>';
+    pb.onclick=function(){selPro=pk;showDB=false;render();};
+    nav.appendChild(pb);
+    if(selPro===pk){
+      var pl=document.createElement('div');pl.className='months-list';
+      (PC[pk]||[]).forEach(function(c){
+        var cb=document.createElement('div');
+        cb.style.cssText='padding:4px 16px 4px 28px;font-size:12px;color:#555;display:flex;align-items:center;gap:6px';
+        cb.innerHTML='<span class="pill '+c.pill+'" style="font-size:10px;padding:1px 6px">&nbsp;</span>'+esc(c.label.replace('Profesional de ',''));
+        pl.appendChild(cb);
+      });
+      nav.appendChild(pl);
+    }
+  });
+}
+
+// ── Month view ────────────────────────────────────────────────────────────────
+function renderMonth(){
+  document.getElementById('breadcrumb').innerHTML=sY+' › <strong>'+sM+'</strong>';
+  var courses=gM(sY,sM);
+  var allS=courses.reduce(function(a,c){return a.concat(gS(sY,sM,c.id));},[]);
+  var totI=allS.reduce(function(a,s){return a+(s.i||0);},0);
+  var totP=allS.filter(function(s){return s.p==='Pendiente';}).reduce(function(a,s){return a+(s.i||0);},0);
+  document.getElementById('stats').innerHTML=
+    sc('Alumnos',allS.length)+sc('Ingresos',totI+'€')+
+    sc('Pendiente',totP>0?'<span style="color:#b03020">'+totP+'€</span>':'<span style="color:#2a7a3a">✓</span>')+
+    sc('Cursos activos',courses.filter(function(c){return gS(sY,sM,c.id).length>0;}).length+'/'+courses.length);
+  var cont=document.getElementById('courses');cont.innerHTML='';
+  courses.forEach(function(c,idx){
+    var key=sY+'_'+sM+'_'+c.id;
+    if(!(key in expanded))expanded[key]=true;
+    var students=gS(sY,sM,c.id);
+    var eur=students.reduce(function(a,s){return a+(s.i||0);},0);
+    var card=document.createElement('div');card.className='course-card';
+    var hdr=document.createElement('div');hdr.className='course-header '+c.cls;
+    var tb=document.createElement('div');tb.className='course-title-block';
+    tb.innerHTML='<div class="course-name">'+esc(c.label)+'</div>'+
+      '<div class="course-sub'+(c.subtitle?'':' placeholder')+'">'+esc(c.subtitle||'Añadir fechas y horario…')+'</div>';
+    tb.onclick=function(){expanded[key]=!expanded[key];renderMonth();};
+    var meta=document.createElement('div');meta.className='course-meta';
+    meta.innerHTML=
+      '<span class="pill '+c.pill+'">'+students.length+' alumno'+(students.length!==1?'s':'')+'</span>'+
+      ' <span class="eur-lbl">'+eur+'€</span>'+
+      ' <button class="icon-btn" title="Copiar emails" onclick="event.stopPropagation();copyMails('+sY+',\''+sM+'\',\''+c.id+'\')">📧</button>'+
+      ' <button class="icon-btn" onclick="event.stopPropagation();openModal(\'edit-course\',{idx:'+idx+'})">✏️</button>'+
+      ' <span class="ch-toggle" onclick="event.stopPropagation();expanded[\''+key+'\']=!expanded[\''+key+'\'];renderMonth()">'+(expanded[key]?'▾':'▸')+'</span>';
+    hdr.appendChild(tb);hdr.appendChild(meta);card.appendChild(hdr);
+    if(expanded[key]){
+      var body=document.createElement('div');
+      body.innerHTML=tblHTML(students,false,true,sY,sM,c.id)+
+        '<button class="add-row" onclick="openModal(\'student\',{cid:\''+c.id+'\'})">+ Añadir alumno</button>';
+      card.appendChild(body);
+    }
+    cont.appendChild(card);
+  });
+  var addCard=document.createElement('div');addCard.className='add-course-card';
+  addCard.textContent='+ Añadir curso a '+sM+' '+sY;
+  addCard.onclick=function(){openModal('course');};
+  cont.appendChild(addCard);
+}
+
+function copyMails(y,m,cid){
+  var mails=gS(y,m,cid).map(function(s){return s.m;}).filter(Boolean).join(', ');
+  navigator.clipboard.writeText(mails).then(function(){alert('✓ Emails copiados');});
+}
+
+// ── PRO view ──────────────────────────────────────────────────────────────────
+function renderPro(){
+  var pk=selPro;
+  document.getElementById('breadcrumb').innerHTML='<strong>'+pk+'</strong>';
+  var courses=PC[pk]||[];
+  var allS=courses.reduce(function(a,c){return a.concat((PS[pk]||{})[c.id]||[]);},[]);
+  var totMa=allS.reduce(function(a,s){return a+(s.ma||0);},0);
+  var totP=allS.filter(function(s){return s.p==='Pendiente';}).reduce(function(a,s){return a+(s.ma||0);},0);
+  var amN=allS.filter(function(s){return s.tu==='Mañana';}).length;
+  var pmN=allS.filter(function(s){return s.tu==='Tarde';}).length;
+  var courseInfo=courses.map(function(c){
+    var ss=(PS[pk]||{})[c.id]||[];
+    var tot=ss.reduce(function(a,s){return a+(s.ma||0);},0);
+    return '<span style="white-space:nowrap">'+esc(c.label.replace('Profesional de ',''))+': <b>'+tot+'€</b></span>';
+  }).join(' &nbsp;·&nbsp; ');
+  document.getElementById('stats').innerHTML=
+    sc('Alumnos',allS.length)+
+    sc('Turno','<span style="color:#d97706">☀ '+amN+' mañana</span> / <span style="color:#7c3aed">🌙 '+pmN+' tarde</span>')+
+    sc('Matrículas por curso',courseInfo)+
+    sc('Total matrículas','<strong>'+totMa+'€</strong>'+(totP>0?' <span style="color:#b03020;font-size:12px">('+totP+'€ pdte)</span>':'<span style="color:#2a7a3a;font-size:12px"> ✓</span>'));
+  var cont=document.getElementById('courses');cont.innerHTML='';
+  courses.forEach(function(c){
+    var students=(PS[pk]||{})[c.id]||[];
+    var key=pk+'_'+c.id;
+    if(!(key in expanded))expanded[key]=true;
+    var amC=students.filter(function(s){return s.tu==='Mañana';}).length;
+    var pmC=students.filter(function(s){return s.tu==='Tarde';}).length;
+    var cTot=students.reduce(function(a,s){return a+(s.ma||0);},0);
+    var card=document.createElement('div');card.className='course-card';
+    var hdr=document.createElement('div');hdr.className='course-header '+c.cls;
+    var tb=document.createElement('div');tb.className='course-title-block';
+    tb.innerHTML='<div class="course-name">'+esc(c.label)+'</div>'+
+      '<div class="course-sub">'+pk+' · Matrículas: '+cTot+'€</div>';
+    tb.onclick=function(){expanded[key]=!expanded[key];renderPro();};
+    var meta=document.createElement('div');meta.className='course-meta';
+    meta.innerHTML=
+      '<span class="pill '+c.pill+'">'+students.length+' alumno'+(students.length!==1?'s':'')+'</span>'+
+      ' <span style="font-size:12px;color:#888">☀'+amC+' 🌙'+pmC+'</span>'+
+      ' <button class="icon-btn" title="Copiar emails" onclick="event.stopPropagation();copyProMails(\''+pk+'\',\''+c.id+'\')">📧</button>'+
+      ' <button class="icon-btn" title="Pago mensual masivo" onclick="event.stopPropagation();bulkMonthPay(\''+pk+'\',\''+c.id+'\')">💳</button>'+
+      ' <span class="ch-toggle" onclick="event.stopPropagation();expanded[\''+key+'\']=!expanded[\''+key+'\'];renderPro()">'+(expanded[key]?'▾':'▸')+'</span>';
+    hdr.appendChild(tb);hdr.appendChild(meta);card.appendChild(hdr);
+    if(expanded[key]){
+      var body=document.createElement('div');
+      body.innerHTML=tblProHTML(students,c.id,pk)+
+        '<button class="add-row" onclick="openModalProS(\''+pk+'\',\''+c.id+'\')">+ Añadir alumno</button>';
+      card.appendChild(body);
+    }
+    cont.appendChild(card);
+  });
+}
+
+function copyProMails(pk,cid){
+  var mails=(PS[pk]||{})[cid]||[];
+  var txt=mails.map(function(s){return s.m;}).filter(Boolean).join(', ');
+  navigator.clipboard.writeText(txt).then(function(){alert('✓ '+mails.filter(function(s){return s.m;}).length+' emails copiados');});
+}
+
+function bulkMonthPay(pk,cid){
+  var mo=prompt('¿En qué mes aplicas el pago?\n(OCT NOV DIC ENE FEB MAR ABR MAY JUN JUL AGO SEP)','');
+  if(!mo)return;
+  var moU=mo.trim().toUpperCase();
+  if(MO_ORDER.indexOf(moU)<0){alert('Mes no reconocido: '+moU);return;}
+  var amount=parseInt(prompt('Importe para todos los alumnos en '+moU+' (€):','195'));
+  if(isNaN(amount)||amount<=0)return;
+  var ss=(PS[pk]||{})[cid]||[];
+  ss.forEach(function(s){if(!s.pm)s.pm={};s.pm[moU]=amount;});
+  alert('✓ '+ss.length+' alumnos actualizados: '+amount+'€ en '+moU);
+  renderPro();
+}
+
+// ── Global DB view ────────────────────────────────────────────────────────────
+function renderDB(){
+  var q=(document.getElementById('db-search').value||'').toLowerCase().trim();
+  document.getElementById('breadcrumb').innerHTML='<strong>Base de datos global</strong>';
+  var map={};
+  // Regular courses
+  Object.keys(MC).forEach(function(y){
+    Object.keys(MC[y]).forEach(function(m){
+      gM(parseInt(y),m).forEach(function(c){
+        if(!map[c.label])map[c.label]={cls:c.cls,pill:c.pill,students:[]};
+        gS(parseInt(y),m,c.id).forEach(function(s){
+          if(!q||[s.n,s.ap,s.m,s.t,s.l].join(' ').toLowerCase().includes(q))
+            map[c.label].students.push(Object.assign({},s,{_per:m+' '+y}));
+        });
+      });
+    });
+  });
+  var totAll=Object.values(map).reduce(function(a,v){return a+v.students.length;},0);
+  document.getElementById('stats').innerHTML=sc('Total alumnos',totAll)+sc('Tipos de curso',Object.keys(map).filter(function(k){return map[k].students.length>0;}).length);
+  var cont=document.getElementById('courses');cont.innerHTML='';
+  var entries=Object.entries(map).filter(function(e){return e[1].students.length>0;});
+  if(!entries.length){cont.innerHTML='<div class="no-results">No se encontraron resultados</div>';return;}
+  entries.forEach(function(entry){
+    var label=entry[0],data=entry[1];
+    var key='db_'+label;
+    if(!(key in dbExp))dbExp[key]=false;
+    var sec=document.createElement('div');sec.className='db-section';
+    var hdr=document.createElement('div');hdr.className='db-hdr';
+    var eur=data.students.reduce(function(a,s){return a+(s.i||0);},0);
+    hdr.innerHTML='<div class="db-left"><span class="pill '+data.pill+'" style="font-size:11px">&nbsp;</span><div><div class="db-name">'+esc(label)+'</div><div class="db-count">'+data.students.length+' alumnos · '+eur+'€</div></div></div>'+
+      '<button class="icon-btn" style="margin-right:8px" title="Copiar emails" onclick="event.stopPropagation();copyDBMails(\''+encodeURIComponent(label)+'\')">📧</button>'+
+      '<span class="db-arr">'+(dbExp[key]?'▾':'▸')+'</span>';
+    hdr.onclick=function(){dbExp[key]=!dbExp[key];renderDB();};
+    sec.appendChild(hdr);
+    if(dbExp[key]){
+      var body=document.createElement('div');
+      body.innerHTML=tblHTML(data.students,true,false,0,'','');
+      sec.appendChild(body);
+    }
+    cont.appendChild(sec);
+  });
+}
+
+function copyDBMails(encodedLabel){
+  var label=decodeURIComponent(encodedLabel);
+  var all=[];
+  Object.keys(MC).forEach(function(y){
+    Object.keys(MC[y]).forEach(function(m){
+      gM(parseInt(y),m).forEach(function(c){
+        if(c.label===label) gS(parseInt(y),m,c.id).forEach(function(s){if(s.m&&all.indexOf(s.m)<0)all.push(s.m);});
+      });
+    });
+  });
+  navigator.clipboard.writeText(all.join(', ')).then(function(){alert('✓ '+all.length+' emails únicos copiados');});
+}
+
+// ── Modals ────────────────────────────────────────────────────────────────────
+function closeModal(){document.getElementById('modal').style.display='none';}
+
+function openModal(mode,extra){
+  _mode=mode;_ex=extra||{};
+  var title=document.getElementById('modal-title');
+  var body=document.getElementById('modal-body');
+  var ok=document.getElementById('modal-ok');
+  var left=document.getElementById('modal-left');
+  left.innerHTML='';ok.textContent='Guardar';ok.style.display='';
+
+  if(mode==='year'){
+    title.textContent='Añadir año';
+    body.innerHTML='<label>Año</label><input type="number" id="m-year" value="'+(Math.max.apply(null,YEARS)+1)+'" min="2000" max="2100">';
+    ok.textContent='Añadir año';
+  }
+  else if(mode==='month'){
+    title.textContent='Añadir mes a '+sY;
+    var existing=MC[sY]?Object.keys(MC[sY]):[];
+    var missing=ALL_MONTHS.filter(function(m){return existing.indexOf(m)<0;});
+    if(!missing.length){alert('Ya están todos los meses de '+sY);closeModal();return;}
+    var opts=missing.map(function(m){return '<option>'+m+'</option>';}).join('');
+    body.innerHTML='<label>Mes</label><select id="m-month">'+opts+'</select>';
+    ok.textContent='Añadir mes';
+  }
+  else if(mode==='course'){
+    var swatches=COLORS.map(function(c){return '<div class="color-sw '+c.cls+(c.cls==='ch-blue'?' sel':'')+'" style="background:'+c.bg+'" onclick="selSwatch(this)" data-cls="'+c.cls+'" data-pill="'+c.pill+'"></div>';}).join('');
+    title.textContent='Nuevo curso en '+sM+' '+sY;
+    body.innerHTML='<div class="modal-ctx">Solo se añade a <strong>'+sM+' '+sY+'</strong></div>'+
+      '<label>Nombre del curso</label><input id="m-cl" placeholder="Ej: Iniciación a la fotografía">'+
+      '<label>Color</label><div class="color-swatches">'+swatches+'</div>'+
+      '<label>Subtítulo / fechas</label><textarea id="m-csub" placeholder="Ej: Del 3 al 7, 17:00-20:00h"></textarea>';
+    ok.textContent='Crear curso';
+  }
+  else if(mode==='edit-course'){
+    var c=gM(sY,sM)[_ex.idx];
+    var swatches=COLORS.map(function(co){return '<div class="color-sw '+co.cls+(co.cls===c.cls?' sel':'')+'" style="background:'+co.bg+'" onclick="selSwatch(this)" data-cls="'+co.cls+'" data-pill="'+co.pill+'"></div>';}).join('');
+    title.textContent='Editar curso';
+    body.innerHTML='<div class="modal-ctx"><strong>'+sM+' '+sY+'</strong></div>'+
+      '<label>Nombre</label><input id="m-cl" value="'+esc(c.label)+'">'+
+      '<label>Color</label><div class="color-swatches">'+swatches+'</div>'+
+      '<label>Subtítulo / fechas</label><textarea id="m-csub">'+esc(c.subtitle||'')+'</textarea>';
+    left.innerHTML='<button class="btn-danger" onclick="delCourse('+_ex.idx+');closeModal()">Eliminar curso</button>';
+  }
+  else if(mode==='student'||mode==='edit-student'){
+    var isEdit=mode==='edit-student';
+    var s=isEdit?gS(sY,sM,_ex.cid)[_ex.idx]:null;
+    var courses=gM(sY,sM);
+    var opts=courses.map(function(c){return '<option value="'+c.id+'"'+((_ex.cid||'')===c.id?' selected':'')+'>'+esc(c.label)+'</option>';}).join('');
+    var pagoOpts=PAGOS.map(function(p){return '<option'+(s&&s.p===p?' selected':'')+'>'+p+'</option>';}).join('');
+    title.textContent=isEdit?'Editar alumno':'Añadir alumno';
+    body.innerHTML=(isEdit?'<div class="modal-ctx"><strong>'+sM+' '+sY+'</strong></div>':'')+
+      (!isEdit?'<label>Curso</label><select id="m-sc">'+opts+'</select>':'')+
+      '<label>Nombre</label><input id="m-n" value="'+esc(s&&s.n||'')+'">'+
+      '<label>Apellidos</label><input id="m-ap" value="'+esc(s&&s.ap||'')+'">'+
+      '<label>Teléfono</label><input id="m-t" value="'+esc(s&&s.t||'')+'">'+
+      '<label>Mail</label><input id="m-m" value="'+esc(s&&s.m||'')+'">'+
+      '<label>Localidad</label><input id="m-l" value="'+esc(s&&s.l||'')+'">'+
+      '<label>Importe (€)</label><input type="number" id="m-i" value="'+(s&&s.i||0)+'">'+
+      '<label>Estado pago</label><select id="m-p">'+pagoOpts+'</select>'+
+      '<label>Observaciones</label><textarea id="m-o">'+esc(s&&s.o||'')+'</textarea>';
+    if(isEdit) left.innerHTML='<button class="btn-danger" onclick="delS('+sY+',\''+sM+'\',\''+_ex.cid+'\','+_ex.idx+');closeModal()">Eliminar</button>';
+  }
+  document.getElementById('modal').style.display='flex';
+}
+
+function openModalProS(pk,cid,idx){
+  var isEdit=idx!==undefined;
+  var s=isEdit?((PS[pk]||{})[cid]||[])[idx]:null;
+  _mode=isEdit?'edit-pro-s':'add-pro-s';_ex={pk:pk,cid:cid,idx:idx};
+  var title=document.getElementById('modal-title');
+  var body=document.getElementById('modal-body');
+  var left=document.getElementById('modal-left');
+  var ok=document.getElementById('modal-ok');
+  left.innerHTML='';ok.style.display='';
+  title.textContent=isEdit?'Editar alumno PRO':'Añadir alumno PRO';
+  var am=s?s.tu==='Mañana':false,pm2=s?s.tu==='Tarde':false;
+  var moInputs=MO_ORDER.map(function(mo){
+    var v=(s&&s.pm&&s.pm[mo])||'';
+    return '<span style="display:inline-flex;align-items:center;gap:4px;margin:3px">'+
+      '<label style="font-size:11px;width:28px;margin:0">'+mo+'</label>'+
+      '<input id="m-pm-'+mo+'" type="number" placeholder="0" value="'+v+'" style="width:60px;padding:4px;border:1px solid #e2e8f0;border-radius:4px;font-size:12px"></span>';
+  }).join('');
+  var pagoOpts=PAGOS.map(function(p){return '<option'+(s&&s.p===p?' selected':'')+'>'+p+'</option>';}).join('');
+  body.innerHTML=
+    '<label>Nombre</label><input id="m-n" value="'+esc(s&&s.n||'')+'">'+
+    '<label>Apellidos</label><input id="m-ap" value="'+esc(s&&s.ap||'')+'">'+
+    '<label>Teléfono</label><input id="m-t" value="'+esc(s&&s.t||'')+'">'+
+    '<label>Mail</label><input id="m-m" value="'+esc(s&&s.m||'')+'">'+
+    '<label>Localidad</label><input id="m-l" value="'+esc(s&&s.l||'')+'">'+
+    '<label>Matrícula (€)</label><input type="number" id="m-ma" value="'+(s&&s.ma||0)+'">'+
+    '<label>Turno</label>'+
+    '<div class="turno-btns">'+
+      '<button type="button" class="turno-btn am'+(am?' sel':'')+'" id="btn-am" onclick="selTurno(\'am\')">☀ Mañana</button>'+
+      '<button type="button" class="turno-btn pm'+(pm2?' sel':'')+'" id="btn-pm" onclick="selTurno(\'pm\')">🌙 Tarde</button>'+
+    '</div>'+
+    '<label>Cuota mensual (€)</label><input id="m-cu" value="'+esc(s&&s.cu||'')+'">'+
+    '<label>Estado pago matrícula</label><select id="m-p">'+pagoOpts+'</select>'+
+    '<label>Pagos mensuales</label>'+
+    '<div style="display:flex;flex-wrap:wrap;padding:6px 0">'+moInputs+'</div>'+
+    '<label>Observaciones</label><textarea id="m-o">'+esc(s&&s.o||'')+'</textarea>';
+  if(isEdit) left.innerHTML='<button class="btn-danger" onclick="delPS(\''+pk+'\',\''+cid+'\','+idx+');closeModal()">Eliminar</button>';
+  document.getElementById('modal').style.display='flex';
+}
+
+// ── confirmModal ──────────────────────────────────────────────────────────────
+function confirmModal(){
+  if(_mode==='year'){
+    var y=parseInt(gv('m-year'));
+    if(!y||YEARS.indexOf(y)>=0){alert('Año inválido o ya existe');return;}
+    YEARS.push(y);YEARS.sort(function(a,b){return a-b;});
+    sY=y;sM='Enero';selPro=null;
+    if(!MC[y])MC[y]={};if(!ST[y])ST[y]={};
+  }
+  else if(_mode==='month'){
+    var mo=gv('m-month');if(!mo)return;
+    if(!MC[sY])MC[sY]={};if(!MC[sY][mo])MC[sY][mo]=[];
+    if(!ST[sY])ST[sY]={};if(!ST[sY][mo])ST[sY][mo]={};
+    sM=mo;
+  }
+  else if(_mode==='course'){
+    var lab=gv('m-cl');if(!lab){alert('Nombre obligatorio');return;}
+    var col=getColor();var id='c'+Date.now();
+    if(!MC[sY])MC[sY]={};if(!MC[sY][sM])MC[sY][sM]=[];
+    MC[sY][sM].push({id:id,label:lab,cls:col.cls,pill:col.pill,subtitle:gv('m-csub')});
+    if(!ST[sY])ST[sY]={};if(!ST[sY][sM])ST[sY][sM]={};ST[sY][sM][id]=[];
+  }
+  else if(_mode==='edit-course'){
+    var c=gM(sY,sM)[_ex.idx];var col=getColor();
+    c.label=gv('m-cl');c.cls=col.cls;c.pill=col.pill;c.subtitle=gv('m-csub');
+  }
+  else if(_mode==='student'){
+    var cid=gv('m-sc')||_ex.cid;
+    var n=gv('m-n');if(!n){alert('Nombre obligatorio');return;}
+    if(!ST[sY])ST[sY]={};if(!ST[sY][sM])ST[sY][sM]={};if(!ST[sY][sM][cid])ST[sY][sM][cid]=[];
+    ST[sY][sM][cid].push({n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o')});
+  }
+  else if(_mode==='edit-student'){
+    var s=ST[sY][sM][_ex.cid][_ex.idx];
+    Object.assign(s,{n:gv('m-n'),ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o')});
+  }
+  else if(_mode==='add-pro-s'||_mode==='edit-pro-s'){
+    var pk=_ex.pk,cid=_ex.cid,idx=_ex.idx;
+    var n=gv('m-n');if(!n){alert('Nombre obligatorio');return;}
+    var tu=document.getElementById('btn-am').classList.contains('sel')?'Mañana':document.getElementById('btn-pm').classList.contains('sel')?'Tarde':'';
+    var pm={};MO_ORDER.forEach(function(mo){var v=gv('m-pm-'+mo);if(v)pm[mo]=parseInt(v)||0;});
+    var obj={n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),ma:parseInt(gv('m-ma'))||0,tu:tu,cu:gv('m-cu'),p:gv('m-p'),pm:pm,o:gv('m-o')};
+    if(!PS[pk])PS[pk]={};if(!PS[pk][cid])PS[pk][cid]=[];
+    if(_mode==='add-pro-s')PS[pk][cid].push(obj);
+    else PS[pk][cid][idx]=obj;
+  }
+  closeModal();render();
+}
+
+// ── Delete ────────────────────────────────────────────────────────────────────
+function delCourse(idx){
+  if(!confirm('¿Eliminar este curso y todos sus alumnos?'))return;
+  var cid=gM(sY,sM)[idx].id;
+  MC[sY][sM].splice(idx,1);
+  if(ST[sY]&&ST[sY][sM])delete ST[sY][sM][cid];
+  render();
+}
+function delS(y,m,cid,idx){
+  if(!confirm('¿Eliminar este alumno?'))return;
+  ST[y][m][cid].splice(idx,1);
+  document.getElementById('detail-ov').style.display='none';
+  render();
+}
+function editS(y,m,cid,idx){openModal('edit-student',{cid:cid,idx:idx});}
+function delPS(pk,cid,idx){
+  if(!confirm('¿Eliminar este alumno?'))return;
+  PS[pk][cid].splice(idx,1);
+  document.getElementById('detail-ov').style.display='none';
+  render();
+}
+function editPS(ev,pk,cid,idx){if(ev)ev.stopPropagation();selPro=pk;openModalProS(pk,cid,idx);}
+
+// ── Main render ───────────────────────────────────────────────────────────────
+function toggleDB(){
+  showDB=!showDB;
+  document.getElementById('db-btn').className='db-btn'+(showDB?'':' off');
+  document.getElementById('db-search').style.display=showDB?'block':'none';
+  if(showDB)selPro=null;
+  render();
+}
+function render(){
+  scheduleSave();
+  renderNav();
+  renderMobileNav();
+  if(showDB)renderDB();
+  else if(selPro)renderPro();
+  else renderMonth();
+}
+render();
+
+
+async function loadFromSupabase(){
+  if(typeof supabase==='undefined')return;
+  try{
+    var r=await getDB().from('app_data').select('*').eq('id','main').single();
+    if(r.error&&r.error.code!=='PGRST116')return;
+    if(r.data){
+      if(r.data.years&&r.data.years.length)YEARS.splice(0,YEARS.length,...r.data.years);
+      if(r.data.mc)Object.keys(r.data.mc).forEach(function(k){MC[parseInt(k)||k]=r.data.mc[k];});
+      if(r.data.st)Object.keys(r.data.st).forEach(function(k){ST[parseInt(k)||k]=r.data.st[k];});
+      if(r.data.pc)Object.assign(PC,r.data.pc);
+      if(r.data.ps)Object.assign(PS,r.data.ps);
+    }
+    _supaLoaded=true;
+    showStatus('✅ Conectado','ok');
+    setTimeout(function(){showStatus('','');},3000);
+  }catch(e){}
+}
+async function saveToSupabase(){
+  if(!_supaLoaded)return;
+  try{
+    var r=await getDB().from('app_data').upsert({id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,updated_at:new Date().toISOString()},{onConflict:'id'});
+    if(!r.error){showStatus('☁️ Guardado','ok');setTimeout(function(){showStatus('','');},2000);}
+  }catch(e){}
+}
+function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
+function showStatus(msg,type){var el=document.getElementById('cloud-status');if(!el)return;el.textContent=msg;el.className='cloud-status '+(type||'');}
+
+function renderMobileNav(){
+  if(window.innerWidth>700)return;
+  var ySel=document.getElementById('mn-year');
+  var mSel=document.getElementById('mn-month');
+  var dbBtn=document.getElementById('mn-db-btn');
+  if(!ySel)return;
+  ySel.innerHTML='';
+  YEARS.forEach(function(y){
+    if(!(MC[y]&&Object.keys(MC[y]).length))return;
+    var o=document.createElement('option');
+    o.value=y;o.textContent=y;
+    if(!selPro&&y===sY)o.selected=true;
+    ySel.appendChild(o);
+  });
+  PRO_KEYS.forEach(function(pk){
+    if(!(PC[pk]&&PC[pk].length))return;
+    var o=document.createElement('option');
+    o.value='pro:'+pk;o.textContent=pk;
+    if(selPro===pk)o.selected=true;
+    ySel.appendChild(o);
+  });
+  mSel.innerHTML='';
+  if(selPro){mSel.style.display='none';}
+  else{
+    mSel.style.display='';
+    ALL_MONTHS.filter(function(m){return MC[sY]&&MC[sY][m];}).forEach(function(m){
+      var o=document.createElement('option');
+      o.value=m;o.textContent=m;
+      if(m===sM)o.selected=true;
+      mSel.appendChild(o);
+    });
+  }
+  if(dbBtn)dbBtn.className=showDB?'active':'';
+}
+function mnSetYear(v){
+  if(v.indexOf('pro:')===0){selPro=v.slice(4);showDB=false;}
+  else{sY=parseInt(v);selPro=null;showDB=false;sM=ALL_MONTHS.filter(function(m){return MC[sY]&&MC[sY][m];})[0]||'Enero';}
+  render();
+}
+function mnSetMonth(v){sM=v;render();}
+function mnToggleDB(){showDB=!showDB;if(showDB)selPro=null;render();}
+
+</script>
+
+<script>
+// Session check - redirect to login if not authenticated
+window.addEventListener('load', function(){
+  try{
+    if(typeof supabase==='undefined')return;
+    const c=supabase.createClient('https://ngpggumhsdqqlintrvlh.supabase.co','sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-');
+    c.auth.getSession().then(function(r){
+      if(!r.data||!r.data.session)window.location.href='index.html';
+    }).catch(function(){});
+  }catch(e){}
+});
+</script></body>
+</html>
