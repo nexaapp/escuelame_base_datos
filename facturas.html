@@ -8,59 +8,41 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Montserrat',sans-serif;background:#f4f6f9;color:#1a202c;-webkit-font-smoothing:antialiased}
-
-/* TOP NAV */
 #topnav{position:fixed;top:0;left:0;right:0;height:52px;background:#fff;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;padding:0 20px;gap:10px;z-index:100}
 .tn-back{background:none;border:none;font-size:22px;cursor:pointer;color:#999;line-height:1;padding:0 2px;transition:color .15s}
 .tn-back:hover{color:#1a1a1a}
 .tn-logo{width:26px;height:26px;border-radius:50%;object-fit:cover}
 .tn-title{font-size:14px;font-weight:700;color:#1a1a1a;flex:1}
-.tn-btn{padding:7px 16px;background:#fc5248;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .15s;white-space:nowrap}
+.tn-btn{padding:7px 16px;background:#fc5248;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Montserrat',sans-serif;white-space:nowrap}
 .tn-btn:hover{background:#e03e35}
-.tn-btn-outline{padding:7px 16px;background:#fff;color:#1a202c;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .15s}
+.tn-btn-outline{padding:7px 16px;background:#fff;color:#1a202c;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Montserrat',sans-serif}
 .tn-btn-outline:hover{border-color:#fc5248;color:#fc5248}
-
-/* TABS */
 #tabs{position:fixed;top:52px;left:0;right:0;background:#fff;border-bottom:1px solid #e8e8e8;display:flex;z-index:99;padding:0 20px}
-.tab{padding:12px 20px;font-size:13px;font-weight:600;color:#718096;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab{padding:12px 20px;font-size:13px;font-weight:600;color:#718096;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
 .tab.active{color:#fc5248;border-bottom-color:#fc5248}
-.tab:hover{color:#fc5248}
-
-/* MAIN */
 #main{padding:112px 20px 40px;max-width:960px;margin:0 auto}
-
-/* SEARCH + FILTERS */
 .toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
 .search-wrap{position:relative;flex:1;min-width:200px}
 .search-wrap input{width:100%;padding:10px 14px 10px 36px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:14px;font-family:'Montserrat',sans-serif;background:#fff;outline:none;transition:border-color .2s}
 .search-wrap input:focus{border-color:#fc5248}
 .search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#a0aec0;font-size:14px}
 .filter-select{padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:13px;font-family:'Montserrat',sans-serif;background:#fff;color:#1a202c;outline:none;cursor:pointer}
-
-/* INVOICE LIST */
 .inv-list{display:flex;flex-direction:column;gap:8px}
 .inv-card{background:#fff;border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;border:1.5px solid transparent;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .inv-card:hover{border-color:#fc5248;box-shadow:0 2px 8px rgba(252,82,72,.1)}
 .inv-num{font-size:13px;font-weight:700;color:#fc5248;min-width:90px}
 .inv-info{flex:1}
-.inv-cliente{font-size:14px;font-weight:600;color:#1a202c}
+.inv-cliente{font-size:14px;font-weight:600}
 .inv-fecha{font-size:12px;color:#a0aec0;margin-top:2px}
-.inv-total{font-size:15px;font-weight:700;color:#1a202c;text-align:right}
-.inv-estado{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;text-align:right;margin-top:4px}
-.st-borrador{background:#f1f5f9;color:#64748b}
-.st-pendiente{background:#fef3c7;color:#d97706}
-.st-pagado{background:#d1fae5;color:#065f46}
-
-/* CLIENT LIST */
+.inv-total{font-size:15px;font-weight:700;text-align:right}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;display:inline-block}
+.badge-borrador{background:#f1f5f9;color:#64748b}
+.badge-pendiente{background:#fef3c7;color:#d97706}
+.badge-pagado{background:#d1fae5;color:#065f46}
 .cli-list{display:flex;flex-direction:column;gap:6px}
 .cli-card{background:#fff;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;border:1.5px solid transparent;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .cli-card:hover{border-color:#fc5248}
 .cli-avatar{width:36px;height:36px;border-radius:50%;background:#fc5248;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cli-name{font-size:14px;font-weight:600;color:#1a202c}
-.cli-sub{font-size:12px;color:#a0aec0;margin-top:1px}
-.cli-nif{font-size:12px;color:#718096;margin-left:auto;flex-shrink:0}
-
-/* FORM */
 .form-section{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .form-section-title{font-size:11px;font-weight:700;color:#fc5248;letter-spacing:.07em;text-transform:uppercase;margin-bottom:18px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -71,80 +53,48 @@ html,body{height:100%;font-family:'Montserrat',sans-serif;background:#f4f6f9;col
 .field input,.field select,.field textarea{padding:10px 13px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:14px;font-family:'Montserrat',sans-serif;color:#1a202c;background:#fafafa;outline:none;transition:border-color .2s,box-shadow .2s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:#fc5248;background:#fff;box-shadow:0 0 0 3px rgba(252,82,72,.08)}
 .field textarea{resize:vertical;min-height:70px}
-
-/* TYPE SELECTOR */
 .type-btns{display:flex;gap:10px}
 .type-btn{flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:12px;background:#fff;cursor:pointer;text-align:center;transition:all .15s}
-.type-btn:hover{border-color:#fc5248}
-.type-btn.active{border-color:#fc5248;background:#fff1f0}
+.type-btn:hover,.type-btn.active{border-color:#fc5248;background:#fff1f0}
 .type-btn .tb-icon{font-size:22px;margin-bottom:4px}
 .type-btn .tb-label{font-size:13px;font-weight:700;color:#1a202c}
 .type-btn .tb-sub{font-size:11px;color:#a0aec0;margin-top:2px}
 .type-btn.active .tb-label{color:#fc5248}
-
-/* LINE ITEMS */
 .lines-table{width:100%;border-collapse:collapse}
 .lines-table th{font-size:10px;font-weight:700;color:#a0aec0;letter-spacing:.07em;text-transform:uppercase;padding:0 8px 10px;text-align:left}
-.lines-table th.r{text-align:right}
+.lines-table th.r,.lines-table td.r{text-align:right}
 .lines-table td{padding:4px 6px;vertical-align:middle}
 .lines-table td input,.lines-table td select{padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:'Montserrat',sans-serif;width:100%;background:#fff;outline:none;transition:border-color .2s}
 .lines-table td input:focus,.lines-table td select:focus{border-color:#fc5248}
-.lines-table td.num input{text-align:right}
 .del-line{background:none;border:none;color:#e2e8f0;font-size:16px;cursor:pointer;padding:4px;transition:color .15s;line-height:1}
 .del-line:hover{color:#fc5248}
-.add-line{margin-top:10px;padding:8px 14px;background:none;border:1.5px dashed #e2e8f0;border-radius:8px;font-size:12px;font-weight:600;color:#a0aec0;cursor:pointer;width:100%;font-family:'Montserrat',sans-serif;transition:all .15s}
-.add-line:hover{border-color:#fc5248;color:#fc5248}
-
-/* TOTALS */
+.add-line-btn{margin-top:10px;padding:8px 14px;background:none;border:1.5px dashed #e2e8f0;border-radius:8px;font-size:12px;font-weight:600;color:#a0aec0;cursor:pointer;width:100%;font-family:'Montserrat',sans-serif;transition:all .15s}
+.add-line-btn:hover{border-color:#fc5248;color:#fc5248}
 .totals-box{background:#f8fafc;border-radius:10px;padding:16px 20px;margin-top:8px}
-.tot-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;color:#4a5568}
-.tot-row.total{font-size:16px;font-weight:700;color:#1a202c;border-top:1px solid #e2e8f0;margin-top:6px;padding-top:10px}
-
-/* CLIENT AUTOCOMPLETE */
-.autocomplete-wrap{position:relative}
-.autocomplete-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid #fc5248;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;max-height:220px;overflow-y:auto;margin-top:4px;display:none}
-.autocomplete-list.open{display:block}
+.tot-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;color:#4a5568}
+.tot-final{display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#1a202c;border-top:1px solid #e2e8f0;margin-top:6px;padding-top:10px}
+.ac-wrap{position:relative}
+.ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid #fc5248;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;max-height:220px;overflow-y:auto;margin-top:4px;display:none}
+.ac-list.open{display:block}
 .ac-item{padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid #f0f0f0;transition:background .1s}
 .ac-item:last-child{border-bottom:none}
 .ac-item:hover{background:#fff1f0}
-.ac-item strong{display:block;font-weight:600;color:#1a202c}
-.ac-item span{font-size:11px;color:#a0aec0}
-
-/* MODAL */
+.ac-name{font-weight:600;color:#1a202c;display:block}
+.ac-sub{font-size:11px;color:#a0aec0}
 .modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:center;justify-content:center}
 .modal-ov.open{display:flex}
-.modal-box{background:#fff;border-radius:16px;padding:28px;width:90%;max-width:500px;max-height:85vh;overflow-y:auto}
-.modal-box h3{font-size:17px;font-weight:700;margin-bottom:20px}
+.modal-box{background:#fff;border-radius:16px;padding:28px;width:90%;max-width:500px}
+.modal-box h3{font-size:17px;font-weight:700;margin-bottom:12px}
+.modal-box p{font-size:14px;color:#718096;line-height:1.5}
 .modal-ftr{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
 .btn-cancel{padding:9px 18px;background:none;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Montserrat',sans-serif}
 .btn-ok{padding:9px 18px;background:#fc5248;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Montserrat',sans-serif}
-.btn-ok:hover{background:#e03e35}
-
-/* EMPTY STATE */
 .empty{text-align:center;padding:60px 20px;color:#a0aec0}
 .empty div{font-size:40px;margin-bottom:12px}
-.empty p{font-size:14px;font-weight:500}
-
-/* TOAST */
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:11px 22px;background:#1a202c;color:#fff;border-radius:12px;font-size:13px;font-weight:600;display:none;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:nowrap}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:11px 22px;background:#1a202c;color:#fff;border-radius:12px;font-size:13px;font-weight:600;display:none;z-index:999;white-space:nowrap}
 #toast.show{display:block;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-/* PRINT / PDF */
-@media print{
-  #topnav,#tabs,#main{display:none!important}
-  #print-area{display:block!important}
-}
-#print-area{display:none}
-
-@media(max-width:600px){
-  .grid,.grid.g3{grid-template-columns:1fr}
-  .full{grid-column:1}
-  .form-section{padding:18px 16px}
-  #main{padding:108px 12px 40px}
-  .type-btns{flex-direction:column}
-  .inv-num{min-width:70px;font-size:12px}
-}
+@media(max-width:600px){.grid,.grid.g3{grid-template-columns:1fr}.full{grid-column:1}.form-section{padding:18px 16px}#main{padding:108px 12px 40px}.type-btns{flex-direction:column}.inv-num{min-width:70px}}
 </style>
 </head>
 <body>
@@ -153,7 +103,7 @@ html,body{height:100%;font-family:'Montserrat',sans-serif;background:#f4f6f9;col
   <button class="tn-back" onclick="goBack()">‹</button>
   <img class="tn-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAjD0lEQVR42u19eXxc1Xn28547mpE02i3JtrxJlheMMUsABwLEBGKHxcbYYd8hITRp0rRJ+fKl/T7SNp+bJs3C11LSJqFgAjZlCQXCYvYABhMHY2MwBq+S91XWrlnuOf3jvUczkqWRNHNndK903t9vGKNlNHPvec7zPu92SCmlYMyYsWRTAAjAXmGuhTFjfZsEYABizFg/JiANQIwZSwURAxBjxlJCxJgxYwYgxoylI9MNQIwZMxrEmDHDIMaMGQYxZix3/GFEujFjKfjDAMSYsZQWMJdgGC1VnSh1/8eYAcgIXfhK9QQBUeKh/38wr5X8esm/l/xaxgxAPAsG/SAAJAYHACmBeJyfbTvx+0IAwgIsCwgEBgcCKXv9fcM+bsl0A5BMACFE3wu4qxM4ehTqyCHgMD9U01Gg+RjQ2gp0dkB1doJiUcC2oTRAwAAhywICeUAoBBQUAuFCoLgUVF4OVFQClVVAZRVoTCVQWsbvo1/QUN/fNzYomW4AMihQSED2A4iWZqg9u4Ad26F2bgd2N0IdPMBg6OxkllCSd3RBvMM7z6rb5Ura8ZWCggNAqRJ/W0lwbxsBlgCCISAcBlVUAjUTQFNqgdqpoMm1wLgaZp8egLH5d41bNiQGIdNRmIIppGRXJ9mONUFt2wJs+hBq80dQuxqBY01AJMJrXO/+luUASiS8neRLPajLTonfTV7U+r1pNy0eS7zXwjCoeixQPx104hzQCScCk6cAVqAnuxgNk/LuOzvWXgOQ49wn2VNHAEBjA9T696DeX8vgOHKEF2UgAOQF+Vm7MckuWLatt1hXivVMPAZEY3yfC8Ogmomg2XOA0+eCTjwJKCo+HizGDTsOIBLSAKTfRbKrAWrNaqi1a6C2b2XtoF2bvLzEgswVGIYKHM1ctg1Eo0AsygxTPQ405xTQ2eeBTvkMUFjY0w3rvTkYBhnFAJEyEfkBgNYWBsUbr0F9/CHQ2sJgCOXz4vIqIAYDGCH4fceiQFeEdVDNRNCZZ4HmXciumAGKAUgCGAn/W23fCvXyC1Bvvwns38th1oJ89tu1vz9STLMLFDNLpAsI5YNmnQS6cAHonM8DheE+r5MByGgARpIbpdathXruaah1a4H2dqCgAAgGRx4oBmIWKTniZseBiZMhLlgAWnAxUFk9WhnF0SCjBSC9GWPNW1BPPQG1cT1gS/bDLSuROxiNpkPYkQjnccZUQVy4AHTpYg4bjy6gOAwy0kV6ckIPYMH9+EqojRuYQJNdCWM9WSUWAzragfIK0IJLIBZfAYyp7JOJjYvlS9awWUsAUJ98DLXyQai1a/h7OnJjgDEIoMSBjjagaizE4qWgRUuB/ILj68IMg/jQnTpyGPKRB6FeegGIRoBwkQFGukCJRoHODlBdPei6m0Gfv+C4jcgwiNfNtrsz3+q5pyEfeRA4cAAoLuYbbYCROVC6OoFYHHTWOaBbv8alLQqcYB05btcIY5Akulc7t0P9+l6o995lVyAYZOAYcwkoTgKyrQ0oKgZdfT3E0qsZHEkblGEQL2qNJx+FfPgBFpdFxaM7KpVtsyyuA2trA512OujP/gJUV58ozPS3NhkhANE71v59kPfeDfXuatYZVsCpXjWWE7ervQ0oKIS4+XbQoiUJnedfl8vnAEl2qVa/AXnv3cDRI6w1DGvk3rR71d4GOv+LEN/4S+5T8a/L5eNEod6ZlIJ64FeQj61knWG0hjfYpKUZmDQF4jvfB82a7Vcm8alI1zvSsSbIn/8Ias3bQEkpfx7DGt7RJp2dQCAAcce3QBct9GPOxIculgMOtW0L1I//AaqxgcFhx82i9KrL1dEBuuIaiK9+w2+6xGcA0eD44zuQP10GdHZwr7ZxqbztcpEAmptA8y6E+O73OezuD5D4CCAaHC8+B/mvP2MKzwuaKJVvXK4Ag2TOqRB/+w9AeYUfQOIHDaK40tayoH73X5C/vpdrqHR5tjH/WCAAtDSDpkyF+ME/AuNrvF6i4nUGcfoxhAX18P2QD94HFBsx7nvx3t4OVI+F9cOfABMnezkM3M0gwpNvzWZwyAfvg1x+n4lUjQSzbSAcBg4dhP23fw00Njg9OF52lb14/IF0NMdv74d66H5OOCmT/BsxICksBI4chv1/7wR2N7Kb5VGQeO/4Ay3IH1sB+dv7gNJSvngGGyMTJHd9Dziw3wGJ93Slt44/0OB4/mnI+/6dwWFYY2SD5MA+yL//G55C6dHgi/AUON55E/KeX3DBoTKaY+RrkmKoHVshl/3AmUxJnrvnww8QPTLzk48h/3kZ11QRDDhGBUjiQEkp1Ib3IO/+sQMQ7+jN4dcgugvt8CHYP/o77i8IBAw4RpPF40BpOdQrqzic7yE9Iob1lFulWHzHYpA/+SFwcD+Qn2+SgKOVSUrLoFYsh3r9ZfYoPFFGNJxhXqfcQP36Hqj164DiElNbNZpNKaCwEPJff8azkC0vMMlwMYgW5S+/APn07zjXETdVuaMeIJYFRCJQP13GbdMYbi06HAyiRXnjTsh//xce3qaMW2XMWRuFYahtWyD/455hD/3KnDOI3g1iMci7f8KNNZYR5cb60CMv/B7q1ReHtRxF5JxBtO5YuRzqww2c7zBl68b6ZJJCyF/dA+zfN6yRLZHTD21ZUJs2ch+56QY0lsrTyMsDmpshf/n/h/WtiJx9YACIRqB++S+J01eNGevX1bKB4mKexL/q2WHRI7lLFDoJQfXEI1CfbOI6HJPvMDZI0S6X/wY4cijnpSi5SRQ6jU/Y1QD5+CNOvsOAw9gQXK2jhyEf+M0w1GrlUKTLB34FdHQ4bZYmamVsKK5WCdSrL0J98H7OXa3sAkRHrd59G+rtt4AiE7UylqYRoB74dVJCWfkcIFqIx2JQD98PBCxzk41lpEXURxuhXnsxhyySTQ3iHGSjXlkF9cnHPMfKCHNjmayn/BDUoyvYVSeRAz2SLQ2izwXs7IB84hFTpWvMnTUVyodq2An1wu9zdCBSthhEs8dLzwONO4FQviknMebOuioogHrmd3zkgsg2i2SDQZLYQz3zZGLcpDFjrrBICGrPbk4eZplFspMo1Ozxh1d4wHQoZNjDmOssIp9/hotds8giWZhqorrP2FbPPs395YY9jGWBRdDYAPXGq1lnEXcBYjvs8d67UFs/ZXFu2MNYNkCSl8di3bazOgjb3Vd23qh64VmeTGLMWDbF+qebObtOlLUEtHD1TRMBO7dDbVhn8h7GsmwMCrXq2cT/Z0GmuwcQx5VSr73E/cSWyZwbyyaL2EBBIdT7f+KJOEIA0m133q0wb3fDfRfUO28BIRPaNZYDCwSAY01Qb/3BWYdurzm3GMQBg3r/PajdjUAoaMS5sRywiALyggyQrJxa5RaDON2BavUf+E0bgW4sF6YkkJ/PB7tu2+J6yNedqSY6c97WCvXBeqfuyrCHsRyZEEBXJ/Du2z20sFv8kTlAtHu14X3g4AE+YNO4V8Zy6WYFg1Br1yTlRNwEiVvu1do1/h8Al+tBEmZwhTtuVjAfqmEH0LDDcbO8AhDtXkW6gE0bnapdn4JEqUQuJ1fgsO3M2ZYodw+vmuUUx65f56qbJQEEMl5URFDbt0Ht3wsEfVqYqCSHpomAzhz0zWtwFBUD0QgQi6W3AKUNxHPYwpyX502gOGkG9cE60NKrAOHOexSQLgAEAD5YzycE5Rf4b0I7EdAVAc2YBbpgAeTP/wkoLs5+oMG2Ib72TciVy/kwy6FsLkIA7W2gL8wHLVzinDkusrsASUDd90uozZuAAo/luZQCgiGorVv4OLfSMpdmr4kMAaJrrz76wL8zdkkwqKuqQQsuAZ5/BtiyOXulMsIC2lpA58wDnXc+6Pmn2X8eykgbImaOqrGgWbNztw6LS7w5dEOPB2o6ArXlU9AZc9kroEyrOTIJ82qEtrXyDQ76NHrlHPdG9dN5/d5wa3Y/h7SBggKI62/hv1NXz5M6hrrbEdg1kzLxnK1HPO7828PeARG/z80fOevTHScrM4AAUA07gaYj/j06TUoOTdfP4Ot8+lzQOfOAtlb368ksC2hrBX1pIQODCDRtZvquABGzeLYflsiuC+eaDglAbdncw7sZXgYBgG1bWH94/QKmEstlZaBJkxNfvv4W9/UUERCLAlXVEFddn7h+dXXsznlZu/lh39Nu1q5GZ+qJG1MYM2EQnf/Y9in78X40Z24XjatJCDvbBk2pA128yF0WEQJo74D48jVAeUW3vqHxE4HKKiAe824olfwDEHX0MLB3d89NPCOIZHLDlQQadgJ5fhXoDBBMqUvU8Tg9zuLK64Cqat71M124REBXF1A/HXTJ4kT+yGkfpUmT0w/1GgbpGXDp6mJNPKwA0X+4uRnq8EEgkOfr8hKaPrPnYpYSKK+A+PK1zjzhDBlSCCAahbjuZu6n1glJHSWbOo1drGwBRCdB030o/eyPgItq2OmOPM0UIOrgAaDVcUP8KtBD+bxAk9xGvbvTJZfx9zo701+8OmfxmTNA585LnNGYfF/rZ3D4N1vXMFMxbwWcZ483wem+pD27et7PtNkj3UShvpH793Im2I8hXh0WrKgA1UzseUG1eA+FIK6/BXLZXZwcS0dIKwUIC3TDbccLRyfjS5NrgXDYfRbRlQ4rlvP413SHaOjX2bHN29USTiQLhw44yVMrw4RhponC/ftyW7+UDYFeM4Gnzve+kM453XTOPNCpZ0B9sI5P5B1K8tCygJZm0PyLQSee1EdTj/P3xo4FVVVD7dnl7gLUC/vDDVCr3+DSlrRyGcRCJJTv/XC+ZUE1NbFnU1qW8ctlBBB18IB/K1KJOHJUV59wt/pyIYhAN30F6n9tGOLCcBiquATi2pv7/l2tQwJ5QO1UYMf27IxpLSjkg4vC4cyqA5TyNji0i9XeBnWsCeRCyUl6GkSHdQ8fysF81OyChKbNSK0fpATNmg06/8KhhX0tR3ssWgLUTOg+hq4/d5XqpzvlEVnYcHQWPNOMuh/usxCclzt6xBWZnh5AhONLH2ty/DwfgsPmqRjdDJJqYSrFEajiEucAFxqYnSIRYPwEiCVXdRf79fuzAFA3LXvuixbYmTx84ykQn5585HBPvZwzDaIpK9IF1b2j+lCgx2JA9VjQ+JrUABGCJ0aOnwBatATqoQeAsrLUgt1pAxVX3+CcyWj3zzykhfoU/tloxCmyc/GatrfzZqZrqtKxUL4/gjFOqBfHmlxhkPQ1SGdnYniwLwV6FDRxUqLJK1U1gMOYYslVsF99CWg6ymUNfS0WIYCODtDME0HzLxp42obG5ZhKUPU4jhSFXGJlDb5LF4NOOz29Ba7Pt3/nLaiPP/LNWS+q5ZgLBQBpRbEU39WuzkSW2Y8hXttO5D+kAqxB/HxxCcTVN0De/WNO+PXHItIG3Xgbi+8BZ8dSIiRZNxX49OP0Q8r9AeS88zNfcIcOAuvX8Xvzw/1ta++5AaXFH+mIdI2Fri5vl0cM5CYKAZo6fWh+vJSgL14EnDA7cQxY759pawPN/RzozLP6j4z1c01p2szsbDZSMuDSecSi/ByN+uNeawnQ0YFMEZLR8Qeqqyu75RFZFegSCBeB6qYmXKhB7cZcECduuNX57L0XItdWiRtvS2unx9R6zoO47cJkItKF30S6cz27OjMGCDIBSHeTjh/1RzwKVI8FqscN7SIKJ3l45lmgz34ucQwY4PR6tDDD1E8f2qQ/7QpNmMTJLTvuvQVJfrvHMVfed/oAsW3eUf3GIDqDPqmWw6ppVgKIm76SEL06KlYxBuKaG52vDXH1KQWUlQPja/zrunoJzS5ouMyOYJO2P/MfTvaa6qclfNahuitSAlOngeZfDLS2cEdiezvE5Vdyb8dAUbG+dmfdH1JbB8TiBiBuaJGMY1iZTjXx64WzAoAGCKUJMqUgrr4R9uo3GSS1daDLlqZOCg7mpaefwPuOm5tPJllwXbvlt5nLw96TLkR3DZvvqLe4GJhU63xJDH0XImKWqKwCLbkSOHwI4rpbEpNQ+tv9Uy3S7ox6vVN166K+y0Sk5wX5ORj018xlV2ZjZcIglgXfIUQQ0BUFJk0BVVb1XJipFm2f33M6D7+0EHL3Ls416GK5tF7PEeo1E4CKCk5GZtqIpqt5Vz3rTJ5Jo1LYcRfVpg99kyTkw2Td6F3JpNw9L8+HWXRHoNfWJbREf5+hs5PxH8rve3Hr/y8pgfir7w3OH+7s4MBAMNSv24ZwEahmIldKZzoIXAPktZehVr/ulLuP8FIT/bnzAkm+VnpsIjNikFC+/zoJe83A6vO9O6BRmzdBrX8P4tavZd7z4iQm5f2/Ai28HDSlru8ybJ1YrKsH/vSue0I9HOYIWbgofYD4pZpXX2+9saWPjzSPP9BNd/n5/puFpWdgparg1Z/n6GGox1cChw5mdjCLBtyWT6CeehxoaR5Qj9C0Ge5Oiskkk64fvrnPDhMXhl1R6wLpIiS/oGcewPPXzRHopWWgiVMG1ARqz27gWBPkfz3kyudTK5dzeU7jzv4Bklz6XljovznHHvISEA67Es1Kf5sqKGQW8Us2XVfwjq9hd6M/YOvox87tQGkZ1KureDie1ixDMadQUa19B+qPa4CiIq7WHUiojxvv/VlZXr/dJaUuxLCQvouF/HwgXOwzgMS5gjcpMXe8qBVALMr94aEgEIlAPvxAWoEUZq041IoHE9NBdjsTN/oKDmhXLhQCTZxsMuqZ3OuychdiWDJNF0vvvmXl/ipYJCQEer+rGlCHDnHLJgmgMAy1ZjWfxy3E4IceKIc9Xn0JatNGLhMXAurAfq7h6q9NQLfgTq33bzHocAt0YQEVY3pu6GnL9LTehLP7VlbygvHDTdQzsFIKdOd5726goz2R0xAE9fADjiagwd0k4lOP5KMPM9vaduJc74MHBhTqqJ/u3qwsN1puLcsfYX3NwGMq4QJC0p2L5fzp6rFQfohu6BlY5eWciBsogtW4M3EkgW0zi2zcAPXGq6AvzE80OKW6SZYF+cyTPJpVt+gKwe2ve3YxUPvsSHR0SO1UHkfkBou40XILcOKyoMC7Ea2k+9XtYtFwAETb2JrujLIvBHrNRE6W9SfQnS+pxp09v+/sSvKRh2CdfW5iNE9fr6GTj0ePQP334z1H7TgaQ+3YBjr3/NQir3ocb0CNDdy9mM411qL/4kXAyaeABko89lcYoY84274V6q3XvT08Lh4HlZUDJSVu0FGaANELY9x4nzTyOwyiOwj76/TTLsTuXT1zPEqxm7RjK9RzT4OWXj3gIAb52ArgyCGnv8PusdCgZ8f2CVJKvL/JtcD2relPRNQAmXeBO3WGa1ZDvfIin+eobG/eZzvOQ8f1iWcZMUi6GkRf+OqxvCN7XUw6ESWaPiO1bgABLc0spHvXQUkJFIYhn3wUOHas73lgOim4qwFq1bOJa5P8N/ICUPv2MGD7mynWLdSnuTO5MtNEYdRpu+3s8PZ9JuJu0QkTE587QwZJEyDOc3kFqLJycLOihlW4OX7plLoB9Yfat5cPguxdJaD4wHocOAD5xCMph1WoFcudqfDW8X8jkMczm1INNtPvr96lWVluiXQS8HRxqrPH0eRal14w7XL3pLM0Jk3hhJYg7+4q8ThoTCUflDOQQN/V6Mym6uPSOEc3q+efhtq7u2cJimaPTRuh3ny9/zm4go9hU/v29B/J0u9vcq0zVysOY4OMrgZDqTfCIfEHMj+CjepneDtZqI8+mzAp4cunKjFp3JG6ZTbgLPCVDx7/OkrxYDkl+/994bTnNjYMCBAaU8WgjnpkA/JyNL87UlnB885cAEhGU026//i06VwA6FWQHDcDS/a/cAFgV0PqKmXNIn94hY8UEMJhUMHD1d5fCxQOUDVLBLVz+8BuIRFQW+cMIPBADkJ5GCXJwwBTRSrTAElGAKEpdUB5eXpHGefkpjozsOqn8+KWfQnROHfLRSKsQQZqVHJ2K/XQ/Y7fK4BYDHLlcv7dVH66UqwrdjUkQNSXMI7zM9XW989omZ4clc5JUx5nEJo20yWB7gZAlOLq2ElT3DnLLxs+gW0DJaWgOaf0bCHt8Qjwc0c7T6wfSBhLnqul3nsXas1bnCN44ffAp5s5kZbq5jhCXR3Ynwj79vUIOu/z1NMSx7b1fp1gkBlMN69l66FfP7/A44fnWMCs2a6+bGaJQideTyfOgXrvj96c5WRziYl683Ve+H120BAQsPhsu2h08LkdIaAeXwGaOYvDv4OpbtY3sq0V6rEVQGW1MyFGHf9zRHzkQn6Bw9BOFEkfeby7EeqP7wxivGmmUUBnPu/HH3q0B8jRH6XloBkzE5G7zD84SGVSK6IjNx+sh/yb7zg7jPTm7tLR3r/no/FiWTx4YSiXhAg0YRJn34faYdnRkbheKoWo727+6e1zx5i5c2VWIP2sfjZNCKCjHXTq6RDLfuaG/tC76N7MGETrkGnTeVLhkcP9Tz0fbv+0uHRgfal9+iGCj8/uS6OioKho4BvZ33vSLBIM5naj8aKLpfXHyaf1YDw3GCRzgDgZZjphNtRrLzp1Oh4sQ5BZfE/plttkKiS9fiRazu4tu9F06uk9Nm43JLpwZVcBeJp5Bg3yvjazSIeXPaIR0KTJiWGALuWMMksUJvt/AB/QMqaS/WKYJh9jOdQfkQjo9LmJ81hcWn/CFYBoN6usHHTSyTyYQBiAGMuhexUMAZ89x2X3KgES11wM+tznE1Wxxozlwr2KREBT6kAzZ3kYINrNOmMuTw2JRUwvtbHcuFfRCOicz3N+xuW2C+kaQMg5Zy9cBMw9G+js8ufhnsb8ZbYNFJWAzvtClthDulkB5+RELljQd2mEMWNus0dnB+jkU4CJkzjh6vqmLFwEiNMdRzNOAM2e498joo35xxRACy51/KFshNqlyzXUTnsofelSp8nH6BBj2RLnXaCp9RzeVcjSZixcBohmkbPO5TL4SJcR68ay415FInwEXjCYxdlsbjOIzonk54MuWsgAMW6WMbfXWDQKjKsBXfilBGCyg8QstKlpFvniRU67aNSwiDF311dHB8T8i7lfP8uTPUVWEC4lUFzCA8s6OwyLGHNvbcViQHU16NLFGR+YOjwASWaRSy7j4XKGRYy5xh7tEBctAsor3JkZllKBZAsgmkVKSiEWX2FYxJh72mPseNCiJd2zBrLLHjKLozI0i1x8GUe0ukxEy5gL2mPpVTzONcvskT2Rnox4JYGCAtC1N/EwNsMixtJaSwLo6gTVT2ddm5WseS41SPerW4CUoPO/yN1e7W0GJMbSFud0022pJ+v7DiBJH1Dcekdi4rYxY4M1ZwIMnX0e6OzznEEhVo7+uMwBQPSxZTNnQSy8HGhtcamh3tioYI54HAiHIb7yZ8MhfHLFIAJQEnTdLTzsuqsr6/FrYyNBmFtAWxvENTfybGVp59hFl7lzsaAAFBVBfO2bzumt5v4bG8DzaG8DnXwqaMmVTtQq15uqyOFEZCF41uzcs0ELFwMtzcbVMtb/huoceyf+/K9Yu+qv55Q/cj0yXAhASohb7uChzKZnxFh/66S1BeKmr/Jhp7Y9LOtE5BwgegcIh0F/eaezU5ghD8aSzLKAlhbQueeDLr9i4BOFcwCS3O8Otg2adRLELbcDrc2AZVjEGLr7PDBuPMS3vpsoRhzG/VMM24WwbdDSq7mHvdnoEaM7wN6ElBDf+T4XI+YwIegNDZLsajm1WuJb3+XDbTrah5VKjQ03e1hAazPE7d8AnXzqsOmOnuwhh/FcL30AT7gI4n/fxSODYlGTHxmVuiMAHGsCLVoKuuzLqc+gzzFEhhmi7Gphci3Enf+HBz0oaap+Rxs4WppBZ54F8fVvJ05P9oRJD5wMaVmsR874LMe829sMQEYNOCxOBk6th/jeXTwdkchD919AeOZC2TbookUQN98ONB8zon00gKOzE6ishLhrGVBSmqMej6Hwh4Tw1AWzbdC1N4GuvA441mRAMmIFueB6vKIiWD/4ETCuZhjqrAbHH8JzF05KiNv/HLRoKdBkQDIiwRGLchnJXcv4/Hrb9mwE01sA0f6nlBz+XXi5YZIRBQ6L+8oDQYi7/hE06yQPRaz8AJBkkCgJ8e07OexnQDIyNEekC8jPh/j7f+Jz6z0ODulJgGiQgOu0xDe/A7rqBgaJECbC5VdwdLQDpaWw/t9Pebi5x8HB7CHh3awckVN+ICG++nWIr3wdaGvNybgXYy5aIAC0tgI1E2H96BfA9Jm+AIeGCCnl9SZxxTU6QkC9+Bzkv/2c2SUUcg5sNOZp5mg+Bjr5NIjv/x1QMWbYq3MHv+hAAPb6ACCOObuOev9PkP+8jHMl4bABiWddZHCGfP7FEH9xZ+JQJX+wvw8BkgQS7N4F+ZMfQn2yKTFEzExL8Q5rRKNALApxw62ga292FK/0k2vsAET6DCDJIOnshLz3F1AvPseFjpZljn0bdnAEWCeWlXGYXo/p8VT5yEhmEG1Ju5H6/ZOQ//kfvGsVhp2TrYzlVsty6wJamkGnnQHx7TuBmok+EuMjiUG6P4LqjmipTzdD3fNzqM2bgJKSRNO/sdy4VJ2dLD2+fA3Ejbc5bG77ub/H5wzSl8sViUD+9j6op57gz1dQyDfJSJPsskZrC1BXD3HHt0CnneFHvdEvQOSIAEhvl2v9Oqjf/BvUlk+AcHFiNzPmjulu0I52QAjQpZdD3HAbRxT9zRojlEH6cLkQ6YJ6dAXkU48D7e1AUVECSMYyc6eiUT6f/MQ5oNvuAM05daSwxggHSB9sgp3b2e16ZzV/rbDQhITTBYZtA21tQFUVxBXXghYu4Sy5P6NUoxgg3WySmAKu1qyGeuS3UJs/AoIhID/fAGVQOsMClA20tQPhQtD8SyCuvBYYUzUSWWMUAaT7Y0r+nESAHYd6eRXUfz8GtWMbn6+dX8AgMa7X8RrDtllnhPJB58wDXXENqK7eAYY90ifQjIAwb7puV6QL6uUXoJ59Cmr7NnYTCgqMRtHAiMX4TMmCMOjscyAuvwKYMStxfUaeOzWKGSQVUKIRqDdeg3r+GS5ZsW0ODWu/ejRcluTFHolwv0ZFJehz54EuXQyaOm20AWOUMkgKfQIAat1aqFXPQr3/Jy6CDIa4uM5pAR5xYNF9NfEYJ/lIgKbUguZdCLpgPlA9riejjr72glHKIMcBpVdvyd7dkG+8Bqx+A2rndg5phkKsV3RizI9umN799YlNkS4gbgPlFXz+xhfmgz5zJn/WbsbAaB7iN8IShW64Xsk7pW0DmzZCvf0m5Lq1wN7dDJa8IC8iy+JLqDzKLsmAUIp1RSTC77ekDDRjJp/5d+ZnE2yhxTeZrk3DIKlYRcqeBXaRCGuUdWuhNqyDamwE2lv5e3lBIJjH7ppejPpy5uqyJoNBgz0e58kh8TiQlweMqQTNnAX6zFzQKacB4yccvzmMLo1hAOIOq6he4UwFNDZCbf4IatNGYOunUPv3cbZehz7zAlz2bVk9F10q4Kikf/S1SLu/RomjADSY7TgDIR7n1wkGgbJy0ORa0AknArPngKbN4MFsvTcC0+NvAOKaVlHq+NJt2wb27YVq2A5s3wbVsANq3x7gyBEeoRqLJXIxQiQeOqSqF2fvRZr8N/Vi1g/9epbFCc/SUlDVWGDiZFDtVGBqPWjSFG4k6w14rbkMKIwGyd6lk9wjrxd5b7PjQNNRqEMHgQMHgEMHoA4f4qksLc0MnK4uKKfrDrZe9MlRJgsIWEAwBAqFOPxcVAyUloEqxgBVVUDVWFD1OP53uKh/d7G3C2ZsCAwiDUDcYRjpXFIaOCQqJTNLLMrP8XjPsnzhsEMgj92lvDz+92BcQn3gjAGEcbF845Y50qG75CXdhXvca5IR1zlgkIC5FlmMLKVa7JlEqozlyAQMQIYLQMZ8YF6erGjMmAcYxADEmLGUEDFmzJgBiDFjQ1cgBiDGjKVgDyPSjRkzIt2YMaNBjBkzADFmLLcy3QDEmDGjQYwZMwxizJjrDPI/Cqo7X+m4K/EAAAAASUVORK5CYII=" alt="ME">
   <span class="tn-title" id="nav-title">Facturas</span>
-  <button class="tn-btn-outline" id="btn-secondary" style="display:none" onclick="navSecondary()"></button>
+  <button class="tn-btn-outline" id="btn-secondary" style="display:none" onclick="markPaid()"></button>
   <button class="tn-btn" id="btn-primary" onclick="navPrimary()">+ Nueva factura</button>
 </div>
 
@@ -164,13 +114,9 @@ html,body{height:100%;font-family:'Montserrat',sans-serif;background:#f4f6f9;col
 
 <div id="main">
 
-  <!-- ── FACTURAS VIEW ── -->
   <div id="view-facturas">
     <div class="toolbar">
-      <div class="search-wrap">
-        <span class="search-ico">🔍</span>
-        <input type="text" id="inv-search" placeholder="Buscar por número, cliente o importe..." oninput="renderInvoices()">
-      </div>
+      <div class="search-wrap"><span class="search-ico">🔍</span><input type="text" id="inv-search" placeholder="Buscar por número, cliente o importe..." oninput="renderInvoices()"></div>
       <select class="filter-select" id="inv-filter" onchange="renderInvoices()">
         <option value="">Todos los estados</option>
         <option value="borrador">Borrador</option>
@@ -181,68 +127,44 @@ html,body{height:100%;font-family:'Montserrat',sans-serif;background:#f4f6f9;col
     <div class="inv-list" id="inv-list"></div>
   </div>
 
-  <!-- ── CLIENTES VIEW ── -->
   <div id="view-clientes" style="display:none">
     <div class="toolbar">
-      <div class="search-wrap">
-        <span class="search-ico">🔍</span>
-        <input type="text" id="cli-search" placeholder="Buscar cliente..." oninput="renderClients()">
-      </div>
+      <div class="search-wrap"><span class="search-ico">🔍</span><input type="text" id="cli-search" placeholder="Buscar cliente..." oninput="renderClients()"></div>
     </div>
     <div class="cli-list" id="cli-list"></div>
   </div>
 
-  <!-- ── NUEVA/EDITAR FACTURA VIEW ── -->
   <div id="view-invoice" style="display:none">
-
     <div class="form-section">
       <div class="form-section-title">Tipo de factura</div>
       <div class="type-btns">
         <div class="type-btn active" id="type-servicio" onclick="setType('servicio')">
-          <div class="tb-icon">📷</div>
-          <div class="tb-label">Servicio</div>
-          <div class="tb-sub">Con IVA</div>
+          <div class="tb-icon">📷</div><div class="tb-label">Servicio</div><div class="tb-sub">Con IVA</div>
         </div>
         <div class="type-btn" id="type-formacion" onclick="setType('formacion')">
-          <div class="tb-icon">🎓</div>
-          <div class="tb-label">Formación</div>
-          <div class="tb-sub">Exenta de IVA</div>
+          <div class="tb-icon">🎓</div><div class="tb-label">Formación</div><div class="tb-sub">Exenta de IVA</div>
         </div>
       </div>
     </div>
 
     <div class="form-section">
-      <div class="form-section-title">Datos de la factura</div>
+      <div class="form-section-title">Datos</div>
       <div class="grid">
-        <div class="field">
-          <label>Número de factura</label>
-          <input type="text" id="f-num" placeholder="FAC-2026-001" readonly style="background:#f0f4ff;color:#3182ce;font-weight:700">
+        <div class="field"><label>Número</label><input type="text" id="f-num" readonly style="background:#f0f4ff;color:#3182ce;font-weight:700"></div>
+        <div class="field"><label>Estado</label>
+          <select id="f-estado"><option value="borrador">Borrador</option><option value="pendiente" selected>Pendiente</option><option value="pagado">Pagado ✓</option></select>
         </div>
-        <div class="field">
-          <label>Estado</label>
-          <select id="f-estado">
-            <option value="borrador">Borrador</option>
-            <option value="pendiente" selected>Pendiente</option>
-            <option value="pagado">Pagado ✓</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Fecha</label>
-          <input type="date" id="f-fecha">
-        </div>
-        <div class="field">
-          <label>Vencimiento</label>
-          <input type="date" id="f-venc">
-        </div>
+        <div class="field"><label>Fecha</label><input type="date" id="f-fecha"></div>
+        <div class="field"><label>Vencimiento</label><input type="date" id="f-venc"></div>
       </div>
     </div>
 
     <div class="form-section">
       <div class="form-section-title">Cliente</div>
-      <div class="field autocomplete-wrap">
+      <div class="field ac-wrap">
         <label>Buscar o crear cliente</label>
-        <input type="text" id="f-cli-search" placeholder="Nombre o NIF..." autocomplete="off" oninput="searchClients()" onfocus="searchClients()">
-        <div class="autocomplete-list" id="cli-ac"></div>
+        <input type="text" id="f-cli-search" placeholder="Nombre o NIF..." autocomplete="off">
+        <div class="ac-list" id="cli-ac"></div>
       </div>
       <div id="cli-selected" style="display:none;margin-top:12px">
         <div style="background:#f8fafc;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px">
@@ -250,147 +172,110 @@ html,body{height:100%;font-family:'Montserrat',sans-serif;background:#f4f6f9;col
             <div style="font-weight:700;font-size:14px" id="cs-nombre"></div>
             <div style="font-size:12px;color:#718096;margin-top:2px" id="cs-datos"></div>
           </div>
-          <button onclick="clearClient()" style="background:none;border:none;color:#a0aec0;cursor:pointer;font-size:18px">✕</button>
+          <button onclick="document.getElementById('cli-selected').style.display='none';_selectedClient=null;" style="background:none;border:none;color:#a0aec0;cursor:pointer;font-size:18px">✕</button>
         </div>
       </div>
     </div>
 
     <div class="form-section">
       <div class="form-section-title">Conceptos</div>
-      <table class="lines-table" id="lines-table">
-        <thead>
-          <tr>
-            <th style="width:40%">Descripción</th>
-            <th style="width:10%" class="r">Cant.</th>
-            <th style="width:12%">Unidad</th>
-            <th style="width:15%" class="r">Precio</th>
-            <th style="width:10%" class="r">IVA%</th>
-            <th style="width:13%" class="r">Total</th>
-            <th style="width:5%"></th>
-          </tr>
-        </thead>
+      <table class="lines-table">
+        <thead><tr>
+          <th style="width:40%">Descripción</th>
+          <th class="r" style="width:9%">Cant.</th>
+          <th style="width:12%">Unidad</th>
+          <th class="r" style="width:14%">Precio</th>
+          <th class="r" style="width:9%">IVA%</th>
+          <th class="r" style="width:13%">Total</th>
+          <th style="width:5%"></th>
+        </tr></thead>
         <tbody id="lines-body"></tbody>
       </table>
-      <button class="add-line" onclick="addLine()">+ Añadir línea</button>
-
-      <div class="totals-box" id="totals-box" style="margin-top:16px">
+      <button class="add-line-btn" onclick="addLine()">+ Añadir línea</button>
+      <div class="totals-box" style="margin-top:16px">
         <div class="tot-row"><span>Subtotal</span><span id="t-sub">0,00 €</span></div>
-        <div class="tot-row" id="t-iva-row"><span id="t-iva-label">IVA 21%</span><span id="t-iva">0,00 €</span></div>
+        <div class="tot-row" id="t-iva-row" style="display:flex"><span id="t-iva-label">IVA 21%</span><span id="t-iva">0,00 €</span></div>
         <div class="tot-row" id="t-irpf-row" style="display:none"><span id="t-irpf-label">IRPF 15%</span><span id="t-irpf" style="color:#e03e35"></span></div>
-        <div class="tot-row total"><span>Total</span><span id="t-total">0,00 €</span></div>
+        <div class="tot-final"><span>Total</span><span id="t-total">0,00 €</span></div>
       </div>
-
-      <div style="margin-top:12px" id="exencion-box" style="display:none">
-        <div style="font-size:11px;color:#718096;background:#f0fdf4;border-radius:8px;padding:10px 14px;border-left:3px solid #22c55e;line-height:1.5" id="exencion-text"></div>
+      <div id="exencion-box" style="display:none;margin-top:12px">
+        <div style="font-size:11px;color:#555;background:#f0fdf4;border-radius:8px;padding:10px 14px;border-left:3px solid #22c55e;line-height:1.5" id="exencion-text"></div>
       </div>
     </div>
 
     <div class="form-section">
-      <div class="form-section-title">Notas y condiciones</div>
+      <div class="form-section-title">Notas</div>
       <div class="grid">
-        <div class="field full">
-          <label>Notas (opcional)</label>
-          <textarea id="f-notas" placeholder="Observaciones para el cliente..."></textarea>
-        </div>
-        <div class="field full">
-          <label>Condiciones de pago</label>
-          <textarea id="f-condpago"></textarea>
-        </div>
+        <div class="field full"><label>Notas (opcional)</label><textarea id="f-notas" placeholder="Observaciones..."></textarea></div>
+        <div class="field full"><label>Condiciones de pago</label><textarea id="f-condpago"></textarea></div>
       </div>
     </div>
 
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px">
       <button class="tn-btn-outline" style="flex:1" onclick="saveInvoice('borrador')">Guardar borrador</button>
       <button class="tn-btn-outline" style="flex:1" onclick="downloadPDF()">⬇ Descargar PDF</button>
       <button class="tn-btn" style="flex:1" onclick="saveInvoice('pendiente')">Guardar</button>
     </div>
-
   </div>
 
-  <!-- ── CLIENTE FORM VIEW ── -->
   <div id="view-client-form" style="display:none">
     <div class="form-section">
       <div class="form-section-title" id="cform-title">Nuevo cliente</div>
       <div class="grid">
-        <div class="field full">
-          <label>Nombre / Razón social *</label>
-          <input type="text" id="c-nombre" placeholder="Nombre completo o empresa">
-        </div>
-        <div class="field">
-          <label>NIF / CIF</label>
-          <input type="text" id="c-nif" placeholder="12345678A">
-        </div>
-        <div class="field">
-          <label>Email</label>
-          <input type="email" id="c-email" placeholder="email@ejemplo.com">
-        </div>
-        <div class="field">
-          <label>Teléfono</label>
-          <input type="text" id="c-tel" placeholder="+34 600 000 000">
-        </div>
-        <div class="field full">
-          <label>Dirección</label>
-          <input type="text" id="c-dir" placeholder="Calle, número, piso...">
-        </div>
-        <div class="field">
-          <label>Código Postal</label>
-          <input type="text" id="c-cp" placeholder="11001">
-        </div>
-        <div class="field">
-          <label>Ciudad</label>
-          <input type="text" id="c-ciudad" placeholder="Cádiz">
-        </div>
-        <div class="field">
-          <label>País</label>
-          <input type="text" id="c-pais" placeholder="España" value="España">
-        </div>
+        <div class="field full"><label>Nombre / Razón social *</label><input type="text" id="c-nombre" placeholder="Nombre o empresa"></div>
+        <div class="field"><label>NIF / CIF</label><input type="text" id="c-nif" placeholder="12345678A"></div>
+        <div class="field"><label>Email</label><input type="email" id="c-email"></div>
+        <div class="field"><label>Teléfono</label><input type="text" id="c-tel"></div>
+        <div class="field full"><label>Dirección</label><input type="text" id="c-dir"></div>
+        <div class="field"><label>Código Postal</label><input type="text" id="c-cp"></div>
+        <div class="field"><label>Ciudad</label><input type="text" id="c-ciudad"></div>
+        <div class="field"><label>País</label><input type="text" id="c-pais" value="España"></div>
       </div>
     </div>
-    <div style="display:flex;gap:10px">
-      <button class="tn-btn-outline" style="flex:1" onclick="showTab('clientes')">Cancelar</button>
+    <div style="display:flex;gap:10px;margin-bottom:40px">
+      <button class="tn-btn-outline" style="flex:1" onclick="showTab(_currentTab)">Cancelar</button>
       <button class="tn-btn" style="flex:1" onclick="saveClient()">Guardar cliente</button>
     </div>
   </div>
 
 </div>
 
-<!-- MODAL confirm pagado -->
 <div class="modal-ov" id="modal-pagado">
   <div class="modal-box">
     <h3>¿Marcar como pagada?</h3>
-    <p style="font-size:14px;color:#718096;line-height:1.5">Esta acción marcará la factura como <strong>Pagado</strong>. Podrás seguir editándola si necesitas hacer cambios.</p>
+    <p>La factura quedará marcada como <strong>Pagada</strong>. Podrás seguir editándola si necesitas.</p>
     <div class="modal-ftr">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-ok" onclick="confirmPagado()">✓ Marcar como pagada</button>
+      <button class="btn-ok" onclick="confirmPagado()">✓ Confirmar pago</button>
     </div>
   </div>
 </div>
 
 <div id="toast"></div>
 
-<!-- PRINT AREA -->
-<div id="print-area"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+
 const SUPA_URL='https://ngpggumhsdqqlintrvlh.supabase.co';
 const SUPA_KEY='sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-';
 let _db=null;
 function getDB(){if(!_db&&typeof supabase!=='undefined')_db=supabase.createClient(SUPA_URL,SUPA_KEY);return _db;}
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
-var _clients = [{"num": "", "nombre": "PROINROS S.L.", "direccion": "Av. Del Mar 56 11160 Barbate", "tel": "", "email": "proinros@gmail.com", "pais": "", "cod_pais": "ES", "nif": "B11221355", "tipo": "Empresa privada"}, {"num": "", "nombre": "CANOFOTOSPORT S.L.", "direccion": "Calle Jacinto González, 24 28600 Navalcarnero", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B87446936", "tipo": ""}, {"num": "", "nombre": "REYES   DE  LA  LASTRA  BALLESTEROS", "direccion": "Calle Mesón 16, 1Izq. 11006 Cádiz Cádiz", "tel": "", "email": "reyesdelalastra@gmail.com", "pais": "", "cod_pais": "ES", "nif": "28538663X", "tipo": "Particular"}, {"num": "", "nombre": "Proyectos Alimentarios Profood S.L.U.", "direccion": "Calle Plocia N9 11006 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B06547921", "tipo": "Empresa privada"}, {"num": "", "nombre": "PINALETA S.L.", "direccion": "Edificio Parque Retortillo portal 1, planta 1, puerta 3  1130  Chiclana de la Frontera  Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11313244", "tipo": "Empresa privada"}, {"num": "", "nombre": "Campomar", "direccion": "Edificio Atlántida, Playa de La Barrosa 11130 Chiclana, Cá 11130 Chiclana de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72192792", "tipo": "Empresa privada"}, {"num": "", "nombre": "Cristina Bernal Álvarez", "direccion": "Urbanización las palomas, 14  11130 Chiclana Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "71025597x", "tipo": "Empresa privada"}, {"num": "", "nombre": "MONTESIERRA S.A.", "direccion": "Avenida Nazaret s/n 11406 Jerez", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "A11604998", "tipo": "Empresa privada"}, {"num": "", "nombre": "Jesús Murciano Arizti", "direccion": "Mar de Noruega 42 11500 El Pto. de Sta. maría", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "34003037P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Emilio Ravina Beltrami", "direccion": "Calle Nueva, 9  11005  Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44043982V", "tipo": "Empresa privada"}, {"num": "", "nombre": "Manuel Rodríguez Normand", "direccion": "Avenida de España 4 11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "28727484R", "tipo": "Empresa privada"}, {"num": "", "nombre": "RC PROMOCIONES VM25 S.L.", "direccion": "Avenida del Mar, 116 11160 Barbate", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67650994", "tipo": "Empresa privada"}, {"num": "", "nombre": "Alessandro Termenini", "direccion": "Calle Plocia nº11 3ºA   11006 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Y1302373N", "tipo": "Particular"}, {"num": "", "nombre": "Óscar Garcia Sánchez", "direccion": "Calle Darro, 10    11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "74927227N", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carmen Román Benítez", "direccion": "Avenida de Ana de Viya 7 Edificio Proseroina 202 11009 Cádiz", "tel": "", "email": "romanbenitez.carmina@gmail.com", "pais": "", "cod_pais": "ES", "nif": "31249274W", "tipo": "Particular"}, {"num": "", "nombre": "ITAPUAN S.L", "direccion": "C/ALGECIRAS 1  11011 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11398385", "tipo": "Empresa privada"}, {"num": "", "nombre": "Consorcio de la Zona Franca de Cádiz", "direccion": "Calle Ronda de Vigilancia S/N 11011 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1176004H", "tipo": "Gobierno"}, {"num": "", "nombre": "Evaristo Jiménez Reyes", "direccion": "Barriada Blas Infante 13 Bajo Derecha  11160 Barbate Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44056521K", "tipo": "Empresa privada"}, {"num": "", "nombre": "Mundo Campeador,SL", "direccion": "Calle Coslada 5 28028 Madrid", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B47774146", "tipo": "Empresa privada"}, {"num": "", "nombre": "JEFATURA DE INTENDENCIA Y ASUNTOS ECONÓMICOS SUR (JIAE SUR)", "direccion": "AVDA. DE LA BORBOLLA 27-29 UNIDAD DE GASTO: CENTRO DE FORMACIÓN DE TROPA Nº 2 (CEFOT 2)  41013  Sevilla", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "S4130025B", "tipo": "Empresa privada"}, {"num": "", "nombre": "Marta Pachón Cla", "direccion": "Calle Atlanta 6 11405 Jerez de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "32084918X", "tipo": "Particular"}, {"num": "", "nombre": "Ausias José Lobatón Ortega - Architekt", "direccion": "Weidenweg 7 10249 Berlin DE", "tel": "", "email": "ausiaslo@hotmail.com", "pais": "", "cod_pais": "DE", "nif": "DE276600989", "tipo": "Empresa privada"}, {"num": "", "nombre": "CARLOS  RASCO GARCIA", "direccion": "C/ Condesa Villafuente Bermeja, 5 2ºA  11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44067806J", "tipo": "Particular"}, {"num": "", "nombre": "Balneario Sunset S.L.", "direccion": "Urbn. Residencial Azucena 78 Calle Cardenal Marcelo Spinola 48, 7B 28060 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B56877202", "tipo": "Empresa privada"}, {"num": "", "nombre": "Milenium Arquitectura S.L.", "direccion": "Calle Castaño, 5 ARQ. Urb. Casablanca 29639 Benalmádena, Málaga", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B29876661", "tipo": "Empresa privada"}, {"num": "", "nombre": "Victoria Manzorro Pérez", "direccion": "Calle Lepanto 9 11140 Conil de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44058486P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Construcciones Periñan Green Home, S.L.", "direccion": "Calle Laurel, 1 bloque 1 1ºD  11130  Chiclana de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B09846361", "tipo": "Empresa privada"}, {"num": "", "nombre": "Arantxa Martínez Rodríguez", "direccion": "Calle de la Angelita 5, Blq 2, 4ºB 11500 El Puerto de Santa María", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75785779C", "tipo": "Empresa privada"}, {"num": "", "nombre": "Jesús Ramos García", "direccion": "Calle Dame de Noche 18 11500 Chiclana de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "77175624K", "tipo": "Particular"}, {"num": "", "nombre": "Automatic Media S.L.", "direccion": "Avinguda Cornellà 142, 8 08950 Esplugues de Llobregat Barcelona", "tel": "934 002727", "email": "abaena@automaticmedia.tv", "pais": "", "cod_pais": "ES", "nif": "ESB05402128", "tipo": "Empresa privada"}, {"num": "", "nombre": "Marta Centeno interiorismo S.L.", "direccion": "Calle Albareda, 4 Vivienda 2 11500 El Puerto de santa María", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B70701040", "tipo": "Empresa privada"}, {"num": "", "nombre": "Vivium Andalucía Oeste Realty SL", "direccion": "Plaza Nueva 3,  41001  Sevilla", "tel": "954 21 61 00", "email": "seville@spain-sothebysrealty.com", "pais": "", "cod_pais": "ES", "nif": "B90201070", "tipo": "Empresa privada"}, {"num": "", "nombre": "Partido Popular de Cádiz", "direccion": "Calle Cánovas del castillo 11 11001 Cádiz", "tel": "", "email": "gerencia.cadiz@pp.es", "pais": "", "cod_pais": "ES", "nif": "G28570927", "tipo": "Empresa privada"}, {"num": "", "nombre": "Julia Armario Lorenzo", "direccion": "Calle Hijuela del membrillar 1, Nave 4 11405 Jerez de la Frontera", "tel": "673 395 845", "email": "", "pais": "", "cod_pais": "ES", "nif": "32907358Q", "tipo": "Empresa privada"}, {"num": "", "nombre": "Ismael Virués Mera", "direccion": "Calle Los Olivos 3 11150 Vejer de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44059429P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Housfy Real Estate SL", "direccion": "Calle Tánger 35  08018\t Barcelona", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B66991274", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carlos Gil Roig FACTORÍA 9", "direccion": "Calle Rosas 22 50009 Zaragoza", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "17715313T", "tipo": "Empresa privada"}, {"num": "", "nombre": "Excmo. Colegio Oficial de Médicos de Cádiz", "direccion": "Glorieta Zona Franca s/n 4", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": "Empresa privada"}, {"num": "", "nombre": "Propulsa innovacion SL", "direccion": "Licenciado Poza 25, Bilbao (Bizkaia) 4d  Bilbao (Bizkaia)", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B75548958", "tipo": "Empresa privada"}, {"num": "", "nombre": "Todocasa Jerez S.L.", "direccion": "Calle Lealas n13 Jerez 11404", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11750650", "tipo": "Empresa privada"}, {"num": "", "nombre": "Orba Arquitectura y Rehabilitación", "direccion": "Calle Francisco García de Sola 2 Local 6 11007 Cádiz", "tel": "633 487 380", "email": "", "pais": "", "cod_pais": "ES", "nif": "B21974480", "tipo": "Empresa privada"}, {"num": "", "nombre": "Francisco Jesús Cuevas Pérez", "direccion": "Calle Bambú 4 11540 Sanlucar de Barrameda Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "49038380B", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carlos Rasco García", "direccion": "Calle Condesa Villafuente Bermeja, 5 2ºA 11008 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44067806J", "tipo": "Empresa privada"}, {"num": "", "nombre": "Olga Tey Linares", "direccion": "Calle San Pedro 12 11004 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44036832C", "tipo": "Empresa privada"}, {"num": "", "nombre": "Francisco Miguel Lobato Piñero", "direccion": "Calle Empedrador 25, BJO 11130 Chiclana de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "49078235F", "tipo": "Empresa privada"}, {"num": "", "nombre": "BRABURA GRILLS, S.L.", "direccion": "P.I. LOS VARALES. ACERO Nº 12 06220  VILLAFRANCA DE LOS BARROS Badajoz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67691535", "tipo": "Empresa privada"}, {"num": "", "nombre": "Rodriguez Normand S.L.", "direccion": "Calle ING. Juan  Romero Carrasco, 7 5ºB 11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": "Empresa privada"}, {"num": "", "nombre": "ASOC. LA RATONERA GADITANA", "direccion": "Calle Hospital de Mujeres 33 3º cádiz 11006", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "G75685461", "tipo": "Empresa privada"}, {"num": "", "nombre": "Alantel Soluciones Integrales S.L.", "direccion": "Condado de treviño 2 28033 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B10676005", "tipo": "Empresa privada"}, {"num": "", "nombre": "Vinagrera La Andaluza, S.L.", "direccion": "Parque Empresarial Oeste Calle Marquetería 7 11408 Jerez de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11826617", "tipo": "Empresa privada"}, {"num": "1", "nombre": "MANUEL ESTEVES", "direccion": "", "tel": "666561970", "email": "manuel@manuelesteves.es", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "1", "nombre": "Javier Féniz Real", "direccion": "Calle Cibeles 1B 11520 Rota Cádiz", "tel": "", "email": "hola@fenixvisual.es", "pais": "España", "cod_pais": "ES", "nif": "53580942G", "tipo": "Empresa privada"}, {"num": "1", "nombre": "Edificarte, Arquitectos Técnicos e Ingenieros, S.L.", "direccion": "Calle Caldereros 1 11100 San Fernando", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B-72294952", "tipo": "Empresa privada"}, {"num": "1", "nombre": "Brabura Grills, S.L.", "direccion": "PL los Varales Acero 12 06220 Villa Franca de los Barros Badajoz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B67691535", "tipo": "Empresa privada"}, {"num": "3", "nombre": "MARIA EUGENIA MORENO VARGAS", "direccion": "AV. RÍO SAN PEDRO 17 115500 EL PUERTO DE SANTA MARÍA", "tel": "620 317 013", "email": "jpme2014@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75768451b", "tipo": ""}, {"num": "4", "nombre": "ALBERTO G. PURAS S.L.U.", "direccion": "CALLE LUIS MONTOTO Nº 85 LOCAL 10 41018 - SEVILLA", "tel": "686 15 78 20", "email": "info@albertogpuras.com", "pais": "", "cod_pais": "ES", "nif": "B91789230", "tipo": ""}, {"num": "6", "nombre": "CAMEN PÉREZ ÁLVAREZ", "direccion": "RESID. CANALEJA, MANZANA1 - CALLE ANA PARRILLA 1 EDF. 8 1ºB 11600 Jerez de la Frontera", "tel": "660 448 070", "email": "", "pais": "", "cod_pais": "ES", "nif": "31 72 95 54 L", "tipo": ""}, {"num": "7", "nombre": "GUILLERMO RAMOS SABORIDO", "direccion": "CALLE ESPINACA Nº 1 1ºB 11520 ROTA", "tel": "647 556 590", "email": "gramossaborido@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "44047849c", "tipo": ""}, {"num": "8", "nombre": "Motores Cádiz S.A.", "direccion": "Calle Puerto Real S/N 11011 Zona Franca Cádiz", "tel": "956 271300", "email": "", "pais": "", "cod_pais": "ES", "nif": "A11012572", "tipo": ""}, {"num": "9", "nombre": "Sara Rivero Romero", "direccion": "Crta de Fuente Amarga Nº 31 2ºB 11130 Chiclana", "tel": "661 067 676", "email": "sarari16@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "75779195Z", "tipo": ""}, {"num": "10", "nombre": "Carolina Torres Romero", "direccion": "Calle Pintor Zuloaga Nº 18 5º C 11010  Cádiz", "tel": "610 730 051", "email": "carolinatorresromero@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75777253 G", "tipo": ""}, {"num": "11", "nombre": "Eva Maria Carmona Espinazo", "direccion": "Avenida de Portugal nº 43 4º C 11006 Cádiz", "tel": "647 178 254", "email": "evichi84@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75776901C", "tipo": ""}, {"num": "12", "nombre": "XRF Financial Ltd.", "direccion": "ADDRESS: 1st & 2nd Floor, Tofias Building, Vasileos Konstantinou 140, Limassol 3080, Cyprus  Company Number: HE 248449", "tel": "", "email": "nepv@palafoxhoteles.com", "pais": "Chipre", "cod_pais": "CY", "nif": "10248449Y", "tipo": ""}, {"num": "13", "nombre": "Rosario Galiana Vigo", "direccion": "Calle Algeciras 1 Cádiz", "tel": "956 07 01 22", "email": "laboral@rosariogaliana.com", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "14", "nombre": "UENOUENO SL", "direccion": "Calle Mery Ward 3 1º Izq. 41013 Sevilla  CIF: B91910497", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "15", "nombre": "Elena Gurría Mézcua", "direccion": "DNI: 47797732Y Calle San Francisco de Borja, 4, 4, Izquierda  San Fernando (Cádiz", "tel": "", "email": "", "pais": "Spain", "cod_pais": "ES", "nif": "DNI: 47797732Y", "tipo": ""}, {"num": "16", "nombre": "HEINEKEN ESPAÑA SA", "direccion": "AV DE ANDALUCIA 1 41007 SEVILLA  CIF: A28006013", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "17", "nombre": "Joaquín Fernández Lebrero", "direccion": "Calle SanFrancisco de Borja 4, 4º iZQ. 11100 san Fernando  CIF: 48897375 L", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "18", "nombre": "Juan Pedro Fernández Navarro", "direccion": "Calle Carlos Marx 22 11407 Jerez de la Frontera  31721276 K", "tel": "", "email": "fdz@fdz.es", "pais": "España", "cod_pais": "ES", "nif": "31721276 K", "tipo": ""}, {"num": "19", "nombre": "Juan Pedro Fernández Navarro", "direccion": "31721276 K Calle Carlos Marx 22 11407 Jerez", "tel": "", "email": "fdz@fdz.com", "pais": "España", "cod_pais": "ES", "nif": "31721276 K", "tipo": ""}, {"num": "20", "nombre": "Pablo Recio Quijano", "direccion": "76084291S Calle San Salvador 13 3 °C 11008 - Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "21", "nombre": "Ilustre Colegio de Abogados de Cádiz", "direccion": "Q1163001I C Tamarindos 17-19 11007 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1163001I", "tipo": ""}, {"num": "22", "nombre": "Rafael Navarro Millan", "direccion": "AV. Cayetano del Toro, 23 1ºC 11010 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "30970510 K", "tipo": ""}, {"num": "23", "nombre": "Catedral 9 SL", "direccion": "Plaza de la Catedral 9 11005 Cádiz", "tel": "", "email": "gades1@msn.com", "pais": "", "cod_pais": "ES", "nif": "B72148836", "tipo": ""}, {"num": "24", "nombre": "URANIA FILMS SL", "direccion": "Calle Diseminados 491 21450 Cartaya, Huelva", "tel": "605986625", "email": "maria_uraniafilms@yahoo.es", "pais": "", "cod_pais": "ES", "nif": "B21398854", "tipo": ""}, {"num": "25", "nombre": "Iniciativas Alvana sl", "direccion": "calle Almadraba 11 11500 el Puerto de santa María B72231582", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "26", "nombre": "Fundación Municipal de Cultura", "direccion": "Ayuntamiento de Cádiz Paseo Carlos III Núm. 9 C.P:11003 Cádiz (España)", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "CIF: Q-1100597-B", "tipo": ""}, {"num": "27", "nombre": "Casanovafoto", "direccion": "Ronda Universitat, 35 08007 Barcelona  B58598558", "tel": "", "email": "raulgonzalez@casanovafoto.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "28", "nombre": "ANDALUCIA POR SI", "direccion": "Calle Virgen de los Milagros 134 11500 el Puerto de Santa María Cif: G72330251", "tel": "", "email": "jjcadi@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "29", "nombre": "Fundación Cajasol", "direccion": "C/ San Francisco 1 41004 Sevilla  CIF: G91763235", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "CIF: G91763235", "tipo": ""}, {"num": "30", "nombre": "Carlos Mellado Aguilar", "direccion": "Av. Alcalde Luis Uruñuela 6, módulo 106 41020, sevilla", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "28825584Y", "tipo": ""}, {"num": "31", "nombre": "Cádiz Centro Comercial", "direccion": "Calle San Antonio Abad, 14 Local 4 11005 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "V11395571", "tipo": ""}, {"num": "32", "nombre": "CLUB DEPORTE ADAPTADO BAHÍA DE CÁDIZ", "direccion": "Calle Caño Herrera s/n (Pabellón de Deportes Bahía Sur) 11100 San Fernando (Cádiz) CIF.: G-11453289", "tel": "", "email": "deporteadaptadobahiadecadiz1@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "36", "nombre": "Babblá Estudio SL", "direccion": "CIF: B-72182371 Calle Doctor Gómez Plana 1 11008 Cádiz", "tel": "", "email": "carmen@babbla.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "37", "nombre": "FOR.COM.AS CAMARINAL SL", "direccion": "B72134554  C/ Benjamín López 6, 2º A  11100- SAN FERNANDO", "tel": "", "email": "vicente.franco@camarinal.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "38", "nombre": "Fundación Acción Contra el Hambre", "direccion": "CIF G81164105 Calle Duque de Sevilla,nº3 CP 28002 Madrid", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "39", "nombre": "CLICK SOLUCIONES GRÁFICAS, S.", "direccion": "B11509916  Parque Empresarial de Levante  C/Alcalá de los Gazules Nº13  11011 Cádiz", "tel": "", "email": "fidel.castro@neosbrand.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "40", "nombre": "Inmaculada Hurtado Baro", "direccion": "Plaza de las alegrias num 1 San fernando cp 11100", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75811809z", "tipo": ""}, {"num": "41", "nombre": "ARCOS FAIRWAYS S.L.U.", "direccion": "Calle Muñoz Vázquez 18 A 11630, Arcos de la Frontera, Cádiz, Spain  C.I.F. B-11919669", "tel": "", "email": "recepcion@arcosfairways.com", "pais": "España", "cod_pais": "ES", "nif": "C.I.F. B-11919669", "tipo": ""}, {"num": "42", "nombre": "ARANIKERNOA", "direccion": "B72232507 C/ALDEA DEL COTO CHICLANA DE LA FRONTERA, 11130 (CADIZ)", "tel": "", "email": "marta@alojamientosoasis.com", "pais": "España", "cod_pais": "ES", "nif": "B72232507", "tipo": ""}, {"num": "43", "nombre": "Begoña Manchón Landin", "direccion": "31253545H Calle Gabriel Matute 8 110008 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "44", "nombre": "JAROSLAWA KOWALSKA", "direccion": "Calle san Rosendo, 5 11380 Tarifa, Cádiz ES45086817J", "tel": "666 064 746", "email": "", "pais": "España", "cod_pais": "ES", "nif": "ES45086817J", "tipo": ""}, {"num": "45", "nombre": "Espacios de Empresa y Buena Arquitectura S.L.", "direccion": "Pol. Las Salinas de Poniente Calle Manantial 13.   CEEI Edificio 2 - Oficina 180 11500  El Puerto de Santa María", "tel": "", "email": "compras@eeba.es", "pais": "España", "cod_pais": "ES", "nif": "B-56444532", "tipo": "Empresa privada"}, {"num": "46", "nombre": "Vía Augusta Julia S.L", "direccion": "B11504107 C/ Doctor Fleming, 6. 11009. Cádiz.", "tel": "", "email": "victor@viaaugusta.es", "pais": "España", "cod_pais": "ES", "nif": "B11504107", "tipo": ""}, {"num": "47", "nombre": "Milenium Arquitectura, S.L.", "direccion": "Calle Castaño, 5 ARQ, Urb Casablanca 29630 Benalmádena - Málaga", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "48", "nombre": "Cádiz CF SAD", "direccion": "A-11013703 Plaza Madrid s/n 11010 Cádiz", "tel": "", "email": "administración@cadizcf.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "49", "nombre": "Fundación Bahía de Cádiz para el Desarrollo Económico", "direccion": "Calle Manantial, n. 13. Polígono Industrial Las Salinas de San José Bajo, 11500 El Puerto de Santa María, Cádiz.  CIF: G11423381", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "50", "nombre": "Francisco Jesús Bononato Rosso", "direccion": "Calle Los Espadas 17 11500 el Puerto de Santa María - Cádiz NIF: 44963828 R", "tel": "675660003", "email": "info@francisrossostudio.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "51", "nombre": "NIM BCN-CHIC SL", "direccion": "Av de los Descubrimientos 104 11130 Chiclana de la Frontera CIF: B72327075", "tel": "", "email": "qwlin2006@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "52", "nombre": "TEACAMPA GLAMPING S.L", "direccion": "B02682144 CARRETERA DE LAS LAGUNAS, 14 11130   CHICLANA DE LA FRONTERA- CÁDIZ", "tel": "", "email": "mruiz@teacampa.com", "pais": "España", "cod_pais": "ES", "nif": "B02682144", "tipo": ""}, {"num": "53", "nombre": "SMART ELECTRIC TRANSPORT SL", "direccion": "B93585008 Av Arias de Velasco 38 29602. Marbella. Málaga", "tel": "687 792 392", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B93585008", "tipo": ""}, {"num": "54", "nombre": "CANOVAS 32 SUITES S.L.", "direccion": "Cif: B72391774 Cánovas del Castillo, 32    11001 CADIZ", "tel": "659 499 880", "email": "", "pais": "España", "cod_pais": "ES", "nif": "Cif: B72391774", "tipo": ""}, {"num": "55", "nombre": "Hermanos Ramón y Emilio Rodríguez de Trujillo SL", "direccion": "B11370525 Av Cayetano del Toro 10 11010 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "56", "nombre": "Jaime A. Torres Cano", "direccion": "Av. Amilcar de la Barca 11-1A  11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75755012 G", "tipo": ""}, {"num": "57", "nombre": "Angel Sevilla Ragel", "direccion": "Calle Ancha 15, 1º Izq. 11001 Cádiz CIF: 77172438 D", "tel": "", "email": "angel.sevilla.fotografia@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "58", "nombre": "Alicia Rodríguez Archidona", "direccion": "31712872N Calle Consolación 27 A 11650 Villamartin Cádiz", "tel": "693637386", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "59", "nombre": "Vexel Estudio Publicitario", "direccion": "Plaza de España Edif. España,Bajo 11130 Chiclana de la Frontera", "tel": "", "email": "joseguillen@byvexel.com", "pais": "España", "cod_pais": "ES", "nif": "B-56549801", "tipo": ""}, {"num": "60", "nombre": "FARMACIA ALVA CB", "direccion": "E11400736 Calle Alcalde Blázquez 17 11012 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "E11400736", "tipo": ""}, {"num": "61", "nombre": "INVIERTIS PROPERTIES, S.L.", "direccion": "CIF: B67357137 AVDA, Ernest Lluch, Nº32 tcm2 1.10 MATARÓ (08302), BARCELONA, España", "tel": "", "email": "info@inviertis.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "62", "nombre": "ORCHID CAPITAL PARTNERS S.L.", "direccion": "CL GURTUBAY, 5, 28001 MADRID", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "N.I.F. : B65568255", "tipo": ""}, {"num": "64", "nombre": "Marta Centeno Garcia", "direccion": "Calle Albareda, número 4, vivienda 2 C.p.  11500 El puerto de Santa Maria", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "53576332V", "tipo": ""}, {"num": "65", "nombre": "BUGALOO STUDIO", "direccion": "Urb. Los tres Pinos, 3 41807 Espartinas", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B90385725", "tipo": ""}, {"num": "66", "nombre": "Grupo Municipal Andalucía por Sí", "direccion": "Plaza del Rey, 5 11100 San Fernando - Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "V-72379308", "tipo": ""}, {"num": "67", "nombre": "STEVEN Y LISA HIGGINBOTTOM", "direccion": "Calle Marina 14 , planta primera Derecha.  11393 Zahara de los Atunes, Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "NIE Y7951929-S", "tipo": ""}, {"num": "68", "nombre": "Enrique Peña Ruiz", "direccion": "C/Chiclana, nº 16-E 11140 Conil de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75754328 X", "tipo": ""}, {"num": "69", "nombre": "Violeta Morales Muñoz", "direccion": "31266191Z calle General Muñoz Arenillas Nº2 - 11I Cádiz 11010", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "70", "nombre": "LACOSTE & VIÑALET SINGULAR HOUSES S.L.", "direccion": "CALLE COSTA DEL SOL 2 LOCAL 15 11407 JEREZ DE LA FRONTERA", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11892221", "tipo": ""}, {"num": "71", "nombre": "La Acera de Enfrente S:L", "direccion": "Avda. Bahía Blanca 8D, 2A 11008 Cádiz", "tel": "", "email": "rouslilo@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "B67647925", "tipo": ""}, {"num": "72", "nombre": "INNOVA FILMS Guasa Films S.L.", "direccion": "Zona Franca - Edificio Melkart Planta 1 P10 11001 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "73", "nombre": "UTE Cia Hispalense de Tranvías, SL", "direccion": "Avenida del Puerto 11, 5G 11006 Cádiz", "tel": "", "email": "j.ruiz@city-sightseeing.es", "pais": "", "cod_pais": "ES", "nif": "U72130446", "tipo": ""}, {"num": "74", "nombre": "Antonio López Vilchez", "direccion": "Calle San Dimas 2A, 1B 11003 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "77499491 W", "tipo": ""}, {"num": "75", "nombre": "Bocabocao sl", "direccion": "Calle Víctor González 3, bj D 11007 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B16789141", "tipo": ""}, {"num": "76", "nombre": "CELIA GRACÍA GAGO", "direccion": "Calle Teniente Trujillo 39 11660 Prado del rey", "tel": "", "email": "celia.garciga@gmail.com", "pais": "", "cod_pais": "ES", "nif": "15435996Y", "tipo": ""}, {"num": "77", "nombre": "SAFER DMCI SA", "direccion": "Urb. Marbellamar Local 5  29601 - Marbella, Málaga", "tel": "", "email": "Lola@safersiematic.com", "pais": "", "cod_pais": "ES", "nif": "A29270816", "tipo": ""}, {"num": "78", "nombre": "Studio Mo sl", "direccion": "Calle San Marcelo 20 bajo 8  28017 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 88280268", "tipo": ""}, {"num": "79", "nombre": "Manuel Rosado Crespo S.L.P.", "direccion": "Avda. del Mar, 116 11160 Barbate", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67750190", "tipo": ""}, {"num": "80", "nombre": "Next Home Gestiones, Servicios y Proyectos Estratégicos S.L.", "direccion": "C/ Acevino 14, Local 9 38400 Puerto de la Cruz. Tenerife", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B-02705556", "tipo": ""}, {"num": "81", "nombre": "Francisco Manuel Martín Sánchez", "direccion": "AV/ Duque de Nájera N7, Bloque D, 4ºD 11002 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75776254V", "tipo": ""}, {"num": "82", "nombre": "Antonio Gordillo Joyero, S.L.", "direccion": "Plaza Mendizabal 3  11005  Cádiz", "tel": "", "email": "aperez@joyeriagordillo.com", "pais": "", "cod_pais": "ES", "nif": "B11797990", "tipo": ""}, {"num": "83", "nombre": "Ayax Specialty", "direccion": "Calle Leopoldo Wener 13,  29014 Málaga", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B93694594", "tipo": ""}, {"num": "84", "nombre": "Miren Agurtzane Ostolaza Ugarte", "direccion": "Atotxa Erreka 81 B 20018 Donostia", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "1538018 H", "tipo": ""}, {"num": "85", "nombre": "Maria Luisa Rebolledo Dechamps", "direccion": "Av. de la Bahía 1, 7D 11012 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "31249823E", "tipo": ""}, {"num": "86", "nombre": "STAY HERE S L", "direccion": "Bélgica 1  41907 Valencina de la concepción", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 90486655", "tipo": ""}, {"num": "87", "nombre": "Consultora Mocalle Digital SLU", "direccion": "Fernando Chueca Goitia 14 28051 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "ESB87988705", "tipo": ""}, {"num": "88", "nombre": "Hispania Short Rentals S.L.", "direccion": "Pl. Villa de Castelldefels, 1, entreplanta, oficina 4 Bis, 29006 Málaga", "tel": "", "email": "administracion@ruralidays.com", "pais": "", "cod_pais": "ES", "nif": "B93567170", "tipo": ""}, {"num": "89", "nombre": "CLINICA COLMAN S.L.", "direccion": "Calle DR. Gomez Plana 1, L16 11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72365877", "tipo": ""}, {"num": "90", "nombre": "ALAQUECA SWEET, SL", "direccion": "C/Gran, 63 08310, Argentona (Barcelona)", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72835044", "tipo": ""}, {"num": "91", "nombre": "Brooks Running SLU", "direccion": "Ronda Maiols 1 Sant Quirze del valles (BCN) 08192", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 86957388", "tipo": ""}, {"num": "92", "nombre": "Antonio F Morenilla Diaz", "direccion": "Campanilleros 26k  11100 San Fernando Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75817209D", "tipo": ""}, {"num": "93", "nombre": "POPULO ENTERTAINMENT CB", "direccion": "PLAZA MONTESIÓN 5 41003 SEVILLA", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "E13813936", "tipo": ""}, {"num": "94", "nombre": "Verónica Gallardo Jiménez", "direccion": "Avenida de Valencia 27 11500 El Puerto de Santa María (Cádiz)", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75795506H", "tipo": ""}, {"num": "95", "nombre": "Colegio Oficial de Aparejadores y Arquitectos Técnicos de Cádiz", "direccion": "Avenida Ana de Viya Nº 5, 3ª Planta CP 11009, Cádiz", "tel": "", "email": "acornejo@coaatc.es", "pais": "", "cod_pais": "ES", "nif": "Q-1175003-A", "tipo": ""}, {"num": "96", "nombre": "Nashboard Analytics", "direccion": "Calle Cánovas del Castillo 10 11001 Cádiz", "tel": "", "email": "hbm@nashboard-analytics.com", "pais": "", "cod_pais": "ES", "nif": "B72236599", "tipo": ""}, {"num": "97", "nombre": "Teacampa Reservas SL", "direccion": "Calle Felipe Campo 18, 1 28002 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B06838338", "tipo": ""}, {"num": "98", "nombre": "La Peonza Digital SL", "direccion": "Calle Río Júcar, 18 28723 Pedrezuela. Madrid", "tel": "", "email": "pedro@lapeonzadigital.es", "pais": "", "cod_pais": "ES", "nif": "B86833928", "tipo": ""}, {"num": "99", "nombre": "ASISA", "direccion": "AVD. DE LAS CORTES DE CADIZ, S/N 11012 CDIZ", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "A-08169294", "tipo": ""}, {"num": "100", "nombre": "Colegio Oficial de Farmacéuticos de Cádiz", "direccion": "Calle Isabel la Católica 22 11004 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1166002D", "tipo": ""}, {"num": "101", "nombre": "Fernando Tinoco Piñero", "direccion": "Plaza San Juan de Dios, 2 Cádiz 11004", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "52.929.093K", "tipo": ""}, {"num": "102", "nombre": "Carlos Manuel López Ramos", "direccion": "C. Santo Domingo, 33 P04 C Jerez de la frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "31203012-Q", "tipo": ""}, {"num": "103", "nombre": "CC4 LOFTS S.L.", "direccion": "Calle la Morena 4,  11130 Chiclana de La Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B13693981", "tipo": ""}];
-var _invoices = [];
-var _settings = {};
-var _currentView = 'facturas';
-var _editingInvoice = null;
-var _editingClient = null;
-var _selectedClient = null;
-var _invoiceType = 'servicio';
-var _pendingPagadoId = null;
+// State
+var _clients=[{"num": "", "nombre": "PROINROS S.L.", "direccion": "Av. Del Mar 56 11160 Barbate", "tel": "", "email": "proinros@gmail.com", "pais": "", "cod_pais": "ES", "nif": "B11221355", "tipo": "Empresa privada"}, {"num": "", "nombre": "CANOFOTOSPORT S.L.", "direccion": "Calle Jacinto González, 24 28600 Navalcarnero", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B87446936", "tipo": ""}, {"num": "", "nombre": "REYES   DE  LA  LASTRA  BALLESTEROS", "direccion": "Calle Mesón 16, 1Izq. 11006 Cádiz Cádiz", "tel": "", "email": "reyesdelalastra@gmail.com", "pais": "", "cod_pais": "ES", "nif": "28538663X", "tipo": "Particular"}, {"num": "", "nombre": "Proyectos Alimentarios Profood S.L.U.", "direccion": "Calle Plocia N9 11006 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B06547921", "tipo": "Empresa privada"}, {"num": "", "nombre": "PINALETA S.L.", "direccion": "Edificio Parque Retortillo portal 1, planta 1, puerta 3  1130  Chiclana de la Frontera  Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11313244", "tipo": "Empresa privada"}, {"num": "", "nombre": "Campomar", "direccion": "Edificio Atlántida, Playa de La Barrosa 11130 Chiclana, Cá 11130 Chiclana de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72192792", "tipo": "Empresa privada"}, {"num": "", "nombre": "Cristina Bernal Álvarez", "direccion": "Urbanización las palomas, 14  11130 Chiclana Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "71025597x", "tipo": "Empresa privada"}, {"num": "", "nombre": "MONTESIERRA S.A.", "direccion": "Avenida Nazaret s/n 11406 Jerez", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "A11604998", "tipo": "Empresa privada"}, {"num": "", "nombre": "Jesús Murciano Arizti", "direccion": "Mar de Noruega 42 11500 El Pto. de Sta. maría", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "34003037P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Emilio Ravina Beltrami", "direccion": "Calle Nueva, 9  11005  Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44043982V", "tipo": "Empresa privada"}, {"num": "", "nombre": "Manuel Rodríguez Normand", "direccion": "Avenida de España 4 11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "28727484R", "tipo": "Empresa privada"}, {"num": "", "nombre": "RC PROMOCIONES VM25 S.L.", "direccion": "Avenida del Mar, 116 11160 Barbate", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67650994", "tipo": "Empresa privada"}, {"num": "", "nombre": "Alessandro Termenini", "direccion": "Calle Plocia nº11 3ºA   11006 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Y1302373N", "tipo": "Particular"}, {"num": "", "nombre": "Óscar Garcia Sánchez", "direccion": "Calle Darro, 10    11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "74927227N", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carmen Román Benítez", "direccion": "Avenida de Ana de Viya 7 Edificio Proseroina 202 11009 Cádiz", "tel": "", "email": "romanbenitez.carmina@gmail.com", "pais": "", "cod_pais": "ES", "nif": "31249274W", "tipo": "Particular"}, {"num": "", "nombre": "ITAPUAN S.L", "direccion": "C/ALGECIRAS 1  11011 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11398385", "tipo": "Empresa privada"}, {"num": "", "nombre": "Consorcio de la Zona Franca de Cádiz", "direccion": "Calle Ronda de Vigilancia S/N 11011 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1176004H", "tipo": "Gobierno"}, {"num": "", "nombre": "Evaristo Jiménez Reyes", "direccion": "Barriada Blas Infante 13 Bajo Derecha  11160 Barbate Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44056521K", "tipo": "Empresa privada"}, {"num": "", "nombre": "Mundo Campeador,SL", "direccion": "Calle Coslada 5 28028 Madrid", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B47774146", "tipo": "Empresa privada"}, {"num": "", "nombre": "JEFATURA DE INTENDENCIA Y ASUNTOS ECONÓMICOS SUR (JIAE SUR)", "direccion": "AVDA. DE LA BORBOLLA 27-29 UNIDAD DE GASTO: CENTRO DE FORMACIÓN DE TROPA Nº 2 (CEFOT 2)  41013  Sevilla", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "S4130025B", "tipo": "Empresa privada"}, {"num": "", "nombre": "Marta Pachón Cla", "direccion": "Calle Atlanta 6 11405 Jerez de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "32084918X", "tipo": "Particular"}, {"num": "", "nombre": "Ausias José Lobatón Ortega - Architekt", "direccion": "Weidenweg 7 10249 Berlin DE", "tel": "", "email": "ausiaslo@hotmail.com", "pais": "", "cod_pais": "DE", "nif": "DE276600989", "tipo": "Empresa privada"}, {"num": "", "nombre": "CARLOS  RASCO GARCIA", "direccion": "C/ Condesa Villafuente Bermeja, 5 2ºA  11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44067806J", "tipo": "Particular"}, {"num": "", "nombre": "Balneario Sunset S.L.", "direccion": "Urbn. Residencial Azucena 78 Calle Cardenal Marcelo Spinola 48, 7B 28060 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B56877202", "tipo": "Empresa privada"}, {"num": "", "nombre": "Milenium Arquitectura S.L.", "direccion": "Calle Castaño, 5 ARQ. Urb. Casablanca 29639 Benalmádena, Málaga", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B29876661", "tipo": "Empresa privada"}, {"num": "", "nombre": "Victoria Manzorro Pérez", "direccion": "Calle Lepanto 9 11140 Conil de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44058486P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Construcciones Periñan Green Home, S.L.", "direccion": "Calle Laurel, 1 bloque 1 1ºD  11130  Chiclana de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B09846361", "tipo": "Empresa privada"}, {"num": "", "nombre": "Arantxa Martínez Rodríguez", "direccion": "Calle de la Angelita 5, Blq 2, 4ºB 11500 El Puerto de Santa María", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75785779C", "tipo": "Empresa privada"}, {"num": "", "nombre": "Jesús Ramos García", "direccion": "Calle Dame de Noche 18 11500 Chiclana de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "77175624K", "tipo": "Particular"}, {"num": "", "nombre": "Automatic Media S.L.", "direccion": "Avinguda Cornellà 142, 8 08950 Esplugues de Llobregat Barcelona", "tel": "934 002727", "email": "abaena@automaticmedia.tv", "pais": "", "cod_pais": "ES", "nif": "ESB05402128", "tipo": "Empresa privada"}, {"num": "", "nombre": "Marta Centeno interiorismo S.L.", "direccion": "Calle Albareda, 4 Vivienda 2 11500 El Puerto de santa María", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B70701040", "tipo": "Empresa privada"}, {"num": "", "nombre": "Vivium Andalucía Oeste Realty SL", "direccion": "Plaza Nueva 3,  41001  Sevilla", "tel": "954 21 61 00", "email": "seville@spain-sothebysrealty.com", "pais": "", "cod_pais": "ES", "nif": "B90201070", "tipo": "Empresa privada"}, {"num": "", "nombre": "Partido Popular de Cádiz", "direccion": "Calle Cánovas del castillo 11 11001 Cádiz", "tel": "", "email": "gerencia.cadiz@pp.es", "pais": "", "cod_pais": "ES", "nif": "G28570927", "tipo": "Empresa privada"}, {"num": "", "nombre": "Julia Armario Lorenzo", "direccion": "Calle Hijuela del membrillar 1, Nave 4 11405 Jerez de la Frontera", "tel": "673 395 845", "email": "", "pais": "", "cod_pais": "ES", "nif": "32907358Q", "tipo": "Empresa privada"}, {"num": "", "nombre": "Ismael Virués Mera", "direccion": "Calle Los Olivos 3 11150 Vejer de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44059429P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Housfy Real Estate SL", "direccion": "Calle Tánger 35  08018\t Barcelona", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B66991274", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carlos Gil Roig FACTORÍA 9", "direccion": "Calle Rosas 22 50009 Zaragoza", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "17715313T", "tipo": "Empresa privada"}, {"num": "", "nombre": "Excmo. Colegio Oficial de Médicos de Cádiz", "direccion": "Glorieta Zona Franca s/n 4", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": "Empresa privada"}, {"num": "", "nombre": "Propulsa innovacion SL", "direccion": "Licenciado Poza 25, Bilbao (Bizkaia) 4d  Bilbao (Bizkaia)", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B75548958", "tipo": "Empresa privada"}, {"num": "", "nombre": "Todocasa Jerez S.L.", "direccion": "Calle Lealas n13 Jerez 11404", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11750650", "tipo": "Empresa privada"}, {"num": "", "nombre": "Orba Arquitectura y Rehabilitación", "direccion": "Calle Francisco García de Sola 2 Local 6 11007 Cádiz", "tel": "633 487 380", "email": "", "pais": "", "cod_pais": "ES", "nif": "B21974480", "tipo": "Empresa privada"}, {"num": "", "nombre": "Francisco Jesús Cuevas Pérez", "direccion": "Calle Bambú 4 11540 Sanlucar de Barrameda Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "49038380B", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carlos Rasco García", "direccion": "Calle Condesa Villafuente Bermeja, 5 2ºA 11008 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44067806J", "tipo": "Empresa privada"}, {"num": "", "nombre": "Olga Tey Linares", "direccion": "Calle San Pedro 12 11004 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44036832C", "tipo": "Empresa privada"}, {"num": "", "nombre": "Francisco Miguel Lobato Piñero", "direccion": "Calle Empedrador 25, BJO 11130 Chiclana de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "49078235F", "tipo": "Empresa privada"}, {"num": "", "nombre": "BRABURA GRILLS, S.L.", "direccion": "P.I. LOS VARALES. ACERO Nº 12 06220  VILLAFRANCA DE LOS BARROS Badajoz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67691535", "tipo": "Empresa privada"}, {"num": "", "nombre": "Rodriguez Normand S.L.", "direccion": "Calle ING. Juan  Romero Carrasco, 7 5ºB 11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": "Empresa privada"}, {"num": "", "nombre": "ASOC. LA RATONERA GADITANA", "direccion": "Calle Hospital de Mujeres 33 3º cádiz 11006", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "G75685461", "tipo": "Empresa privada"}, {"num": "", "nombre": "Alantel Soluciones Integrales S.L.", "direccion": "Condado de treviño 2 28033 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B10676005", "tipo": "Empresa privada"}, {"num": "", "nombre": "Vinagrera La Andaluza, S.L.", "direccion": "Parque Empresarial Oeste Calle Marquetería 7 11408 Jerez de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11826617", "tipo": "Empresa privada"}, {"num": "1", "nombre": "MANUEL ESTEVES", "direccion": "", "tel": "666561970", "email": "manuel@manuelesteves.es", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "1", "nombre": "Javier Féniz Real", "direccion": "Calle Cibeles 1B 11520 Rota Cádiz", "tel": "", "email": "hola@fenixvisual.es", "pais": "España", "cod_pais": "ES", "nif": "53580942G", "tipo": "Empresa privada"}, {"num": "1", "nombre": "Edificarte, Arquitectos Técnicos e Ingenieros, S.L.", "direccion": "Calle Caldereros 1 11100 San Fernando", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B-72294952", "tipo": "Empresa privada"}, {"num": "1", "nombre": "Brabura Grills, S.L.", "direccion": "PL los Varales Acero 12 06220 Villa Franca de los Barros Badajoz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B67691535", "tipo": "Empresa privada"}, {"num": "3", "nombre": "MARIA EUGENIA MORENO VARGAS", "direccion": "AV. RÍO SAN PEDRO 17 115500 EL PUERTO DE SANTA MARÍA", "tel": "620 317 013", "email": "jpme2014@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75768451b", "tipo": ""}, {"num": "4", "nombre": "ALBERTO G. PURAS S.L.U.", "direccion": "CALLE LUIS MONTOTO Nº 85 LOCAL 10 41018 - SEVILLA", "tel": "686 15 78 20", "email": "info@albertogpuras.com", "pais": "", "cod_pais": "ES", "nif": "B91789230", "tipo": ""}, {"num": "6", "nombre": "CAMEN PÉREZ ÁLVAREZ", "direccion": "RESID. CANALEJA, MANZANA1 - CALLE ANA PARRILLA 1 EDF. 8 1ºB 11600 Jerez de la Frontera", "tel": "660 448 070", "email": "", "pais": "", "cod_pais": "ES", "nif": "31 72 95 54 L", "tipo": ""}, {"num": "7", "nombre": "GUILLERMO RAMOS SABORIDO", "direccion": "CALLE ESPINACA Nº 1 1ºB 11520 ROTA", "tel": "647 556 590", "email": "gramossaborido@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "44047849c", "tipo": ""}, {"num": "8", "nombre": "Motores Cádiz S.A.", "direccion": "Calle Puerto Real S/N 11011 Zona Franca Cádiz", "tel": "956 271300", "email": "", "pais": "", "cod_pais": "ES", "nif": "A11012572", "tipo": ""}, {"num": "9", "nombre": "Sara Rivero Romero", "direccion": "Crta de Fuente Amarga Nº 31 2ºB 11130 Chiclana", "tel": "661 067 676", "email": "sarari16@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "75779195Z", "tipo": ""}, {"num": "10", "nombre": "Carolina Torres Romero", "direccion": "Calle Pintor Zuloaga Nº 18 5º C 11010  Cádiz", "tel": "610 730 051", "email": "carolinatorresromero@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75777253 G", "tipo": ""}, {"num": "11", "nombre": "Eva Maria Carmona Espinazo", "direccion": "Avenida de Portugal nº 43 4º C 11006 Cádiz", "tel": "647 178 254", "email": "evichi84@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75776901C", "tipo": ""}, {"num": "12", "nombre": "XRF Financial Ltd.", "direccion": "ADDRESS: 1st & 2nd Floor, Tofias Building, Vasileos Konstantinou 140, Limassol 3080, Cyprus  Company Number: HE 248449", "tel": "", "email": "nepv@palafoxhoteles.com", "pais": "Chipre", "cod_pais": "CY", "nif": "10248449Y", "tipo": ""}, {"num": "13", "nombre": "Rosario Galiana Vigo", "direccion": "Calle Algeciras 1 Cádiz", "tel": "956 07 01 22", "email": "laboral@rosariogaliana.com", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "14", "nombre": "UENOUENO SL", "direccion": "Calle Mery Ward 3 1º Izq. 41013 Sevilla  CIF: B91910497", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "15", "nombre": "Elena Gurría Mézcua", "direccion": "DNI: 47797732Y Calle San Francisco de Borja, 4, 4, Izquierda  San Fernando (Cádiz", "tel": "", "email": "", "pais": "Spain", "cod_pais": "ES", "nif": "DNI: 47797732Y", "tipo": ""}, {"num": "16", "nombre": "HEINEKEN ESPAÑA SA", "direccion": "AV DE ANDALUCIA 1 41007 SEVILLA  CIF: A28006013", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "17", "nombre": "Joaquín Fernández Lebrero", "direccion": "Calle SanFrancisco de Borja 4, 4º iZQ. 11100 san Fernando  CIF: 48897375 L", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "18", "nombre": "Juan Pedro Fernández Navarro", "direccion": "Calle Carlos Marx 22 11407 Jerez de la Frontera  31721276 K", "tel": "", "email": "fdz@fdz.es", "pais": "España", "cod_pais": "ES", "nif": "31721276 K", "tipo": ""}, {"num": "19", "nombre": "Juan Pedro Fernández Navarro", "direccion": "31721276 K Calle Carlos Marx 22 11407 Jerez", "tel": "", "email": "fdz@fdz.com", "pais": "España", "cod_pais": "ES", "nif": "31721276 K", "tipo": ""}, {"num": "20", "nombre": "Pablo Recio Quijano", "direccion": "76084291S Calle San Salvador 13 3 °C 11008 - Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "21", "nombre": "Ilustre Colegio de Abogados de Cádiz", "direccion": "Q1163001I C Tamarindos 17-19 11007 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1163001I", "tipo": ""}, {"num": "22", "nombre": "Rafael Navarro Millan", "direccion": "AV. Cayetano del Toro, 23 1ºC 11010 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "30970510 K", "tipo": ""}, {"num": "23", "nombre": "Catedral 9 SL", "direccion": "Plaza de la Catedral 9 11005 Cádiz", "tel": "", "email": "gades1@msn.com", "pais": "", "cod_pais": "ES", "nif": "B72148836", "tipo": ""}, {"num": "24", "nombre": "URANIA FILMS SL", "direccion": "Calle Diseminados 491 21450 Cartaya, Huelva", "tel": "605986625", "email": "maria_uraniafilms@yahoo.es", "pais": "", "cod_pais": "ES", "nif": "B21398854", "tipo": ""}, {"num": "25", "nombre": "Iniciativas Alvana sl", "direccion": "calle Almadraba 11 11500 el Puerto de santa María B72231582", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "26", "nombre": "Fundación Municipal de Cultura", "direccion": "Ayuntamiento de Cádiz Paseo Carlos III Núm. 9 C.P:11003 Cádiz (España)", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "CIF: Q-1100597-B", "tipo": ""}, {"num": "27", "nombre": "Casanovafoto", "direccion": "Ronda Universitat, 35 08007 Barcelona  B58598558", "tel": "", "email": "raulgonzalez@casanovafoto.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "28", "nombre": "ANDALUCIA POR SI", "direccion": "Calle Virgen de los Milagros 134 11500 el Puerto de Santa María Cif: G72330251", "tel": "", "email": "jjcadi@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "29", "nombre": "Fundación Cajasol", "direccion": "C/ San Francisco 1 41004 Sevilla  CIF: G91763235", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "CIF: G91763235", "tipo": ""}, {"num": "30", "nombre": "Carlos Mellado Aguilar", "direccion": "Av. Alcalde Luis Uruñuela 6, módulo 106 41020, sevilla", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "28825584Y", "tipo": ""}, {"num": "31", "nombre": "Cádiz Centro Comercial", "direccion": "Calle San Antonio Abad, 14 Local 4 11005 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "V11395571", "tipo": ""}, {"num": "32", "nombre": "CLUB DEPORTE ADAPTADO BAHÍA DE CÁDIZ", "direccion": "Calle Caño Herrera s/n (Pabellón de Deportes Bahía Sur) 11100 San Fernando (Cádiz) CIF.: G-11453289", "tel": "", "email": "deporteadaptadobahiadecadiz1@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "36", "nombre": "Babblá Estudio SL", "direccion": "CIF: B-72182371 Calle Doctor Gómez Plana 1 11008 Cádiz", "tel": "", "email": "carmen@babbla.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "37", "nombre": "FOR.COM.AS CAMARINAL SL", "direccion": "B72134554  C/ Benjamín López 6, 2º A  11100- SAN FERNANDO", "tel": "", "email": "vicente.franco@camarinal.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "38", "nombre": "Fundación Acción Contra el Hambre", "direccion": "CIF G81164105 Calle Duque de Sevilla,nº3 CP 28002 Madrid", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "39", "nombre": "CLICK SOLUCIONES GRÁFICAS, S.", "direccion": "B11509916  Parque Empresarial de Levante  C/Alcalá de los Gazules Nº13  11011 Cádiz", "tel": "", "email": "fidel.castro@neosbrand.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "40", "nombre": "Inmaculada Hurtado Baro", "direccion": "Plaza de las alegrias num 1 San fernando cp 11100", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75811809z", "tipo": ""}, {"num": "41", "nombre": "ARCOS FAIRWAYS S.L.U.", "direccion": "Calle Muñoz Vázquez 18 A 11630, Arcos de la Frontera, Cádiz, Spain  C.I.F. B-11919669", "tel": "", "email": "recepcion@arcosfairways.com", "pais": "España", "cod_pais": "ES", "nif": "C.I.F. B-11919669", "tipo": ""}, {"num": "42", "nombre": "ARANIKERNOA", "direccion": "B72232507 C/ALDEA DEL COTO CHICLANA DE LA FRONTERA, 11130 (CADIZ)", "tel": "", "email": "marta@alojamientosoasis.com", "pais": "España", "cod_pais": "ES", "nif": "B72232507", "tipo": ""}, {"num": "43", "nombre": "Begoña Manchón Landin", "direccion": "31253545H Calle Gabriel Matute 8 110008 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "44", "nombre": "JAROSLAWA KOWALSKA", "direccion": "Calle san Rosendo, 5 11380 Tarifa, Cádiz ES45086817J", "tel": "666 064 746", "email": "", "pais": "España", "cod_pais": "ES", "nif": "ES45086817J", "tipo": ""}, {"num": "45", "nombre": "Espacios de Empresa y Buena Arquitectura S.L.", "direccion": "Pol. Las Salinas de Poniente Calle Manantial 13.   CEEI Edificio 2 - Oficina 180 11500  El Puerto de Santa María", "tel": "", "email": "compras@eeba.es", "pais": "España", "cod_pais": "ES", "nif": "B-56444532", "tipo": "Empresa privada"}, {"num": "46", "nombre": "Vía Augusta Julia S.L", "direccion": "B11504107 C/ Doctor Fleming, 6. 11009. Cádiz.", "tel": "", "email": "victor@viaaugusta.es", "pais": "España", "cod_pais": "ES", "nif": "B11504107", "tipo": ""}, {"num": "47", "nombre": "Milenium Arquitectura, S.L.", "direccion": "Calle Castaño, 5 ARQ, Urb Casablanca 29630 Benalmádena - Málaga", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "48", "nombre": "Cádiz CF SAD", "direccion": "A-11013703 Plaza Madrid s/n 11010 Cádiz", "tel": "", "email": "administración@cadizcf.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "49", "nombre": "Fundación Bahía de Cádiz para el Desarrollo Económico", "direccion": "Calle Manantial, n. 13. Polígono Industrial Las Salinas de San José Bajo, 11500 El Puerto de Santa María, Cádiz.  CIF: G11423381", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "50", "nombre": "Francisco Jesús Bononato Rosso", "direccion": "Calle Los Espadas 17 11500 el Puerto de Santa María - Cádiz NIF: 44963828 R", "tel": "675660003", "email": "info@francisrossostudio.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "51", "nombre": "NIM BCN-CHIC SL", "direccion": "Av de los Descubrimientos 104 11130 Chiclana de la Frontera CIF: B72327075", "tel": "", "email": "qwlin2006@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "52", "nombre": "TEACAMPA GLAMPING S.L", "direccion": "B02682144 CARRETERA DE LAS LAGUNAS, 14 11130   CHICLANA DE LA FRONTERA- CÁDIZ", "tel": "", "email": "mruiz@teacampa.com", "pais": "España", "cod_pais": "ES", "nif": "B02682144", "tipo": ""}, {"num": "53", "nombre": "SMART ELECTRIC TRANSPORT SL", "direccion": "B93585008 Av Arias de Velasco 38 29602. Marbella. Málaga", "tel": "687 792 392", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B93585008", "tipo": ""}, {"num": "54", "nombre": "CANOVAS 32 SUITES S.L.", "direccion": "Cif: B72391774 Cánovas del Castillo, 32    11001 CADIZ", "tel": "659 499 880", "email": "", "pais": "España", "cod_pais": "ES", "nif": "Cif: B72391774", "tipo": ""}, {"num": "55", "nombre": "Hermanos Ramón y Emilio Rodríguez de Trujillo SL", "direccion": "B11370525 Av Cayetano del Toro 10 11010 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "56", "nombre": "Jaime A. Torres Cano", "direccion": "Av. Amilcar de la Barca 11-1A  11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75755012 G", "tipo": ""}, {"num": "57", "nombre": "Angel Sevilla Ragel", "direccion": "Calle Ancha 15, 1º Izq. 11001 Cádiz CIF: 77172438 D", "tel": "", "email": "angel.sevilla.fotografia@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "58", "nombre": "Alicia Rodríguez Archidona", "direccion": "31712872N Calle Consolación 27 A 11650 Villamartin Cádiz", "tel": "693637386", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "59", "nombre": "Vexel Estudio Publicitario", "direccion": "Plaza de España Edif. España,Bajo 11130 Chiclana de la Frontera", "tel": "", "email": "joseguillen@byvexel.com", "pais": "España", "cod_pais": "ES", "nif": "B-56549801", "tipo": ""}, {"num": "60", "nombre": "FARMACIA ALVA CB", "direccion": "E11400736 Calle Alcalde Blázquez 17 11012 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "E11400736", "tipo": ""}, {"num": "61", "nombre": "INVIERTIS PROPERTIES, S.L.", "direccion": "CIF: B67357137 AVDA, Ernest Lluch, Nº32 tcm2 1.10 MATARÓ (08302), BARCELONA, España", "tel": "", "email": "info@inviertis.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "62", "nombre": "ORCHID CAPITAL PARTNERS S.L.", "direccion": "CL GURTUBAY, 5, 28001 MADRID", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "N.I.F. : B65568255", "tipo": ""}, {"num": "64", "nombre": "Marta Centeno Garcia", "direccion": "Calle Albareda, número 4, vivienda 2 C.p.  11500 El puerto de Santa Maria", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "53576332V", "tipo": ""}, {"num": "65", "nombre": "BUGALOO STUDIO", "direccion": "Urb. Los tres Pinos, 3 41807 Espartinas", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B90385725", "tipo": ""}, {"num": "66", "nombre": "Grupo Municipal Andalucía por Sí", "direccion": "Plaza del Rey, 5 11100 San Fernando - Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "V-72379308", "tipo": ""}, {"num": "67", "nombre": "STEVEN Y LISA HIGGINBOTTOM", "direccion": "Calle Marina 14 , planta primera Derecha.  11393 Zahara de los Atunes, Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "NIE Y7951929-S", "tipo": ""}, {"num": "68", "nombre": "Enrique Peña Ruiz", "direccion": "C/Chiclana, nº 16-E 11140 Conil de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75754328 X", "tipo": ""}, {"num": "69", "nombre": "Violeta Morales Muñoz", "direccion": "31266191Z calle General Muñoz Arenillas Nº2 - 11I Cádiz 11010", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "70", "nombre": "LACOSTE & VIÑALET SINGULAR HOUSES S.L.", "direccion": "CALLE COSTA DEL SOL 2 LOCAL 15 11407 JEREZ DE LA FRONTERA", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11892221", "tipo": ""}, {"num": "71", "nombre": "La Acera de Enfrente S:L", "direccion": "Avda. Bahía Blanca 8D, 2A 11008 Cádiz", "tel": "", "email": "rouslilo@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "B67647925", "tipo": ""}, {"num": "72", "nombre": "INNOVA FILMS Guasa Films S.L.", "direccion": "Zona Franca - Edificio Melkart Planta 1 P10 11001 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "73", "nombre": "UTE Cia Hispalense de Tranvías, SL", "direccion": "Avenida del Puerto 11, 5G 11006 Cádiz", "tel": "", "email": "j.ruiz@city-sightseeing.es", "pais": "", "cod_pais": "ES", "nif": "U72130446", "tipo": ""}, {"num": "74", "nombre": "Antonio López Vilchez", "direccion": "Calle San Dimas 2A, 1B 11003 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "77499491 W", "tipo": ""}, {"num": "75", "nombre": "Bocabocao sl", "direccion": "Calle Víctor González 3, bj D 11007 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B16789141", "tipo": ""}, {"num": "76", "nombre": "CELIA GRACÍA GAGO", "direccion": "Calle Teniente Trujillo 39 11660 Prado del rey", "tel": "", "email": "celia.garciga@gmail.com", "pais": "", "cod_pais": "ES", "nif": "15435996Y", "tipo": ""}, {"num": "77", "nombre": "SAFER DMCI SA", "direccion": "Urb. Marbellamar Local 5  29601 - Marbella, Málaga", "tel": "", "email": "Lola@safersiematic.com", "pais": "", "cod_pais": "ES", "nif": "A29270816", "tipo": ""}, {"num": "78", "nombre": "Studio Mo sl", "direccion": "Calle San Marcelo 20 bajo 8  28017 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 88280268", "tipo": ""}, {"num": "79", "nombre": "Manuel Rosado Crespo S.L.P.", "direccion": "Avda. del Mar, 116 11160 Barbate", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67750190", "tipo": ""}, {"num": "80", "nombre": "Next Home Gestiones, Servicios y Proyectos Estratégicos S.L.", "direccion": "C/ Acevino 14, Local 9 38400 Puerto de la Cruz. Tenerife", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B-02705556", "tipo": ""}, {"num": "81", "nombre": "Francisco Manuel Martín Sánchez", "direccion": "AV/ Duque de Nájera N7, Bloque D, 4ºD 11002 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75776254V", "tipo": ""}, {"num": "82", "nombre": "Antonio Gordillo Joyero, S.L.", "direccion": "Plaza Mendizabal 3  11005  Cádiz", "tel": "", "email": "aperez@joyeriagordillo.com", "pais": "", "cod_pais": "ES", "nif": "B11797990", "tipo": ""}, {"num": "83", "nombre": "Ayax Specialty", "direccion": "Calle Leopoldo Wener 13,  29014 Málaga", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B93694594", "tipo": ""}, {"num": "84", "nombre": "Miren Agurtzane Ostolaza Ugarte", "direccion": "Atotxa Erreka 81 B 20018 Donostia", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "1538018 H", "tipo": ""}, {"num": "85", "nombre": "Maria Luisa Rebolledo Dechamps", "direccion": "Av. de la Bahía 1, 7D 11012 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "31249823E", "tipo": ""}, {"num": "86", "nombre": "STAY HERE S L", "direccion": "Bélgica 1  41907 Valencina de la concepción", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 90486655", "tipo": ""}, {"num": "87", "nombre": "Consultora Mocalle Digital SLU", "direccion": "Fernando Chueca Goitia 14 28051 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "ESB87988705", "tipo": ""}, {"num": "88", "nombre": "Hispania Short Rentals S.L.", "direccion": "Pl. Villa de Castelldefels, 1, entreplanta, oficina 4 Bis, 29006 Málaga", "tel": "", "email": "administracion@ruralidays.com", "pais": "", "cod_pais": "ES", "nif": "B93567170", "tipo": ""}, {"num": "89", "nombre": "CLINICA COLMAN S.L.", "direccion": "Calle DR. Gomez Plana 1, L16 11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72365877", "tipo": ""}, {"num": "90", "nombre": "ALAQUECA SWEET, SL", "direccion": "C/Gran, 63 08310, Argentona (Barcelona)", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72835044", "tipo": ""}, {"num": "91", "nombre": "Brooks Running SLU", "direccion": "Ronda Maiols 1 Sant Quirze del valles (BCN) 08192", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 86957388", "tipo": ""}, {"num": "92", "nombre": "Antonio F Morenilla Diaz", "direccion": "Campanilleros 26k  11100 San Fernando Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75817209D", "tipo": ""}, {"num": "93", "nombre": "POPULO ENTERTAINMENT CB", "direccion": "PLAZA MONTESIÓN 5 41003 SEVILLA", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "E13813936", "tipo": ""}, {"num": "94", "nombre": "Verónica Gallardo Jiménez", "direccion": "Avenida de Valencia 27 11500 El Puerto de Santa María (Cádiz)", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75795506H", "tipo": ""}, {"num": "95", "nombre": "Colegio Oficial de Aparejadores y Arquitectos Técnicos de Cádiz", "direccion": "Avenida Ana de Viya Nº 5, 3ª Planta CP 11009, Cádiz", "tel": "", "email": "acornejo@coaatc.es", "pais": "", "cod_pais": "ES", "nif": "Q-1175003-A", "tipo": ""}, {"num": "96", "nombre": "Nashboard Analytics", "direccion": "Calle Cánovas del Castillo 10 11001 Cádiz", "tel": "", "email": "hbm@nashboard-analytics.com", "pais": "", "cod_pais": "ES", "nif": "B72236599", "tipo": ""}, {"num": "97", "nombre": "Teacampa Reservas SL", "direccion": "Calle Felipe Campo 18, 1 28002 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B06838338", "tipo": ""}, {"num": "98", "nombre": "La Peonza Digital SL", "direccion": "Calle Río Júcar, 18 28723 Pedrezuela. Madrid", "tel": "", "email": "pedro@lapeonzadigital.es", "pais": "", "cod_pais": "ES", "nif": "B86833928", "tipo": ""}, {"num": "99", "nombre": "ASISA", "direccion": "AVD. DE LAS CORTES DE CADIZ, S/N 11012 CDIZ", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "A-08169294", "tipo": ""}, {"num": "100", "nombre": "Colegio Oficial de Farmacéuticos de Cádiz", "direccion": "Calle Isabel la Católica 22 11004 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1166002D", "tipo": ""}, {"num": "101", "nombre": "Fernando Tinoco Piñero", "direccion": "Plaza San Juan de Dios, 2 Cádiz 11004", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "52.929.093K", "tipo": ""}, {"num": "102", "nombre": "Carlos Manuel López Ramos", "direccion": "C. Santo Domingo, 33 P04 C Jerez de la frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "31203012-Q", "tipo": ""}, {"num": "103", "nombre": "CC4 LOFTS S.L.", "direccion": "Calle la Morena 4,  11130 Chiclana de La Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B13693981", "tipo": ""}];
+var _invoices=[];
+var _settings={};
+var _currentTab='facturas';
+var _editingInvoice=null;
+var _editingClient=null;
+var _selectedClient=null;
+var _invoiceType='servicio';
+var _lineId=0;
+var _acMatches=[];
+var _pendingPagadoId=null;
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-window.addEventListener('load', function(){
+// Init
+window.addEventListener('load',function(){
   try{
     var c=getDB();if(!c){init();return;}
     c.auth.getSession().then(function(r){
@@ -404,181 +289,152 @@ async function init(){
   await loadSettings();
   await loadClients();
   await loadInvoices();
-  setToday();
-  renderInvoices();
-  renderClients();
+  showTab('facturas');
 }
 
-// ── SETTINGS ──────────────────────────────────────────────────────────────────
+// Settings
 async function loadSettings(){
   try{
     var c=getDB();if(!c)return;
     var r=await c.from('settings').select('*').eq('id','main').single();
-    if(r.data) _settings=r.data;
-    if(_settings.condpago) document.getElementById('f-condpago').value=_settings.condpago;
-    if(_settings.exencion) document.getElementById('exencion-text').textContent=_settings.exencion;
+    if(r.data)_settings=r.data;
   }catch(e){}
 }
-
-function getNextInvoiceNum(){
-  var serie=_settings.serie||'FAC-2026';
-  var next=_settings.next||1;
-  return serie+'-'+String(next).padStart(3,'0');
+function getNextNum(){
+  var s=_settings.serie||'FAC-2026';
+  var n=_settings.next||1;
+  return s+'-'+String(n).padStart(3,'0');
 }
-
-async function incrementInvoiceNum(){
+async function bumpNum(){
   _settings.next=(_settings.next||1)+1;
-  try{
-    var c=getDB();if(!c)return;
-    await c.from('settings').update({next:_settings.next}).eq('id','main');
-  }catch(e){}
+  try{var c=getDB();if(c)await c.from('settings').update({next:_settings.next}).eq('id','main');}catch(e){}
 }
 
-// ── CLIENTS ───────────────────────────────────────────────────────────────────
+// Clients
 async function loadClients(){
   try{
     var c=getDB();if(!c)return;
     var r=await c.from('clients').select('*').order('nombre');
-    if(r.data&&r.data.length) _clients=r.data;
-    else await importBaseClients();
+    if(r.data&&r.data.length){_clients=r.data;}
+    else{await importClients();}
   }catch(e){}
 }
-
-async function importBaseClients(){
+async function importClients(){
   var base=[{"num": "", "nombre": "PROINROS S.L.", "direccion": "Av. Del Mar 56 11160 Barbate", "tel": "", "email": "proinros@gmail.com", "pais": "", "cod_pais": "ES", "nif": "B11221355", "tipo": "Empresa privada"}, {"num": "", "nombre": "CANOFOTOSPORT S.L.", "direccion": "Calle Jacinto González, 24 28600 Navalcarnero", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B87446936", "tipo": ""}, {"num": "", "nombre": "REYES   DE  LA  LASTRA  BALLESTEROS", "direccion": "Calle Mesón 16, 1Izq. 11006 Cádiz Cádiz", "tel": "", "email": "reyesdelalastra@gmail.com", "pais": "", "cod_pais": "ES", "nif": "28538663X", "tipo": "Particular"}, {"num": "", "nombre": "Proyectos Alimentarios Profood S.L.U.", "direccion": "Calle Plocia N9 11006 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B06547921", "tipo": "Empresa privada"}, {"num": "", "nombre": "PINALETA S.L.", "direccion": "Edificio Parque Retortillo portal 1, planta 1, puerta 3  1130  Chiclana de la Frontera  Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11313244", "tipo": "Empresa privada"}, {"num": "", "nombre": "Campomar", "direccion": "Edificio Atlántida, Playa de La Barrosa 11130 Chiclana, Cá 11130 Chiclana de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72192792", "tipo": "Empresa privada"}, {"num": "", "nombre": "Cristina Bernal Álvarez", "direccion": "Urbanización las palomas, 14  11130 Chiclana Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "71025597x", "tipo": "Empresa privada"}, {"num": "", "nombre": "MONTESIERRA S.A.", "direccion": "Avenida Nazaret s/n 11406 Jerez", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "A11604998", "tipo": "Empresa privada"}, {"num": "", "nombre": "Jesús Murciano Arizti", "direccion": "Mar de Noruega 42 11500 El Pto. de Sta. maría", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "34003037P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Emilio Ravina Beltrami", "direccion": "Calle Nueva, 9  11005  Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44043982V", "tipo": "Empresa privada"}, {"num": "", "nombre": "Manuel Rodríguez Normand", "direccion": "Avenida de España 4 11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "28727484R", "tipo": "Empresa privada"}, {"num": "", "nombre": "RC PROMOCIONES VM25 S.L.", "direccion": "Avenida del Mar, 116 11160 Barbate", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67650994", "tipo": "Empresa privada"}, {"num": "", "nombre": "Alessandro Termenini", "direccion": "Calle Plocia nº11 3ºA   11006 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Y1302373N", "tipo": "Particular"}, {"num": "", "nombre": "Óscar Garcia Sánchez", "direccion": "Calle Darro, 10    11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "74927227N", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carmen Román Benítez", "direccion": "Avenida de Ana de Viya 7 Edificio Proseroina 202 11009 Cádiz", "tel": "", "email": "romanbenitez.carmina@gmail.com", "pais": "", "cod_pais": "ES", "nif": "31249274W", "tipo": "Particular"}, {"num": "", "nombre": "ITAPUAN S.L", "direccion": "C/ALGECIRAS 1  11011 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11398385", "tipo": "Empresa privada"}, {"num": "", "nombre": "Consorcio de la Zona Franca de Cádiz", "direccion": "Calle Ronda de Vigilancia S/N 11011 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1176004H", "tipo": "Gobierno"}, {"num": "", "nombre": "Evaristo Jiménez Reyes", "direccion": "Barriada Blas Infante 13 Bajo Derecha  11160 Barbate Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44056521K", "tipo": "Empresa privada"}, {"num": "", "nombre": "Mundo Campeador,SL", "direccion": "Calle Coslada 5 28028 Madrid", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B47774146", "tipo": "Empresa privada"}, {"num": "", "nombre": "JEFATURA DE INTENDENCIA Y ASUNTOS ECONÓMICOS SUR (JIAE SUR)", "direccion": "AVDA. DE LA BORBOLLA 27-29 UNIDAD DE GASTO: CENTRO DE FORMACIÓN DE TROPA Nº 2 (CEFOT 2)  41013  Sevilla", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "S4130025B", "tipo": "Empresa privada"}, {"num": "", "nombre": "Marta Pachón Cla", "direccion": "Calle Atlanta 6 11405 Jerez de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "32084918X", "tipo": "Particular"}, {"num": "", "nombre": "Ausias José Lobatón Ortega - Architekt", "direccion": "Weidenweg 7 10249 Berlin DE", "tel": "", "email": "ausiaslo@hotmail.com", "pais": "", "cod_pais": "DE", "nif": "DE276600989", "tipo": "Empresa privada"}, {"num": "", "nombre": "CARLOS  RASCO GARCIA", "direccion": "C/ Condesa Villafuente Bermeja, 5 2ºA  11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44067806J", "tipo": "Particular"}, {"num": "", "nombre": "Balneario Sunset S.L.", "direccion": "Urbn. Residencial Azucena 78 Calle Cardenal Marcelo Spinola 48, 7B 28060 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B56877202", "tipo": "Empresa privada"}, {"num": "", "nombre": "Milenium Arquitectura S.L.", "direccion": "Calle Castaño, 5 ARQ. Urb. Casablanca 29639 Benalmádena, Málaga", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B29876661", "tipo": "Empresa privada"}, {"num": "", "nombre": "Victoria Manzorro Pérez", "direccion": "Calle Lepanto 9 11140 Conil de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44058486P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Construcciones Periñan Green Home, S.L.", "direccion": "Calle Laurel, 1 bloque 1 1ºD  11130  Chiclana de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B09846361", "tipo": "Empresa privada"}, {"num": "", "nombre": "Arantxa Martínez Rodríguez", "direccion": "Calle de la Angelita 5, Blq 2, 4ºB 11500 El Puerto de Santa María", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75785779C", "tipo": "Empresa privada"}, {"num": "", "nombre": "Jesús Ramos García", "direccion": "Calle Dame de Noche 18 11500 Chiclana de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "77175624K", "tipo": "Particular"}, {"num": "", "nombre": "Automatic Media S.L.", "direccion": "Avinguda Cornellà 142, 8 08950 Esplugues de Llobregat Barcelona", "tel": "934 002727", "email": "abaena@automaticmedia.tv", "pais": "", "cod_pais": "ES", "nif": "ESB05402128", "tipo": "Empresa privada"}, {"num": "", "nombre": "Marta Centeno interiorismo S.L.", "direccion": "Calle Albareda, 4 Vivienda 2 11500 El Puerto de santa María", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B70701040", "tipo": "Empresa privada"}, {"num": "", "nombre": "Vivium Andalucía Oeste Realty SL", "direccion": "Plaza Nueva 3,  41001  Sevilla", "tel": "954 21 61 00", "email": "seville@spain-sothebysrealty.com", "pais": "", "cod_pais": "ES", "nif": "B90201070", "tipo": "Empresa privada"}, {"num": "", "nombre": "Partido Popular de Cádiz", "direccion": "Calle Cánovas del castillo 11 11001 Cádiz", "tel": "", "email": "gerencia.cadiz@pp.es", "pais": "", "cod_pais": "ES", "nif": "G28570927", "tipo": "Empresa privada"}, {"num": "", "nombre": "Julia Armario Lorenzo", "direccion": "Calle Hijuela del membrillar 1, Nave 4 11405 Jerez de la Frontera", "tel": "673 395 845", "email": "", "pais": "", "cod_pais": "ES", "nif": "32907358Q", "tipo": "Empresa privada"}, {"num": "", "nombre": "Ismael Virués Mera", "direccion": "Calle Los Olivos 3 11150 Vejer de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44059429P", "tipo": "Empresa privada"}, {"num": "", "nombre": "Housfy Real Estate SL", "direccion": "Calle Tánger 35  08018\t Barcelona", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B66991274", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carlos Gil Roig FACTORÍA 9", "direccion": "Calle Rosas 22 50009 Zaragoza", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "17715313T", "tipo": "Empresa privada"}, {"num": "", "nombre": "Excmo. Colegio Oficial de Médicos de Cádiz", "direccion": "Glorieta Zona Franca s/n 4", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": "Empresa privada"}, {"num": "", "nombre": "Propulsa innovacion SL", "direccion": "Licenciado Poza 25, Bilbao (Bizkaia) 4d  Bilbao (Bizkaia)", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B75548958", "tipo": "Empresa privada"}, {"num": "", "nombre": "Todocasa Jerez S.L.", "direccion": "Calle Lealas n13 Jerez 11404", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11750650", "tipo": "Empresa privada"}, {"num": "", "nombre": "Orba Arquitectura y Rehabilitación", "direccion": "Calle Francisco García de Sola 2 Local 6 11007 Cádiz", "tel": "633 487 380", "email": "", "pais": "", "cod_pais": "ES", "nif": "B21974480", "tipo": "Empresa privada"}, {"num": "", "nombre": "Francisco Jesús Cuevas Pérez", "direccion": "Calle Bambú 4 11540 Sanlucar de Barrameda Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "49038380B", "tipo": "Empresa privada"}, {"num": "", "nombre": "Carlos Rasco García", "direccion": "Calle Condesa Villafuente Bermeja, 5 2ºA 11008 Cádiz Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44067806J", "tipo": "Empresa privada"}, {"num": "", "nombre": "Olga Tey Linares", "direccion": "Calle San Pedro 12 11004 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "44036832C", "tipo": "Empresa privada"}, {"num": "", "nombre": "Francisco Miguel Lobato Piñero", "direccion": "Calle Empedrador 25, BJO 11130 Chiclana de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "49078235F", "tipo": "Empresa privada"}, {"num": "", "nombre": "BRABURA GRILLS, S.L.", "direccion": "P.I. LOS VARALES. ACERO Nº 12 06220  VILLAFRANCA DE LOS BARROS Badajoz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67691535", "tipo": "Empresa privada"}, {"num": "", "nombre": "Rodriguez Normand S.L.", "direccion": "Calle ING. Juan  Romero Carrasco, 7 5ºB 11600 Ubrique", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": "Empresa privada"}, {"num": "", "nombre": "ASOC. LA RATONERA GADITANA", "direccion": "Calle Hospital de Mujeres 33 3º cádiz 11006", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "G75685461", "tipo": "Empresa privada"}, {"num": "", "nombre": "Alantel Soluciones Integrales S.L.", "direccion": "Condado de treviño 2 28033 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B10676005", "tipo": "Empresa privada"}, {"num": "", "nombre": "Vinagrera La Andaluza, S.L.", "direccion": "Parque Empresarial Oeste Calle Marquetería 7 11408 Jerez de la Frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11826617", "tipo": "Empresa privada"}, {"num": "1", "nombre": "MANUEL ESTEVES", "direccion": "", "tel": "666561970", "email": "manuel@manuelesteves.es", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "1", "nombre": "Javier Féniz Real", "direccion": "Calle Cibeles 1B 11520 Rota Cádiz", "tel": "", "email": "hola@fenixvisual.es", "pais": "España", "cod_pais": "ES", "nif": "53580942G", "tipo": "Empresa privada"}, {"num": "1", "nombre": "Edificarte, Arquitectos Técnicos e Ingenieros, S.L.", "direccion": "Calle Caldereros 1 11100 San Fernando", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B-72294952", "tipo": "Empresa privada"}, {"num": "1", "nombre": "Brabura Grills, S.L.", "direccion": "PL los Varales Acero 12 06220 Villa Franca de los Barros Badajoz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B67691535", "tipo": "Empresa privada"}, {"num": "3", "nombre": "MARIA EUGENIA MORENO VARGAS", "direccion": "AV. RÍO SAN PEDRO 17 115500 EL PUERTO DE SANTA MARÍA", "tel": "620 317 013", "email": "jpme2014@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75768451b", "tipo": ""}, {"num": "4", "nombre": "ALBERTO G. PURAS S.L.U.", "direccion": "CALLE LUIS MONTOTO Nº 85 LOCAL 10 41018 - SEVILLA", "tel": "686 15 78 20", "email": "info@albertogpuras.com", "pais": "", "cod_pais": "ES", "nif": "B91789230", "tipo": ""}, {"num": "6", "nombre": "CAMEN PÉREZ ÁLVAREZ", "direccion": "RESID. CANALEJA, MANZANA1 - CALLE ANA PARRILLA 1 EDF. 8 1ºB 11600 Jerez de la Frontera", "tel": "660 448 070", "email": "", "pais": "", "cod_pais": "ES", "nif": "31 72 95 54 L", "tipo": ""}, {"num": "7", "nombre": "GUILLERMO RAMOS SABORIDO", "direccion": "CALLE ESPINACA Nº 1 1ºB 11520 ROTA", "tel": "647 556 590", "email": "gramossaborido@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "44047849c", "tipo": ""}, {"num": "8", "nombre": "Motores Cádiz S.A.", "direccion": "Calle Puerto Real S/N 11011 Zona Franca Cádiz", "tel": "956 271300", "email": "", "pais": "", "cod_pais": "ES", "nif": "A11012572", "tipo": ""}, {"num": "9", "nombre": "Sara Rivero Romero", "direccion": "Crta de Fuente Amarga Nº 31 2ºB 11130 Chiclana", "tel": "661 067 676", "email": "sarari16@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "75779195Z", "tipo": ""}, {"num": "10", "nombre": "Carolina Torres Romero", "direccion": "Calle Pintor Zuloaga Nº 18 5º C 11010  Cádiz", "tel": "610 730 051", "email": "carolinatorresromero@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75777253 G", "tipo": ""}, {"num": "11", "nombre": "Eva Maria Carmona Espinazo", "direccion": "Avenida de Portugal nº 43 4º C 11006 Cádiz", "tel": "647 178 254", "email": "evichi84@gmail.com", "pais": "", "cod_pais": "ES", "nif": "75776901C", "tipo": ""}, {"num": "12", "nombre": "XRF Financial Ltd.", "direccion": "ADDRESS: 1st & 2nd Floor, Tofias Building, Vasileos Konstantinou 140, Limassol 3080, Cyprus  Company Number: HE 248449", "tel": "", "email": "nepv@palafoxhoteles.com", "pais": "Chipre", "cod_pais": "CY", "nif": "10248449Y", "tipo": ""}, {"num": "13", "nombre": "Rosario Galiana Vigo", "direccion": "Calle Algeciras 1 Cádiz", "tel": "956 07 01 22", "email": "laboral@rosariogaliana.com", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "14", "nombre": "UENOUENO SL", "direccion": "Calle Mery Ward 3 1º Izq. 41013 Sevilla  CIF: B91910497", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "15", "nombre": "Elena Gurría Mézcua", "direccion": "DNI: 47797732Y Calle San Francisco de Borja, 4, 4, Izquierda  San Fernando (Cádiz", "tel": "", "email": "", "pais": "Spain", "cod_pais": "ES", "nif": "DNI: 47797732Y", "tipo": ""}, {"num": "16", "nombre": "HEINEKEN ESPAÑA SA", "direccion": "AV DE ANDALUCIA 1 41007 SEVILLA  CIF: A28006013", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "17", "nombre": "Joaquín Fernández Lebrero", "direccion": "Calle SanFrancisco de Borja 4, 4º iZQ. 11100 san Fernando  CIF: 48897375 L", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "18", "nombre": "Juan Pedro Fernández Navarro", "direccion": "Calle Carlos Marx 22 11407 Jerez de la Frontera  31721276 K", "tel": "", "email": "fdz@fdz.es", "pais": "España", "cod_pais": "ES", "nif": "31721276 K", "tipo": ""}, {"num": "19", "nombre": "Juan Pedro Fernández Navarro", "direccion": "31721276 K Calle Carlos Marx 22 11407 Jerez", "tel": "", "email": "fdz@fdz.com", "pais": "España", "cod_pais": "ES", "nif": "31721276 K", "tipo": ""}, {"num": "20", "nombre": "Pablo Recio Quijano", "direccion": "76084291S Calle San Salvador 13 3 °C 11008 - Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "21", "nombre": "Ilustre Colegio de Abogados de Cádiz", "direccion": "Q1163001I C Tamarindos 17-19 11007 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1163001I", "tipo": ""}, {"num": "22", "nombre": "Rafael Navarro Millan", "direccion": "AV. Cayetano del Toro, 23 1ºC 11010 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "30970510 K", "tipo": ""}, {"num": "23", "nombre": "Catedral 9 SL", "direccion": "Plaza de la Catedral 9 11005 Cádiz", "tel": "", "email": "gades1@msn.com", "pais": "", "cod_pais": "ES", "nif": "B72148836", "tipo": ""}, {"num": "24", "nombre": "URANIA FILMS SL", "direccion": "Calle Diseminados 491 21450 Cartaya, Huelva", "tel": "605986625", "email": "maria_uraniafilms@yahoo.es", "pais": "", "cod_pais": "ES", "nif": "B21398854", "tipo": ""}, {"num": "25", "nombre": "Iniciativas Alvana sl", "direccion": "calle Almadraba 11 11500 el Puerto de santa María B72231582", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "26", "nombre": "Fundación Municipal de Cultura", "direccion": "Ayuntamiento de Cádiz Paseo Carlos III Núm. 9 C.P:11003 Cádiz (España)", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "CIF: Q-1100597-B", "tipo": ""}, {"num": "27", "nombre": "Casanovafoto", "direccion": "Ronda Universitat, 35 08007 Barcelona  B58598558", "tel": "", "email": "raulgonzalez@casanovafoto.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "28", "nombre": "ANDALUCIA POR SI", "direccion": "Calle Virgen de los Milagros 134 11500 el Puerto de Santa María Cif: G72330251", "tel": "", "email": "jjcadi@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "29", "nombre": "Fundación Cajasol", "direccion": "C/ San Francisco 1 41004 Sevilla  CIF: G91763235", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "CIF: G91763235", "tipo": ""}, {"num": "30", "nombre": "Carlos Mellado Aguilar", "direccion": "Av. Alcalde Luis Uruñuela 6, módulo 106 41020, sevilla", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "28825584Y", "tipo": ""}, {"num": "31", "nombre": "Cádiz Centro Comercial", "direccion": "Calle San Antonio Abad, 14 Local 4 11005 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "V11395571", "tipo": ""}, {"num": "32", "nombre": "CLUB DEPORTE ADAPTADO BAHÍA DE CÁDIZ", "direccion": "Calle Caño Herrera s/n (Pabellón de Deportes Bahía Sur) 11100 San Fernando (Cádiz) CIF.: G-11453289", "tel": "", "email": "deporteadaptadobahiadecadiz1@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "36", "nombre": "Babblá Estudio SL", "direccion": "CIF: B-72182371 Calle Doctor Gómez Plana 1 11008 Cádiz", "tel": "", "email": "carmen@babbla.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "37", "nombre": "FOR.COM.AS CAMARINAL SL", "direccion": "B72134554  C/ Benjamín López 6, 2º A  11100- SAN FERNANDO", "tel": "", "email": "vicente.franco@camarinal.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "38", "nombre": "Fundación Acción Contra el Hambre", "direccion": "CIF G81164105 Calle Duque de Sevilla,nº3 CP 28002 Madrid", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "39", "nombre": "CLICK SOLUCIONES GRÁFICAS, S.", "direccion": "B11509916  Parque Empresarial de Levante  C/Alcalá de los Gazules Nº13  11011 Cádiz", "tel": "", "email": "fidel.castro@neosbrand.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "40", "nombre": "Inmaculada Hurtado Baro", "direccion": "Plaza de las alegrias num 1 San fernando cp 11100", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75811809z", "tipo": ""}, {"num": "41", "nombre": "ARCOS FAIRWAYS S.L.U.", "direccion": "Calle Muñoz Vázquez 18 A 11630, Arcos de la Frontera, Cádiz, Spain  C.I.F. B-11919669", "tel": "", "email": "recepcion@arcosfairways.com", "pais": "España", "cod_pais": "ES", "nif": "C.I.F. B-11919669", "tipo": ""}, {"num": "42", "nombre": "ARANIKERNOA", "direccion": "B72232507 C/ALDEA DEL COTO CHICLANA DE LA FRONTERA, 11130 (CADIZ)", "tel": "", "email": "marta@alojamientosoasis.com", "pais": "España", "cod_pais": "ES", "nif": "B72232507", "tipo": ""}, {"num": "43", "nombre": "Begoña Manchón Landin", "direccion": "31253545H Calle Gabriel Matute 8 110008 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "44", "nombre": "JAROSLAWA KOWALSKA", "direccion": "Calle san Rosendo, 5 11380 Tarifa, Cádiz ES45086817J", "tel": "666 064 746", "email": "", "pais": "España", "cod_pais": "ES", "nif": "ES45086817J", "tipo": ""}, {"num": "45", "nombre": "Espacios de Empresa y Buena Arquitectura S.L.", "direccion": "Pol. Las Salinas de Poniente Calle Manantial 13.   CEEI Edificio 2 - Oficina 180 11500  El Puerto de Santa María", "tel": "", "email": "compras@eeba.es", "pais": "España", "cod_pais": "ES", "nif": "B-56444532", "tipo": "Empresa privada"}, {"num": "46", "nombre": "Vía Augusta Julia S.L", "direccion": "B11504107 C/ Doctor Fleming, 6. 11009. Cádiz.", "tel": "", "email": "victor@viaaugusta.es", "pais": "España", "cod_pais": "ES", "nif": "B11504107", "tipo": ""}, {"num": "47", "nombre": "Milenium Arquitectura, S.L.", "direccion": "Calle Castaño, 5 ARQ, Urb Casablanca 29630 Benalmádena - Málaga", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "48", "nombre": "Cádiz CF SAD", "direccion": "A-11013703 Plaza Madrid s/n 11010 Cádiz", "tel": "", "email": "administración@cadizcf.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "49", "nombre": "Fundación Bahía de Cádiz para el Desarrollo Económico", "direccion": "Calle Manantial, n. 13. Polígono Industrial Las Salinas de San José Bajo, 11500 El Puerto de Santa María, Cádiz.  CIF: G11423381", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "50", "nombre": "Francisco Jesús Bononato Rosso", "direccion": "Calle Los Espadas 17 11500 el Puerto de Santa María - Cádiz NIF: 44963828 R", "tel": "675660003", "email": "info@francisrossostudio.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "51", "nombre": "NIM BCN-CHIC SL", "direccion": "Av de los Descubrimientos 104 11130 Chiclana de la Frontera CIF: B72327075", "tel": "", "email": "qwlin2006@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "52", "nombre": "TEACAMPA GLAMPING S.L", "direccion": "B02682144 CARRETERA DE LAS LAGUNAS, 14 11130   CHICLANA DE LA FRONTERA- CÁDIZ", "tel": "", "email": "mruiz@teacampa.com", "pais": "España", "cod_pais": "ES", "nif": "B02682144", "tipo": ""}, {"num": "53", "nombre": "SMART ELECTRIC TRANSPORT SL", "direccion": "B93585008 Av Arias de Velasco 38 29602. Marbella. Málaga", "tel": "687 792 392", "email": "", "pais": "España", "cod_pais": "ES", "nif": "B93585008", "tipo": ""}, {"num": "54", "nombre": "CANOVAS 32 SUITES S.L.", "direccion": "Cif: B72391774 Cánovas del Castillo, 32    11001 CADIZ", "tel": "659 499 880", "email": "", "pais": "España", "cod_pais": "ES", "nif": "Cif: B72391774", "tipo": ""}, {"num": "55", "nombre": "Hermanos Ramón y Emilio Rodríguez de Trujillo SL", "direccion": "B11370525 Av Cayetano del Toro 10 11010 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "56", "nombre": "Jaime A. Torres Cano", "direccion": "Av. Amilcar de la Barca 11-1A  11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75755012 G", "tipo": ""}, {"num": "57", "nombre": "Angel Sevilla Ragel", "direccion": "Calle Ancha 15, 1º Izq. 11001 Cádiz CIF: 77172438 D", "tel": "", "email": "angel.sevilla.fotografia@gmail.com", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "58", "nombre": "Alicia Rodríguez Archidona", "direccion": "31712872N Calle Consolación 27 A 11650 Villamartin Cádiz", "tel": "693637386", "email": "", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "59", "nombre": "Vexel Estudio Publicitario", "direccion": "Plaza de España Edif. España,Bajo 11130 Chiclana de la Frontera", "tel": "", "email": "joseguillen@byvexel.com", "pais": "España", "cod_pais": "ES", "nif": "B-56549801", "tipo": ""}, {"num": "60", "nombre": "FARMACIA ALVA CB", "direccion": "E11400736 Calle Alcalde Blázquez 17 11012 Cádiz", "tel": "", "email": "", "pais": "España", "cod_pais": "ES", "nif": "E11400736", "tipo": ""}, {"num": "61", "nombre": "INVIERTIS PROPERTIES, S.L.", "direccion": "CIF: B67357137 AVDA, Ernest Lluch, Nº32 tcm2 1.10 MATARÓ (08302), BARCELONA, España", "tel": "", "email": "info@inviertis.es", "pais": "España", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "62", "nombre": "ORCHID CAPITAL PARTNERS S.L.", "direccion": "CL GURTUBAY, 5, 28001 MADRID", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "N.I.F. : B65568255", "tipo": ""}, {"num": "64", "nombre": "Marta Centeno Garcia", "direccion": "Calle Albareda, número 4, vivienda 2 C.p.  11500 El puerto de Santa Maria", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "53576332V", "tipo": ""}, {"num": "65", "nombre": "BUGALOO STUDIO", "direccion": "Urb. Los tres Pinos, 3 41807 Espartinas", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B90385725", "tipo": ""}, {"num": "66", "nombre": "Grupo Municipal Andalucía por Sí", "direccion": "Plaza del Rey, 5 11100 San Fernando - Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "V-72379308", "tipo": ""}, {"num": "67", "nombre": "STEVEN Y LISA HIGGINBOTTOM", "direccion": "Calle Marina 14 , planta primera Derecha.  11393 Zahara de los Atunes, Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "NIE Y7951929-S", "tipo": ""}, {"num": "68", "nombre": "Enrique Peña Ruiz", "direccion": "C/Chiclana, nº 16-E 11140 Conil de la Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75754328 X", "tipo": ""}, {"num": "69", "nombre": "Violeta Morales Muñoz", "direccion": "31266191Z calle General Muñoz Arenillas Nº2 - 11I Cádiz 11010", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "70", "nombre": "LACOSTE & VIÑALET SINGULAR HOUSES S.L.", "direccion": "CALLE COSTA DEL SOL 2 LOCAL 15 11407 JEREZ DE LA FRONTERA", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B11892221", "tipo": ""}, {"num": "71", "nombre": "La Acera de Enfrente S:L", "direccion": "Avda. Bahía Blanca 8D, 2A 11008 Cádiz", "tel": "", "email": "rouslilo@hotmail.com", "pais": "", "cod_pais": "ES", "nif": "B67647925", "tipo": ""}, {"num": "72", "nombre": "INNOVA FILMS Guasa Films S.L.", "direccion": "Zona Franca - Edificio Melkart Planta 1 P10 11001 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "", "tipo": ""}, {"num": "73", "nombre": "UTE Cia Hispalense de Tranvías, SL", "direccion": "Avenida del Puerto 11, 5G 11006 Cádiz", "tel": "", "email": "j.ruiz@city-sightseeing.es", "pais": "", "cod_pais": "ES", "nif": "U72130446", "tipo": ""}, {"num": "74", "nombre": "Antonio López Vilchez", "direccion": "Calle San Dimas 2A, 1B 11003 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "77499491 W", "tipo": ""}, {"num": "75", "nombre": "Bocabocao sl", "direccion": "Calle Víctor González 3, bj D 11007 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B16789141", "tipo": ""}, {"num": "76", "nombre": "CELIA GRACÍA GAGO", "direccion": "Calle Teniente Trujillo 39 11660 Prado del rey", "tel": "", "email": "celia.garciga@gmail.com", "pais": "", "cod_pais": "ES", "nif": "15435996Y", "tipo": ""}, {"num": "77", "nombre": "SAFER DMCI SA", "direccion": "Urb. Marbellamar Local 5  29601 - Marbella, Málaga", "tel": "", "email": "Lola@safersiematic.com", "pais": "", "cod_pais": "ES", "nif": "A29270816", "tipo": ""}, {"num": "78", "nombre": "Studio Mo sl", "direccion": "Calle San Marcelo 20 bajo 8  28017 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 88280268", "tipo": ""}, {"num": "79", "nombre": "Manuel Rosado Crespo S.L.P.", "direccion": "Avda. del Mar, 116 11160 Barbate", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B67750190", "tipo": ""}, {"num": "80", "nombre": "Next Home Gestiones, Servicios y Proyectos Estratégicos S.L.", "direccion": "C/ Acevino 14, Local 9 38400 Puerto de la Cruz. Tenerife", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B-02705556", "tipo": ""}, {"num": "81", "nombre": "Francisco Manuel Martín Sánchez", "direccion": "AV/ Duque de Nájera N7, Bloque D, 4ºD 11002 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75776254V", "tipo": ""}, {"num": "82", "nombre": "Antonio Gordillo Joyero, S.L.", "direccion": "Plaza Mendizabal 3  11005  Cádiz", "tel": "", "email": "aperez@joyeriagordillo.com", "pais": "", "cod_pais": "ES", "nif": "B11797990", "tipo": ""}, {"num": "83", "nombre": "Ayax Specialty", "direccion": "Calle Leopoldo Wener 13,  29014 Málaga", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B93694594", "tipo": ""}, {"num": "84", "nombre": "Miren Agurtzane Ostolaza Ugarte", "direccion": "Atotxa Erreka 81 B 20018 Donostia", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "1538018 H", "tipo": ""}, {"num": "85", "nombre": "Maria Luisa Rebolledo Dechamps", "direccion": "Av. de la Bahía 1, 7D 11012 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "31249823E", "tipo": ""}, {"num": "86", "nombre": "STAY HERE S L", "direccion": "Bélgica 1  41907 Valencina de la concepción", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 90486655", "tipo": ""}, {"num": "87", "nombre": "Consultora Mocalle Digital SLU", "direccion": "Fernando Chueca Goitia 14 28051 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "ESB87988705", "tipo": ""}, {"num": "88", "nombre": "Hispania Short Rentals S.L.", "direccion": "Pl. Villa de Castelldefels, 1, entreplanta, oficina 4 Bis, 29006 Málaga", "tel": "", "email": "administracion@ruralidays.com", "pais": "", "cod_pais": "ES", "nif": "B93567170", "tipo": ""}, {"num": "89", "nombre": "CLINICA COLMAN S.L.", "direccion": "Calle DR. Gomez Plana 1, L16 11008 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72365877", "tipo": ""}, {"num": "90", "nombre": "ALAQUECA SWEET, SL", "direccion": "C/Gran, 63 08310, Argentona (Barcelona)", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B72835044", "tipo": ""}, {"num": "91", "nombre": "Brooks Running SLU", "direccion": "Ronda Maiols 1 Sant Quirze del valles (BCN) 08192", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B 86957388", "tipo": ""}, {"num": "92", "nombre": "Antonio F Morenilla Diaz", "direccion": "Campanilleros 26k  11100 San Fernando Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75817209D", "tipo": ""}, {"num": "93", "nombre": "POPULO ENTERTAINMENT CB", "direccion": "PLAZA MONTESIÓN 5 41003 SEVILLA", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "E13813936", "tipo": ""}, {"num": "94", "nombre": "Verónica Gallardo Jiménez", "direccion": "Avenida de Valencia 27 11500 El Puerto de Santa María (Cádiz)", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "75795506H", "tipo": ""}, {"num": "95", "nombre": "Colegio Oficial de Aparejadores y Arquitectos Técnicos de Cádiz", "direccion": "Avenida Ana de Viya Nº 5, 3ª Planta CP 11009, Cádiz", "tel": "", "email": "acornejo@coaatc.es", "pais": "", "cod_pais": "ES", "nif": "Q-1175003-A", "tipo": ""}, {"num": "96", "nombre": "Nashboard Analytics", "direccion": "Calle Cánovas del Castillo 10 11001 Cádiz", "tel": "", "email": "hbm@nashboard-analytics.com", "pais": "", "cod_pais": "ES", "nif": "B72236599", "tipo": ""}, {"num": "97", "nombre": "Teacampa Reservas SL", "direccion": "Calle Felipe Campo 18, 1 28002 Madrid", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B06838338", "tipo": ""}, {"num": "98", "nombre": "La Peonza Digital SL", "direccion": "Calle Río Júcar, 18 28723 Pedrezuela. Madrid", "tel": "", "email": "pedro@lapeonzadigital.es", "pais": "", "cod_pais": "ES", "nif": "B86833928", "tipo": ""}, {"num": "99", "nombre": "ASISA", "direccion": "AVD. DE LAS CORTES DE CADIZ, S/N 11012 CDIZ", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "A-08169294", "tipo": ""}, {"num": "100", "nombre": "Colegio Oficial de Farmacéuticos de Cádiz", "direccion": "Calle Isabel la Católica 22 11004 Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "Q1166002D", "tipo": ""}, {"num": "101", "nombre": "Fernando Tinoco Piñero", "direccion": "Plaza San Juan de Dios, 2 Cádiz 11004", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "52.929.093K", "tipo": ""}, {"num": "102", "nombre": "Carlos Manuel López Ramos", "direccion": "C. Santo Domingo, 33 P04 C Jerez de la frontera Cádiz", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "31203012-Q", "tipo": ""}, {"num": "103", "nombre": "CC4 LOFTS S.L.", "direccion": "Calle la Morena 4,  11130 Chiclana de La Frontera", "tel": "", "email": "", "pais": "", "cod_pais": "ES", "nif": "B13693981", "tipo": ""}];
-  if(!base.length)return;
-  var rows=base.map(function(c){
-    // Parse address: try to extract CP and ciudad
-    var dir=c.direccion||'';
-    var cp='',ciudad='';
+  var rows=base.filter(function(c){return c.nombre;}).map(function(c){
+    var dir=c.direccion||'',cp='',ciudad='';
     var m=dir.match(/(\d{5})\s+(.+?)(?:\s+\w+)?$/);
     if(m){cp=m[1];ciudad=m[2];}
-    return {
-      id:'cli-'+Math.random().toString(36).slice(2),
-      nombre:c.nombre,nif:c.nif,email:c.email,
-      tel:c.tel,direccion:dir,cp:cp,ciudad:ciudad,
-      pais:c.cod_pais==='ES'?'España':c.pais||'España'
-    };
-  }).filter(function(c){return c.nombre;});
-  try{
-    var c=getDB();if(!c)return;
-    await c.from('clients').upsert(rows,{onConflict:'id'});
-    _clients=rows;
-  }catch(e){}
+    return {id:'cli-'+Math.random().toString(36).slice(2),nombre:c.nombre,nif:c.nif||'',email:c.email||'',tel:c.tel||'',direccion:dir,cp:cp,ciudad:ciudad,pais:'España'};
+  });
+  try{var c=getDB();if(c)await c.from('clients').upsert(rows,{onConflict:'id'});}catch(e){}
+  _clients=rows;
 }
 
 function renderClients(){
   var q=(document.getElementById('cli-search').value||'').toLowerCase();
-  var filtered=_clients.filter(function(c){
+  var filt=_clients.filter(function(c){
     return !q||c.nombre.toLowerCase().includes(q)||(c.nif||'').toLowerCase().includes(q)||(c.email||'').toLowerCase().includes(q);
   });
-  var list=document.getElementById('cli-list');
-  if(!filtered.length){list.innerHTML='<div class="empty"><div>👤</div><p>No hay clientes</p></div>';return;}
-  list.innerHTML=filtered.map(function(c){
-    var ini=c.nombre.trim()[0]||'?';
-    return '<div class="cli-card" onclick="editClient(''+c.id+'')">'+
-      '<div class="cli-avatar">'+ini.toUpperCase()+'</div>'+
-      '<div style="flex:1"><div class="cli-name">'+esc(c.nombre)+'</div>'+
-      '<div class="cli-sub">'+(c.email||c.tel||'Sin datos de contacto')+'</div></div>'+
-      '<div class="cli-nif">'+(c.nif||'')+'</div>'+
-      '</div>';
-  }).join('');
+  var list=document.getElementById('cli-list');list.innerHTML='';
+  if(!filt.length){list.innerHTML='<div class="empty"><div>👤</div><p>No hay clientes</p></div>';return;}
+  filt.forEach(function(c){
+    var card=document.createElement('div');card.className='cli-card';
+    var av=document.createElement('div');av.className='cli-avatar';av.textContent=(c.nombre[0]||'?').toUpperCase();
+    var info=document.createElement('div');info.style.flex='1';
+    var name=document.createElement('div');name.style.cssText='font-size:14px;font-weight:600';name.textContent=c.nombre;
+    var sub=document.createElement('div');sub.style.cssText='font-size:12px;color:#a0aec0;margin-top:1px';sub.textContent=c.email||c.tel||'Sin contacto';
+    var nif=document.createElement('div');nif.style.cssText='font-size:12px;color:#718096;margin-left:auto;flex-shrink:0';nif.textContent=c.nif||'';
+    info.appendChild(name);info.appendChild(sub);
+    card.appendChild(av);card.appendChild(info);card.appendChild(nif);
+    card.addEventListener('click',function(){openClientForm(c.id);});
+    list.appendChild(card);
+  });
 }
 
-function editClient(id){
-  _editingClient=_clients.find(function(c){return c.id===id;})||null;
+function openClientForm(id){
+  _editingClient=id?(_clients.find(function(c){return c.id===id;})||null):null;
   showView('client-form');
+  var title=document.getElementById('cform-title');
   if(_editingClient){
-    document.getElementById('cform-title').textContent='Editar cliente';
-    document.getElementById('c-nombre').value=_editingClient.nombre||'';
-    document.getElementById('c-nif').value=_editingClient.nif||'';
-    document.getElementById('c-email').value=_editingClient.email||'';
-    document.getElementById('c-tel').value=_editingClient.tel||'';
-    document.getElementById('c-dir').value=_editingClient.direccion||'';
-    document.getElementById('c-cp').value=_editingClient.cp||'';
-    document.getElementById('c-ciudad').value=_editingClient.ciudad||'';
+    title.textContent='Editar cliente';
+    var f=['nombre','nif','email','tel','dir','cp','ciudad'];
+    f.forEach(function(k){
+      var el=document.getElementById('c-'+k);
+      if(el)el.value=_editingClient[k==='dir'?'direccion':k]||'';
+    });
     document.getElementById('c-pais').value=_editingClient.pais||'España';
   } else {
-    document.getElementById('cform-title').textContent='Nuevo cliente';
-    ['nombre','nif','email','tel','dir','cp','ciudad'].forEach(function(f){document.getElementById('c-'+f).value='';});
+    title.textContent='Nuevo cliente';
+    ['nombre','nif','email','tel','dir','cp','ciudad'].forEach(function(k){var el=document.getElementById('c-'+k);if(el)el.value='';});
     document.getElementById('c-pais').value='España';
   }
 }
 
 async function saveClient(){
-  var nombre=document.getElementById('c-nombre').value.trim();
-  if(!nombre){showToast('⚠️ El nombre es obligatorio');return;}
+  var nombre=(document.getElementById('c-nombre').value||'').trim();
+  if(!nombre){showToast('El nombre es obligatorio');return;}
   var obj={
     id:_editingClient?_editingClient.id:('cli-'+Date.now()),
-    nombre:nombre,
-    nif:document.getElementById('c-nif').value.trim(),
-    email:document.getElementById('c-email').value.trim(),
-    tel:document.getElementById('c-tel').value.trim(),
-    direccion:document.getElementById('c-dir').value.trim(),
-    cp:document.getElementById('c-cp').value.trim(),
-    ciudad:document.getElementById('c-ciudad').value.trim(),
-    pais:document.getElementById('c-pais').value.trim()||'España',
+    nombre:nombre,nif:document.getElementById('c-nif').value.trim(),
+    email:document.getElementById('c-email').value.trim(),tel:document.getElementById('c-tel').value.trim(),
+    direccion:document.getElementById('c-dir').value.trim(),cp:document.getElementById('c-cp').value.trim(),
+    ciudad:document.getElementById('c-ciudad').value.trim(),pais:document.getElementById('c-pais').value.trim()||'España'
   };
-  try{
-    var c=getDB();
-    if(c)await c.from('clients').upsert(obj,{onConflict:'id'});
-  }catch(e){}
-  if(_editingClient){
-    var idx=_clients.findIndex(function(c){return c.id===obj.id;});
-    if(idx>=0)_clients[idx]=obj; else _clients.push(obj);
-  } else {
-    _clients.push(obj);
-  }
+  try{var c=getDB();if(c)await c.from('clients').upsert(obj,{onConflict:'id'});}catch(e){}
+  var idx=_clients.findIndex(function(c){return c.id===obj.id;});
+  if(idx>=0)_clients[idx]=obj;else _clients.push(obj);
   showToast('✅ Cliente guardado');
   showTab('clientes');
 }
 
-// ── INVOICES ──────────────────────────────────────────────────────────────────
+// Invoices
 async function loadInvoices(){
   try{
     var c=getDB();if(!c)return;
     var r=await c.from('invoices').select('*').order('created_at',{ascending:false});
     if(r.data)_invoices=r.data;
   }catch(e){}
+  renderInvoices();
 }
 
 function renderInvoices(){
   var q=(document.getElementById('inv-search').value||'').toLowerCase();
   var st=document.getElementById('inv-filter').value;
-  var filtered=_invoices.filter(function(inv){
-    var matchQ=!q||(inv.numero||'').toLowerCase().includes(q)||
-      (inv.cliente_nombre||'').toLowerCase().includes(q)||
-      String(inv.total||0).includes(q);
-    var matchSt=!st||inv.estado===st;
-    return matchQ&&matchSt;
+  var filt=_invoices.filter(function(inv){
+    var mq=!q||(inv.numero||'').toLowerCase().includes(q)||(inv.cliente_nombre||'').toLowerCase().includes(q)||String(inv.total||0).includes(q);
+    var ms=!st||inv.estado===st;
+    return mq&&ms;
   });
-  var list=document.getElementById('inv-list');
-  if(!filtered.length){list.innerHTML='<div class="empty"><div>🧾</div><p>No hay facturas</p></div>';return;}
-  list.innerHTML=filtered.map(function(inv){
-    var stMap={borrador:'Borrador',pendiente:'Pendiente',pagado:'Pagado ✓'};
-    var stCls={borrador:'st-borrador',pendiente:'st-pendiente',pagado:'st-pagado'};
-    return '<div class="inv-card" onclick="openInvoice(''+inv.id+'')">' +
-      '<div class="inv-num">'+(inv.numero||'—')+'</div>'+
-      '<div class="inv-info">'+
-        '<div class="inv-cliente">'+(inv.cliente_nombre||'Sin cliente')+'</div>'+
-        '<div class="inv-fecha">'+(inv.fecha||'')+(inv.vencimiento?' · Vence '+inv.vencimiento:'')+'</div>'+
-      '</div>'+
-      '<div style="text-align:right">'+
-        '<div class="inv-total">'+fmt(inv.total||0)+'</div>'+
-        '<div class="inv-estado '+(stCls[inv.estado]||'st-borrador')+'">'+(stMap[inv.estado]||inv.estado)+'</div>'+
-      '</div>'+
-    '</div>';
-  }).join('');
+  var list=document.getElementById('inv-list');list.innerHTML='';
+  if(!filt.length){list.innerHTML='<div class="empty"><div>🧾</div><p>No hay facturas</p></div>';return;}
+  var stMap={borrador:'Borrador',pendiente:'Pendiente',pagado:'Pagado ✓'};
+  var stCls={borrador:'badge-borrador',pendiente:'badge-pendiente',pagado:'badge-pagado'};
+  filt.forEach(function(inv){
+    var card=document.createElement('div');card.className='inv-card';
+    var num=document.createElement('div');num.className='inv-num';num.textContent=inv.numero||'—';
+    var info=document.createElement('div');info.className='inv-info';
+    var cli=document.createElement('div');cli.className='inv-cliente';cli.textContent=inv.cliente_nombre||'Sin cliente';
+    var fecha=document.createElement('div');fecha.className='inv-fecha';fecha.textContent=(inv.fecha||'')+(inv.vencimiento?' · Vence '+inv.vencimiento:'');
+    info.appendChild(cli);info.appendChild(fecha);
+    var right=document.createElement('div');right.style.textAlign='right';
+    var total=document.createElement('div');total.className='inv-total';total.textContent=fmt(inv.total||0);
+    var badge=document.createElement('div');badge.className='badge '+(stCls[inv.estado]||'badge-borrador');badge.textContent=stMap[inv.estado]||inv.estado;
+    right.appendChild(total);right.appendChild(badge);
+    card.appendChild(num);card.appendChild(info);card.appendChild(right);
+    card.addEventListener('click',function(){openInvoice(inv.id);});
+    list.appendChild(card);
+  });
 }
 
 function openInvoice(id){
   _editingInvoice=_invoices.find(function(i){return i.id===id;})||null;
   if(!_editingInvoice)return;
   showView('invoice');
-  populateInvoiceForm(_editingInvoice);
+  fillInvoiceForm(_editingInvoice);
 }
 
-function populateInvoiceForm(inv){
+function fillInvoiceForm(inv){
   setType(inv.tipo||'servicio');
   document.getElementById('f-num').value=inv.numero||'';
   document.getElementById('f-estado').value=inv.estado||'pendiente';
@@ -586,89 +442,102 @@ function populateInvoiceForm(inv){
   document.getElementById('f-venc').value=inv.vencimiento||'';
   document.getElementById('f-notas').value=inv.notas||'';
   document.getElementById('f-condpago').value=inv.condpago||_settings.condpago||'';
-  // Client
+  _selectedClient=null;
+  document.getElementById('cli-selected').style.display='none';
   if(inv.cliente_id){
-    var cli=_clients.find(function(c){return c.id===inv.cliente_id;})||{nombre:inv.cliente_nombre||'',id:inv.cliente_id};
-    selectClient(cli);
-  } else {clearClient();}
-  // Lines
-  document.getElementById('lines-body').innerHTML='';
-  (inv.lineas||[]).forEach(function(l){addLine(l);});
-  if(!(inv.lineas&&inv.lineas.length))addLine();
+    var cli=_clients.find(function(c){return c.id===inv.cliente_id;});
+    if(cli)selectClient(cli);
+    else if(inv.cliente_nombre){selectClient({id:inv.cliente_id,nombre:inv.cliente_nombre});}
+  }
+  document.getElementById('lines-body').innerHTML='';_lineId=0;
+  var lines=[];
+  try{lines=typeof inv.lineas==='string'?JSON.parse(inv.lineas):inv.lineas||[];}catch(e){}
+  if(lines.length){lines.forEach(function(l){addLine(l);});}else{addLine();}
   calcTotals();
+  // Update secondary btn
+  var sb=document.getElementById('btn-secondary');
+  if(inv.estado!=='pagado'){sb.textContent='✓ Pagada';sb.style.display='';} else {sb.style.display='none';}
 }
 
-// ── NEW INVOICE ───────────────────────────────────────────────────────────────
 function newInvoice(){
-  _editingInvoice=null;
+  _editingInvoice=null;_selectedClient=null;
   showView('invoice');
   setType('servicio');
-  document.getElementById('f-num').value=getNextInvoiceNum();
+  document.getElementById('f-num').value=getNextNum();
   document.getElementById('f-estado').value='pendiente';
-  setToday();
-  document.getElementById('f-notas').value='';
-  document.getElementById('f-condpago').value=_settings.condpago||'';
-  clearClient();
-  document.getElementById('lines-body').innerHTML='';
-  addLine();
-  calcTotals();
-}
-
-function setToday(){
   var today=new Date().toISOString().split('T')[0];
   document.getElementById('f-fecha').value=today;
-  var venc=new Date();
-  var days=parseInt(_settings.venc)||30;
-  if(_settings.venc==='0')days=0;
-  if(_settings.venc==='manual')days=30;
-  venc.setDate(venc.getDate()+days);
-  document.getElementById('f-venc').value=venc.toISOString().split('T')[0];
+  var vd=new Date();var days=parseInt(_settings.venc)||30;
+  if(_settings.venc==='0')days=0;vd.setDate(vd.getDate()+days);
+  document.getElementById('f-venc').value=vd.toISOString().split('T')[0];
+  document.getElementById('f-notas').value='';
+  document.getElementById('f-condpago').value=_settings.condpago||'';
+  document.getElementById('f-cli-search').value='';
+  document.getElementById('cli-selected').style.display='none';
+  document.getElementById('lines-body').innerHTML='';_lineId=0;addLine();calcTotals();
+  document.getElementById('btn-secondary').style.display='none';
 }
 
-// ── TYPE ──────────────────────────────────────────────────────────────────────
-function setType(type){
-  _invoiceType=type;
-  document.getElementById('type-servicio').classList.toggle('active',type==='servicio');
-  document.getElementById('type-formacion').classList.toggle('active',type==='formacion');
-  var ivaRow=document.getElementById('t-iva-row');
-  var exBox=document.getElementById('exencion-box');
-  if(type==='formacion'){ivaRow.style.display='none';if(exBox)exBox.style.display='block';}
-  else{ivaRow.style.display='';if(exBox)exBox.style.display='none';}
+// Type
+function setType(t){
+  _invoiceType=t;
+  document.getElementById('type-servicio').classList.toggle('active',t==='servicio');
+  document.getElementById('type-formacion').classList.toggle('active',t==='formacion');
+  document.getElementById('t-iva-row').style.display=t==='formacion'?'none':'flex';
+  document.getElementById('exencion-box').style.display=t==='formacion'?'block':'none';
+  if(t==='formacion'&&_settings.exencion)document.getElementById('exencion-text').textContent=_settings.exencion;
+  // Update IVA inputs in table
+  document.querySelectorAll('#lines-body .iva-input').forEach(function(inp){inp.disabled=t==='formacion';});
   calcTotals();
 }
 
-// ── LINES ─────────────────────────────────────────────────────────────────────
-var _lineId=0;
+// Lines
 function addLine(data){
-  var id='l'+(++_lineId);
+  _lineId++;var id='l'+_lineId;
   var d=data||{desc:'',qty:1,unit:'unidad',precio:0,iva:_invoiceType==='formacion'?0:(_settings.iva||21)};
   var tr=document.createElement('tr');tr.id=id;
-  tr.innerHTML=
-    '<td><input type="text" value="'+esc(d.desc||'')+'" placeholder="Descripción..." oninput="calcTotals()"></td>'+
-    '<td class="num"><input type="number" value="'+(d.qty||1)+'" min="0" step="0.01" style="width:60px;text-align:right" oninput="calcTotals()"></td>'+
-    '<td><select onchange="calcTotals()">'+
-      ['unidad','hora','día','mes','servicio','sesión'].map(function(u){return '<option'+(u===d.unit?' selected':'')+'>'+u+'</option>';}).join('')+
-    '</select></td>'+
-    '<td class="num"><input type="number" value="'+(d.precio||0)+'" min="0" step="0.01" style="text-align:right" oninput="calcTotals()"></td>'+
-    '<td class="num"><input type="number" value="'+((d.iva!==undefined?d.iva:(_settings.iva||21)))+'" min="0" max="100" style="width:55px;text-align:right" '+(_invoiceType==='formacion'?'disabled':'')+' oninput="calcTotals()"></td>'+
-    '<td class="num" id="'+id+'-tot" style="text-align:right;font-weight:600;font-size:13px;padding-right:4px">0,00 €</td>'+
-    '<td><button class="del-line" onclick="delLine(''+id+'')">✕</button></td>';
+
+  var td1=document.createElement('td');
+  var i1=document.createElement('input');i1.type='text';i1.value=d.desc||'';i1.placeholder='Descripción...';i1.oninput=calcTotals;td1.appendChild(i1);
+
+  var td2=document.createElement('td');td2.className='r';
+  var i2=document.createElement('input');i2.type='number';i2.value=d.qty||1;i2.min='0';i2.step='0.01';i2.style.cssText='width:60px;text-align:right';i2.oninput=calcTotals;td2.appendChild(i2);
+
+  var td3=document.createElement('td');
+  var sel=document.createElement('select');sel.onchange=calcTotals;
+  ['unidad','hora','día','mes','servicio','sesión'].forEach(function(u){
+    var o=document.createElement('option');o.textContent=u;if(u===d.unit)o.selected=true;sel.appendChild(o);
+  });
+  td3.appendChild(sel);
+
+  var td4=document.createElement('td');td4.className='r';
+  var i3=document.createElement('input');i3.type='number';i3.value=d.precio||0;i3.min='0';i3.step='0.01';i3.style.textAlign='right';i3.oninput=calcTotals;td4.appendChild(i3);
+
+  var td5=document.createElement('td');td5.className='r';
+  var i4=document.createElement('input');i4.type='number';i4.className='iva-input';
+  var ivaVal=d.iva!==undefined?d.iva:(_settings.iva||21);
+  i4.value=ivaVal;i4.min='0';i4.max='100';i4.style.cssText='width:55px;text-align:right';
+  i4.disabled=_invoiceType==='formacion';i4.oninput=calcTotals;td5.appendChild(i4);
+
+  var td6=document.createElement('td');td6.className='r';td6.id=id+'-tot';
+  td6.style.cssText='font-weight:600;font-size:13px;padding-right:4px';td6.textContent='0,00 €';
+
+  var td7=document.createElement('td');
+  var btn=document.createElement('button');btn.className='del-line';btn.type='button';btn.textContent='✕';
+  btn.addEventListener('click',function(){delLine(id);});td7.appendChild(btn);
+
+  [td1,td2,td3,td4,td5,td6,td7].forEach(function(td){tr.appendChild(td);});
   document.getElementById('lines-body').appendChild(tr);
   calcTotals();
 }
 
-function delLine(id){
-  var tr=document.getElementById(id);
-  if(tr)tr.remove();
-  calcTotals();
-}
+function delLine(id){var tr=document.getElementById(id);if(tr)tr.remove();calcTotals();}
 
 function getLines(){
   var rows=document.getElementById('lines-body').querySelectorAll('tr');
   var lines=[];
   rows.forEach(function(tr){
-    var inputs=tr.querySelectorAll('input');
-    var sel=tr.querySelector('select');
+    var inputs=tr.querySelectorAll('input');var sel=tr.querySelector('select');
     var desc=inputs[0]?inputs[0].value:'';
     var qty=parseFloat(inputs[1]?inputs[1].value:1)||0;
     var precio=parseFloat(inputs[2]?inputs[2].value:0)||0;
@@ -676,234 +545,184 @@ function getLines(){
     var unit=sel?sel.value:'unidad';
     var total=qty*precio;
     lines.push({desc:desc,qty:qty,unit:unit,precio:precio,iva:iva,total:total});
-    var totEl=document.getElementById(tr.id+'-tot');
-    if(totEl)totEl.textContent=fmt(total);
+    var tot=document.getElementById(tr.id+'-tot');
+    if(tot)tot.textContent=fmt(total);
   });
   return lines;
 }
 
 function calcTotals(){
   var lines=getLines();
-  var subtotal=lines.reduce(function(a,l){return a+l.total;},0);
-  var ivaTotal=_invoiceType==='formacion'?0:lines.reduce(function(a,l){return a+(l.total*(l.iva/100));},0);
-  var irpfActive=_settings.irpf_active&&_invoiceType==='servicio';
+  var sub=lines.reduce(function(a,l){return a+l.total;},0);
+  var ivaAmt=_invoiceType==='formacion'?0:lines.reduce(function(a,l){return a+(l.total*(l.iva/100));},0);
+  var irpfOn=_settings.irpf_active&&_invoiceType==='servicio';
   var irpfPct=_settings.irpf||15;
-  var irpfTotal=irpfActive?subtotal*(irpfPct/100):0;
-  var total=subtotal+ivaTotal-irpfTotal;
-  document.getElementById('t-sub').textContent=fmt(subtotal);
-  document.getElementById('t-iva').textContent=fmt(ivaTotal);
+  var irpfAmt=irpfOn?sub*(irpfPct/100):0;
+  var total=sub+ivaAmt-irpfAmt;
+  document.getElementById('t-sub').textContent=fmt(sub);
+  document.getElementById('t-iva').textContent=fmt(ivaAmt);
   document.getElementById('t-iva-label').textContent='IVA '+(_settings.iva||21)+'%';
   document.getElementById('t-total').textContent=fmt(total);
   var irpfRow=document.getElementById('t-irpf-row');
-  if(irpfRow){irpfRow.style.display=irpfActive?'':'none';}
-  var irpfEl=document.getElementById('t-irpf');
-  var irpfLbl=document.getElementById('t-irpf-label');
-  if(irpfEl)irpfEl.textContent='- '+fmt(irpfTotal);
-  if(irpfLbl)irpfLbl.textContent='IRPF '+irpfPct+'%';
-  return {subtotal:subtotal,iva:ivaTotal,irpf:irpfTotal,total:total};
+  if(irpfRow)irpfRow.style.display=irpfOn?'flex':'none';
+  var irpfEl=document.getElementById('t-irpf');if(irpfEl)irpfEl.textContent='- '+fmt(irpfAmt);
+  var irpfLbl=document.getElementById('t-irpf-label');if(irpfLbl)irpfLbl.textContent='IRPF '+irpfPct+'%';
+  return {subtotal:sub,iva:ivaAmt,irpf:irpfAmt,total:total};
 }
 
-// ── CLIENT AUTOCOMPLETE ───────────────────────────────────────────────────────
-function searchClients(){
-  var q=document.getElementById('f-cli-search').value.toLowerCase().trim();
+// Autocomplete
+function setupAC(){
+  var inp=document.getElementById('f-cli-search');
   var ac=document.getElementById('cli-ac');
-  if(!q){ac.classList.remove('open');return;}
-  var matches=_clients.filter(function(c){
-    return c.nombre.toLowerCase().includes(q)||(c.nif||'').toLowerCase().includes(q);
-  }).slice(0,8);
-  if(!matches.length){
-    ac.innerHTML='<div class="ac-item" onclick="openNewClientForm(''+esc(document.getElementById('f-cli-search').value)+'')"><strong>+ Crear nuevo cliente</strong><span>'+esc(document.getElementById('f-cli-search').value)+'</span></div>';
-  } else {
-    ac.innerHTML=matches.map(function(c){
-      return '<div class="ac-item" onclick="selectClient('+JSON.stringify(c).replace(/"/g,'&quot;')+')">' +
-        '<strong>'+esc(c.nombre)+'</strong><span>'+(c.nif||'')+(c.email?' · '+c.email:'')+'</span></div>';
-    }).join('')+'<div class="ac-item" onclick="openNewClientForm(''+esc(document.getElementById('f-cli-search').value)+'')"><span>+ Crear nuevo cliente</span></div>';
-  }
-  ac.classList.add('open');
+  inp.addEventListener('input',function(){
+    var q=inp.value.toLowerCase().trim();
+    ac.innerHTML='';
+    if(!q){ac.classList.remove('open');return;}
+    _acMatches=_clients.filter(function(c){
+      return c.nombre.toLowerCase().includes(q)||(c.nif||'').toLowerCase().includes(q);
+    }).slice(0,8);
+    var createItem=document.createElement('div');createItem.className='ac-item';
+    var cName=document.createElement('span');cName.className='ac-name';cName.textContent='+ Crear nuevo cliente';
+    createItem.appendChild(cName);
+    createItem.addEventListener('click',function(){ac.classList.remove('open');inp.value='';openClientForm(null);});
+    if(_acMatches.length){
+      _acMatches.forEach(function(c,i){
+        var item=document.createElement('div');item.className='ac-item';
+        var n=document.createElement('span');n.className='ac-name';n.textContent=c.nombre;
+        var s=document.createElement('span');s.className='ac-sub';s.textContent=(c.nif||'')+(c.email?' · '+c.email:'');
+        item.appendChild(n);item.appendChild(s);
+        item.addEventListener('click',function(){selectClient(_acMatches[i]);ac.classList.remove('open');inp.value='';});
+        ac.appendChild(item);
+      });
+    }
+    ac.appendChild(createItem);
+    ac.classList.add('open');
+  });
+  inp.addEventListener('focus',function(){if(inp.value)inp.dispatchEvent(new Event('input'));});
+  document.addEventListener('click',function(e){if(!e.target.closest('.ac-wrap'))ac.classList.remove('open');});
 }
 
 function selectClient(cli){
   _selectedClient=cli;
   document.getElementById('f-cli-search').value='';
-  document.getElementById('cli-ac').classList.remove('open');
   document.getElementById('cli-selected').style.display='block';
   document.getElementById('cs-nombre').textContent=cli.nombre;
   var datos=[cli.nif,cli.email,cli.tel].filter(Boolean).join(' · ');
   document.getElementById('cs-datos').textContent=datos||cli.direccion||'';
 }
 
-function clearClient(){
-  _selectedClient=null;
-  document.getElementById('f-cli-search').value='';
-  document.getElementById('cli-selected').style.display='none';
-  document.getElementById('cli-ac').classList.remove('open');
-}
-
-function openNewClientForm(nombre){
-  document.getElementById('cli-ac').classList.remove('open');
-  _editingClient=null;
-  document.getElementById('cform-title').textContent='Nuevo cliente';
-  ['nif','email','tel','dir','cp','ciudad'].forEach(function(f){document.getElementById('c-'+f).value='';});
-  document.getElementById('c-nombre').value=nombre||'';
-  document.getElementById('c-pais').value='España';
-  showView('client-form');
-}
-
-document.addEventListener('click',function(e){
-  if(!e.target.closest('.autocomplete-wrap'))
-    document.getElementById('cli-ac').classList.remove('open');
-});
-
-// ── SAVE INVOICE ──────────────────────────────────────────────────────────────
+// Save invoice
 async function saveInvoice(estado){
-  var lines=getLines();
-  var tots=calcTotals();
+  var lines=getLines();var tots=calcTotals();
   var isNew=!_editingInvoice;
-  var num=document.getElementById('f-num').value;
   var obj={
     id:_editingInvoice?_editingInvoice.id:('inv-'+Date.now()),
-    numero:num,
+    numero:document.getElementById('f-num').value,
     tipo:_invoiceType,
     cliente_id:_selectedClient?_selectedClient.id:null,
     cliente_nombre:_selectedClient?_selectedClient.nombre:'',
-    cliente_data:_selectedClient?JSON.stringify(_selectedClient):null,
     fecha:document.getElementById('f-fecha').value,
     vencimiento:document.getElementById('f-venc').value,
     lineas:JSON.stringify(lines),
-    subtotal:tots.subtotal,
-    iva_pct:_settings.iva||21,
-    iva_amount:tots.iva,
-    irpf_pct:_settings.irpf||15,
-    irpf_amount:tots.irpf,
-    total:tots.total,
+    subtotal:tots.subtotal,iva_pct:_settings.iva||21,iva_amount:tots.iva,
+    irpf_pct:_settings.irpf||15,irpf_amount:tots.irpf,total:tots.total,
     estado:document.getElementById('f-estado').value||estado,
     notas:document.getElementById('f-notas').value,
     condpago:document.getElementById('f-condpago').value,
     updated_at:new Date().toISOString()
   };
-  if(isNew){obj.created_at=new Date().toISOString();}
-  try{
-    var c=getDB();
-    if(c)await c.from('invoices').upsert(obj,{onConflict:'id'});
-  }catch(e){}
-  // Update local
-  if(isNew){
-    _invoices.unshift(obj);
-    await incrementInvoiceNum();
-  } else {
-    var idx=_invoices.findIndex(function(i){return i.id===obj.id;});
-    if(idx>=0)_invoices[idx]=obj;
-  }
+  if(isNew)obj.created_at=new Date().toISOString();
+  try{var c=getDB();if(c)await c.from('invoices').upsert(obj,{onConflict:'id'});}catch(e){}
+  if(isNew){_invoices.unshift(obj);await bumpNum();}
+  else{var idx=_invoices.findIndex(function(i){return i.id===obj.id;});if(idx>=0)_invoices[idx]=obj;}
   _editingInvoice=obj;
   showToast('✅ Factura guardada');
-  renderInvoices();
+  document.getElementById('f-estado').value=obj.estado;
 }
 
-// ── PDF ───────────────────────────────────────────────────────────────────────
+// PDF
 function downloadPDF(){
-  var lines=getLines();
-  var tots=calcTotals();
-  var cli=_selectedClient||{};
+  var lines=getLines();var tots=calcTotals();
+  var cli=_selectedClient||{};var s=_settings;
   var num=document.getElementById('f-num').value||'—';
   var fecha=document.getElementById('f-fecha').value||'';
   var venc=document.getElementById('f-venc').value||'';
   var notas=document.getElementById('f-notas').value||'';
   var condpago=document.getElementById('f-condpago').value||'';
-  var s=_settings;
-  var isFormacion=_invoiceType==='formacion';
+  var isF=_invoiceType==='formacion';
   var logoSrc=s.logo?'data:image/png;base64,'+s.logo:'data:image/png;base64,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';
+  function e(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function n(v){return Number(v||0).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2});}
 
-  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Factura '+num+'</title><style>'+
-    'body{font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#222;margin:0;padding:40px 48px}'+
-    'table{width:100%;border-collapse:collapse}'+
-    '.logo{width:60px;height:60px;border-radius:50%;object-fit:cover}'+
-    '.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px}'+
-    '.company-name{font-size:15px;font-weight:700;margin-bottom:4px}'+
-    '.company-info{font-size:10px;color:#555;line-height:1.6}'+
-    '.inv-meta td{padding:3px 0;font-size:11px}'+
-    '.inv-meta td:first-child{color:#888;padding-right:12px}'+
-    '.inv-meta td:last-child{font-weight:600}'+
-    '.cli-box{background:#f8f8f8;border-radius:6px;padding:14px 18px;margin-bottom:28px}'+
-    '.cli-box h4{font-size:10px;color:#aaa;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}'+
-    '.section-line{border:none;border-top:1.5px solid #e0e0e0;margin:24px 0}'+
-    'th{font-size:10px;color:#888;font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid #e0e0e0}'+
-    'th.r{text-align:right}'+
-    'td.r{text-align:right}'+
-    'td{padding:8px;border-bottom:1px solid #f0f0f0;vertical-align:top}'+
-    '.tot-row td{border:none;padding:4px 8px}'+
-    '.tot-final td{border-top:2px solid #222;font-size:13px;font-weight:700;padding-top:8px}'+
-    '.exencion{font-size:10px;color:#555;background:#f8f8f8;border-left:3px solid #22c55e;padding:10px 14px;margin-top:20px;line-height:1.5;border-radius:0 4px 4px 0}'+
-    '.footer{margin-top:40px;font-size:10px;color:#888;border-top:1px solid #e0e0e0;padding-top:16px;line-height:1.6}'+
-    '@media print{body{padding:20px 28px}@page{margin:15mm}}'+
-    '</style></head><body>'+
-    '<div class="header">'+
-      '<img class="logo" src="'+logoSrc+'">'+
-      '<div style="text-align:right">'+
-        '<div class="company-name">'+(s.nombre||'Escuela M.E.')+'</div>'+
-        '<div class="company-info">'+
-          (s.dir?s.dir+'<br>':'')+
-          (s.cp||s.ciudad?(s.cp||'')+' '+(s.ciudad||'')+'<br>':'')+
-          'CIF/NIF: '+(s.nif||'—')+'<br>'+
-          (s.email?'Email: '+s.email+'<br>':'')+
-          (s.tel?'Tel: '+s.tel+'<br>':'')+
-          (s.web?s.web:'')+'</div>'+
-      '</div>'+
-    '</div>'+
-    '<table class="inv-meta" style="margin-bottom:28px;width:auto;float:right">'+
-      '<tr><td>Factura:</td><td>'+num+'</td></tr>'+
-      '<tr><td>Fecha:</td><td>'+fecha+'</td></tr>'+
-      (venc?'<tr><td>Vencimiento:</td><td>'+venc+'</td></tr>':'')+
-    '</table>'+
-    '<div style="clear:both"></div>'+
-    (cli.nombre?'<div class="cli-box"><h4>Facturar a</h4>'+
-      '<strong>'+cli.nombre+'</strong><br>'+
-      (cli.direccion?cli.direccion+'<br>':'')+
-      (cli.cp||cli.ciudad?(cli.cp||'')+' '+(cli.ciudad||'')+'<br>':'')+
-      (cli.nif?'CIF/NIF: '+cli.nif+'<br>':'')+
-      (cli.email?cli.email:'')+
-    '</div>':'')+
-    '<hr class="section-line">'+
-    '<table>'+
-      '<thead><tr>'+
-        '<th style="width:45%">Descripción</th>'+
-        '<th class="r" style="width:10%">Cant.</th>'+
-        '<th style="width:12%">Unidad</th>'+
-        '<th class="r" style="width:14%">Precio</th>'+
-        (!isFormacion?'<th class="r" style="width:9%">IVA%</th>':'')+
-        '<th class="r" style="width:14%">Total</th>'+
-      '</tr></thead><tbody>'+
-      lines.map(function(l){
-        return '<tr>'+
-          '<td>'+esc(l.desc)+'</td>'+
-          '<td class="r">'+l.qty+'</td>'+
-          '<td>'+l.unit+'</td>'+
-          '<td class="r">'+fmtNum(l.precio)+' €</td>'+
-          (!isFormacion?'<td class="r">'+l.iva+'%</td>':'')+
-          '<td class="r">'+fmtNum(l.total)+' €</td>'+
-        '</tr>';
-      }).join('')+
-    '</tbody></table>'+
-    '<hr class="section-line">'+
-    '<table style="width:280px;margin-left:auto">'+
-      '<tr class="tot-row"><td>Subtotal</td><td class="r">'+fmtNum(tots.subtotal)+' €</td></tr>'+
-      (!isFormacion?'<tr class="tot-row"><td>IVA '+(s.iva||21)+'%</td><td class="r">'+fmtNum(tots.iva)+' €</td></tr>':'')+
-      (tots.irpf>0?'<tr class="tot-row"><td>IRPF '+(s.irpf||15)+'%</td><td class="r" style="color:#c00">- '+fmtNum(tots.irpf)+' €</td></tr>':'')+
-      '<tr class="tot-final"><td>Total EUR</td><td class="r">'+fmtNum(tots.total)+' €</td></tr>'+
-    '</table>'+
-    (isFormacion&&s.exencion?'<div class="exencion">'+esc(s.exencion)+'</div>':'')+
-    (condpago||notas?'<div style="margin-top:24px;font-size:10px;color:#555">'+
-      (condpago?'<p style="margin-bottom:6px">'+esc(condpago)+'</p>':'')+
-      (notas?'<p>'+esc(notas)+'</p>':'')+
-    '</div>':'')+
-    (s.iban?'<div class="footer">Datos bancarios: '+esc(s.iban)+(s.pie?'<br>'+esc(s.pie):'')+'</div>':'') +
-    '<script>window.onload=function(){window.print();window.close();};<'+'/script>'+
-    '</body></html>';
+  var linesHtml=lines.map(function(l){
+    return '<tr><td>'+e(l.desc)+'</td><td style="text-align:right">'+l.qty+'</td><td>'+l.unit+'</td>'
+      +'<td style="text-align:right">'+n(l.precio)+' €</td>'
+      +(!isF?'<td style="text-align:right">'+l.iva+'%</td>':'')
+      +'<td style="text-align:right;font-weight:600">'+n(l.total)+' €</td></tr>';
+  }).join('');
+
+  var body='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Factura '+num+'</title>'
+    +'<style>body{font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#222;padding:40px 48px}'
+    +'table{width:100%;border-collapse:collapse}.logo{width:60px;height:60px;border-radius:50%;object-fit:cover}'
+    +'.header{display:flex;justify-content:space-between;margin-bottom:32px}'
+    +'.co-name{font-size:15px;font-weight:700;margin-bottom:4px}.co-info{font-size:10px;color:#555;line-height:1.6}'
+    +'.cli-box{background:#f8f8f8;border-radius:6px;padding:14px 18px;margin-bottom:24px}'
+    +'.cli-box h4{font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}'
+    +'th{font-size:10px;color:#888;font-weight:600;padding:6px 8px;border-bottom:1px solid #e0e0e0;text-align:left}'
+    +'th.r{text-align:right}td{padding:8px;border-bottom:1px solid #f0f0f0}'
+    +'.exencion{font-size:10px;color:#555;background:#f8f8f8;border-left:3px solid #22c55e;padding:10px 14px;margin-top:20px;line-height:1.5}'
+    +'.footer{margin-top:32px;font-size:10px;color:#888;border-top:1px solid #e0e0e0;padding-top:14px;line-height:1.6}'
+    +'@media print{body{padding:20px 28px}@page{margin:15mm}}'
+    +'</style></head><body>'
+    +'<div class="header">'
+      +'<img class="logo" src="'+logoSrc+'">'
+      +'<div style="text-align:right">'
+        +'<div class="co-name">'+e(s.nombre||'Escuela M.E.')+'</div>'
+        +'<div class="co-info">'
+          +(s.dir?e(s.dir)+'<br>':'')
+          +(s.cp||s.ciudad?(e(s.cp||'')+' '+e(s.ciudad||''))+'<br>':'')
+          +'NIF: '+e(s.nif||'—')+'<br>'
+          +(s.email?'Email: '+e(s.email)+'<br>':'')
+          +(s.tel?'Tel: '+e(s.tel):'')
+        +'</div>'
+      +'</div>'
+    +'</div>'
+    +'<table style="width:auto;margin-left:auto;margin-bottom:24px">'
+      +'<tr><td style="color:#888;padding-right:12px">Factura:</td><td style="font-weight:700">'+e(num)+'</td></tr>'
+      +'<tr><td style="color:#888">Fecha:</td><td>'+e(fecha)+'</td></tr>'
+      +(venc?'<tr><td style="color:#888">Vencimiento:</td><td>'+e(venc)+'</td></tr>':'')
+    +'</table>'
+    +(cli.nombre?'<div class="cli-box"><h4>Facturar a</h4>'
+      +'<strong>'+e(cli.nombre)+'</strong><br>'
+      +(cli.direccion?e(cli.direccion)+'<br>':'')
+      +(cli.cp||cli.ciudad?(e(cli.cp||'')+' '+e(cli.ciudad||''))+'<br>':'')
+      +(cli.nif?'CIF/NIF: '+e(cli.nif)+'<br>':'')
+      +(cli.email?e(cli.email):'')
+    +'</div>':'')
+    +'<table><thead><tr>'
+      +'<th style="width:42%">Descripción</th><th class="r" style="width:8%">Cant.</th>'
+      +'<th style="width:10%">Unidad</th><th class="r" style="width:14%">Precio</th>'
+      +(!isF?'<th class="r" style="width:8%">IVA</th>':'')
+      +'<th class="r" style="width:14%">Total</th>'
+    +'</tr></thead><tbody>'+linesHtml+'</tbody></table>'
+    +'<table style="width:280px;margin-left:auto;margin-top:16px">'
+      +'<tr><td>Subtotal</td><td style="text-align:right">'+n(tots.subtotal)+' €</td></tr>'
+      +(!isF?'<tr><td>IVA '+e(String(s.iva||21))+'%</td><td style="text-align:right">'+n(tots.iva)+' €</td></tr>':'')
+      +(tots.irpf>0?'<tr><td>IRPF '+e(String(s.irpf||15))+'%</td><td style="text-align:right;color:#c00">- '+n(tots.irpf)+' €</td></tr>':'')
+      +'<tr style="border-top:2px solid #222"><td style="font-size:14px;font-weight:700;padding-top:8px">Total EUR</td>'
+      +'<td style="font-size:14px;font-weight:700;text-align:right;padding-top:8px">'+n(tots.total)+' €</td></tr>'
+    +'</table>'
+    +(isF&&s.exencion?'<div class="exencion">'+e(s.exencion)+'</div>':'')
+    +(condpago||notas?'<div style="margin-top:20px;font-size:10px;color:#555;line-height:1.6">'+e(condpago)+(notas?'<br>'+e(notas):'')+'</div>':'')
+    +(s.iban?'<div class="footer">IBAN: '+e(s.iban)+(s.pie?'<br>'+e(s.pie):'')+'</div>':'')
+    +'<scri'+'pt>window.onload=function(){window.print();window.close();};<'+'/scri'+'pt>'
+    +'</body></html>';
 
   var w=window.open('','_blank','width=850,height=1100');
-  if(w){w.document.write(html);w.document.close();}
+  if(w){w.document.write(body);w.document.close();}
 }
 
-// ── PAGADO ────────────────────────────────────────────────────────────────────
+// Mark as paid
 function closeModal(){document.getElementById('modal-pagado').classList.remove('open');}
 async function confirmPagado(){
   if(!_pendingPagadoId)return;
@@ -912,65 +731,68 @@ async function confirmPagado(){
     inv.estado='pagado';
     try{var c=getDB();if(c)await c.from('invoices').update({estado:'pagado'}).eq('id',inv.id);}catch(e){}
   }
-  closeModal();renderInvoices();showToast('✅ Factura marcada como pagada');
+  closeModal();renderInvoices();
+  document.getElementById('f-estado').value='pagado';
+  document.getElementById('btn-secondary').style.display='none';
+  showToast('✅ Factura marcada como pagada');
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
+// Navigation
 function showTab(tab){
-  _currentView=tab;
+  _currentTab=tab;
   document.getElementById('tab-facturas').classList.toggle('active',tab==='facturas');
   document.getElementById('tab-clientes').classList.toggle('active',tab==='clientes');
-  document.getElementById('view-facturas').style.display=tab==='facturas'?'':'none';
-  document.getElementById('view-clientes').style.display=tab==='clientes'?'':'none';
-  document.getElementById('view-invoice').style.display='none';
-  document.getElementById('view-client-form').style.display='none';
   document.getElementById('nav-title').textContent=tab==='clientes'?'Clientes':'Facturas';
   document.getElementById('btn-primary').textContent=tab==='clientes'?'+ Nuevo cliente':'+ Nueva factura';
   document.getElementById('btn-secondary').style.display='none';
+  showView(tab==='clientes'?'clientes':'facturas');
+  if(tab==='clientes')renderClients();
+  else renderInvoices();
 }
 
 function showView(view){
   ['facturas','clientes','invoice','client-form'].forEach(function(v){
     document.getElementById('view-'+v).style.display=v===view?'block':'none';
   });
+  var tabs=document.getElementById('tabs');
+  var showBtns=view==='facturas'||view==='clientes';
+  tabs.style.display=showBtns?'flex':'none';
+  document.getElementById('btn-primary').style.display=showBtns?'block':'none';
   if(view==='invoice'){
     document.getElementById('nav-title').textContent=_editingInvoice?'Editar factura':'Nueva factura';
-    document.getElementById('btn-primary').style.display='none';
-    var sb=document.getElementById('btn-secondary');
-    if(_editingInvoice&&_editingInvoice.estado!=='pagado'){
-      sb.textContent='✓ Marcar pagada';sb.style.display='';
-      sb.onclick=function(){_pendingPagadoId=_editingInvoice.id;document.getElementById('modal-pagado').classList.add('open');};
-    } else {sb.style.display='none';}
   } else if(view==='client-form'){
     document.getElementById('nav-title').textContent='Cliente';
-    document.getElementById('btn-primary').style.display='none';
-    document.getElementById('btn-secondary').style.display='none';
   }
 }
 
 function goBack(){
-  if(_currentView==='invoice'||document.getElementById('view-invoice').style.display!=='none'){
-    showTab('facturas');
-    document.getElementById('btn-primary').style.display='';
-  } else if(document.getElementById('view-client-form').style.display!=='none'){
-    showTab('clientes');
-    document.getElementById('btn-primary').style.display='';
+  var iv=document.getElementById('view-invoice');
+  var cf=document.getElementById('view-client-form');
+  if(iv.style.display!=='none'||cf.style.display!=='none'){
+    showTab(_currentTab);
   } else {
     window.location.href='dashboard.html';
   }
 }
 
 function navPrimary(){
-  if(_currentView==='clientes'){editClient(null);}
-  else{newInvoice();}
+  if(_currentTab==='clientes')openClientForm(null);
+  else newInvoice();
 }
-function navSecondary(){}
 
-// ── UTILS ─────────────────────────────────────────────────────────────────────
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function markPaid(){
+  if(!_editingInvoice)return;
+  _pendingPagadoId=_editingInvoice.id;
+  document.getElementById('modal-pagado').classList.add('open');
+}
+
+// Utils
 function fmt(n){return Number(n||0).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
-function fmtNum(n){return Number(n||0).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+
+// Setup after DOM
+document.addEventListener('DOMContentLoaded',function(){setupAC();});
+
 </script>
 </body>
 </html>
