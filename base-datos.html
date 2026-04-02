@@ -175,6 +175,34 @@ table tbody tr:hover{background:#f8f6f2;}
 #app-topnav .tn-logo{width:26px;height:26px;border-radius:50%;object-fit:cover}
 #app-topnav .tn-title{font-size:13px;font-weight:700;color:#1a1a1a;flex:1}
 body{padding-top:50px!important}
+
+#backup-reminder{
+  display:none;
+  position:fixed;
+  bottom:24px;left:50%;
+  transform:translateX(-50%);
+  background:#fff;
+  border:1.5px solid #e2e8f0;
+  border-radius:14px;
+  padding:14px 18px;
+  box-shadow:0 4px 24px rgba(0,0,0,.10);
+  z-index:9999;
+  align-items:center;
+  gap:12px;
+  max-width:420px;
+  width:90%;
+  font-size:13px;
+  color:#1a202c;
+}
+#backup-reminder .br-icon{font-size:20px;flex-shrink:0}
+#backup-reminder .br-text{flex:1;line-height:1.4}
+#backup-reminder .br-text strong{display:block;font-weight:700;margin-bottom:2px}
+#backup-reminder .br-text span{color:#718096;font-size:12px}
+#backup-reminder .br-btns{display:flex;gap:8px;flex-shrink:0}
+#backup-reminder .br-ok{padding:7px 14px;background:#fc5248;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
+#backup-reminder .br-skip{padding:7px 10px;background:none;border:none;font-size:12px;color:#aaa;cursor:pointer}
+#backup-reminder .br-ok:hover{background:#e03e35}
+#backup-reminder .br-skip:hover{color:#555}
 </style>
 </head>
 <body><div id="app-topnav">
@@ -888,7 +916,36 @@ function render(){
   else if(selPro)renderPro();
   else renderMonth();
 }
+
+// ── BACKUP REMINDER (once per month) ─────────────────────────────────────────
+function checkBackupReminder(){
+  try{
+    var last = localStorage.getItem('me_last_backup_reminder');
+    var now = Date.now();
+    var month = 30 * 24 * 60 * 60 * 1000;
+    if(!last || (now - parseInt(last)) > month){
+      setTimeout(function(){
+        showBackupReminder();
+      }, 5000);
+    }
+  }catch(e){}
+}
+
+function showBackupReminder(){
+  var el = document.getElementById('backup-reminder');
+  if(!el) return;
+  el.style.display = 'flex';
+}
+
+function dismissBackup(doExport){
+  var el = document.getElementById('backup-reminder');
+  if(el) el.style.display = 'none';
+  try{ localStorage.setItem('me_last_backup_reminder', Date.now()); }catch(e){}
+  if(doExport) doExport();
+}
+
 render();
+checkBackupReminder();
 
 
 async function loadFromSupabase(){
@@ -973,5 +1030,17 @@ setTimeout(function(){
     }).catch(function(){});
   }catch(e){}
 }, 2000);
-</script></body>
+</script>
+<div id="backup-reminder">
+  <span class="br-icon">💾</span>
+  <div class="br-text">
+    <strong>Recordatorio de copia de seguridad</strong>
+    <span>Exporta tus datos una vez al mes por seguridad</span>
+  </div>
+  <div class="br-btns">
+    <button class="br-ok" onclick="dismissBackup(true);doExport()">Exportar ahora</button>
+    <button class="br-skip" onclick="dismissBackup(false)">Ahora no</button>
+  </div>
+</div>
+</body>
 </html>
