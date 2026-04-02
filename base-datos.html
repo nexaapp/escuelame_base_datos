@@ -352,8 +352,8 @@ function gv(id){const el=document.getElementById(id);return el?el.value:'';}
 function pCls(p){const m={Pendiente:'pago-pend',Efectivo:'pago-ok',Tarjeta:'pago-card',Transferencia:'pago-trans',Bizum:'pago-biz',Regalo:'pago-gift'};return m[p]||'pago-otro';}
 function pTag(p){return '<span class="pago-tag '+pCls(p)+'">'+esc(p||'—')+'</span>';}
 function sc(l,v){return '<div class="stat"><div class="stat-l">'+l+'</div><div class="stat-v">'+v+'</div></div>';}
-function gM(y,m){return (MC[y]&&MC[y][m])||[];}
-function gS(y,m,cid){return (ST[y]&&ST[y][m]&&ST[y][m][cid])||[];}
+function gM(y,m){return (MC[y]&&MC[y][m])||(MC[String(y)]&&MC[String(y)][m])||[];}
+function gS(y,m,cid){return (ST[y]&&ST[y][m]&&ST[y][m][cid])||(ST[String(y)]&&ST[String(y)][m]&&ST[String(y)][m][cid])||[];}
 function getColor(){const s=document.querySelector('.color-sw.sel');return s?{cls:s.dataset.cls,pill:s.dataset.pill}:{cls:'ch-blue',pill:'pill-blue'};}
 function selSwatch(el){document.querySelectorAll('.color-sw').forEach(function(s){s.classList.remove('sel');});el.classList.add('sel');}
 function selTurno(t){
@@ -843,6 +843,7 @@ function openModalProS(pk,cid,idx){
 
 // ── confirmModal ──────────────────────────────────────────────────────────────
 function confirmModal(){
+  try{
   if(_mode==='year'){
     var y=parseInt(gv('m-year'));
     if(!y||YEARS.indexOf(y)>=0){alert('Año inválido o ya existe');return;}
@@ -874,7 +875,14 @@ function confirmModal(){
     ST[sY][sM][cid].push({n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o'),st:getSelStatus()});
   }
   else if(_mode==='edit-student'){
-    var s=ST[sY][sM][_ex.cid][_ex.idx];
+    // Try both int and string year keys
+    var _yr=sY;
+    if(!ST[_yr]||!ST[_yr][sM]||!ST[_yr][sM][_ex.cid]) _yr=String(sY);
+    if(!ST[_yr]||!ST[_yr][sM]||!ST[_yr][sM][_ex.cid]){
+      alert('No se encontró el alumno. Intenta recargar la página.');return;
+    }
+    var s=ST[_yr][sM][_ex.cid][_ex.idx];
+    if(!s){alert('Índice de alumno no válido.');return;}
     Object.assign(s,{n:gv('m-n'),ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o'),st:getSelStatus()});
   }
   else if(_mode==='add-pro-s'||_mode==='edit-pro-s'){
@@ -888,6 +896,11 @@ function confirmModal(){
     else PS[pk][cid][idx]=obj;
   }
   closeModal();render();
+  }catch(err){
+    console.error('confirmModal error:',err);
+    alert('Error al guardar: '+err.message);
+    closeModal();
+  }
 }
 
 // ── Delete ────────────────────────────────────────────────────────────────────
@@ -1079,8 +1092,18 @@ async function loadFromSupabase(){
     if(r.error&&r.error.code!=='PGRST116')return;
     if(r.data){
       if(r.data.years&&r.data.years.length)YEARS.splice(0,YEARS.length,...r.data.years);
-      if(r.data.mc&&Object.keys(r.data.mc).length)Object.keys(r.data.mc).forEach(function(k){MC[parseInt(k)||k]=r.data.mc[k];});
-      if(r.data.st&&Object.keys(r.data.st).length)Object.keys(r.data.st).forEach(function(k){ST[parseInt(k)||k]=r.data.st[k];});
+      if(r.data.mc&&Object.keys(r.data.mc).length){
+        Object.keys(r.data.mc).forEach(function(k){
+          var key=isNaN(k)?k:parseInt(k);
+          MC[key]=r.data.mc[k];
+        });
+      }
+      if(r.data.st&&Object.keys(r.data.st).length){
+        Object.keys(r.data.st).forEach(function(k){
+          var key=isNaN(k)?k:parseInt(k);
+          ST[key]=r.data.st[k];
+        });
+      }
       if(r.data.pc&&Object.keys(r.data.pc).length)Object.assign(PC,r.data.pc);
       if(r.data.ps&&Object.keys(r.data.ps).length)Object.assign(PS,r.data.ps);
     }
