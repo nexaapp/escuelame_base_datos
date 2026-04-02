@@ -898,10 +898,10 @@ async function loadFromSupabase(){
     if(r.error&&r.error.code!=='PGRST116')return;
     if(r.data){
       if(r.data.years&&r.data.years.length)YEARS.splice(0,YEARS.length,...r.data.years);
-      if(r.data.mc)Object.keys(r.data.mc).forEach(function(k){MC[parseInt(k)||k]=r.data.mc[k];});
-      if(r.data.st)Object.keys(r.data.st).forEach(function(k){ST[parseInt(k)||k]=r.data.st[k];});
-      if(r.data.pc)Object.assign(PC,r.data.pc);
-      if(r.data.ps)Object.assign(PS,r.data.ps);
+      if(r.data.mc&&Object.keys(r.data.mc).length)Object.keys(r.data.mc).forEach(function(k){MC[parseInt(k)||k]=r.data.mc[k];});
+      if(r.data.st&&Object.keys(r.data.st).length)Object.keys(r.data.st).forEach(function(k){ST[parseInt(k)||k]=r.data.st[k];});
+      if(r.data.pc&&Object.keys(r.data.pc).length)Object.assign(PC,r.data.pc);
+      if(r.data.ps&&Object.keys(r.data.ps).length)Object.assign(PS,r.data.ps);
     }
     _supaLoaded=true;
     showStatus('✅ Conectado','ok');
