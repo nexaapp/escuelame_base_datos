@@ -812,10 +812,10 @@ function openModal(mode,extra){
       '<label>Estado pago</label><select id="m-p">'+pagoOpts+'</select>'+
       '<label>Estado del alumno</label>'+
       '<div class="status-btns">'+
-        '<button type="button" class="status-btn'+(s&&s.st==='confirmado'?' sel-confirmado':'')+'" onclick="selStatus(this,'confirmado')">🟢 Confirmado</button>'+
-        '<button type="button" class="status-btn'+(s&&s.st==='espera'?' sel-espera':'')+'" onclick="selStatus(this,'espera')">🟡 En espera</button>'+
-        '<button type="button" class="status-btn'+(s&&s.st==='cancelado'?' sel-cancelado':'')+'" onclick="selStatus(this,'cancelado')">🔴 Cancelado</button>'+
-        '<button type="button" class="status-btn'+((!s||!s.st)?' sel-none':'')+'" onclick="selStatus(this,'')">⬜ Sin estado</button>'+
+        '<button type="button" class="status-btn'+(s&&s.st==='confirmado'?' sel-confirmado':'')+'" onclick="selStatus(this,\'confirmado\')">🟢 Confirmado</button>'+
+        '<button type="button" class="status-btn'+(s&&s.st==='espera'?' sel-espera':'')+'" onclick="selStatus(this,\'espera\')">🟡 En espera</button>'+
+        '<button type="button" class="status-btn'+(s&&s.st==='cancelado'?' sel-cancelado':'')+'" onclick="selStatus(this,\'cancelado\')">🔴 Cancelado</button>'+
+        '<button type="button" class="status-btn'+((!s||!s.st)?' sel-none':'')+'" onclick="selStatus(this,\'\')">⬜ Sin estado</button>'+
       '</div>'+
       '<label>Observaciones</label><textarea id="m-o">'+esc(s&&s.o||'')+'</textarea>';
     if(isEdit) left.innerHTML='<button class="btn-danger" onclick="delS('+sY+',\''+sM+'\',\''+_ex.cid+'\','+_ex.idx+');closeModal()">Eliminar</button>';
@@ -1185,6 +1185,21 @@ function mnSetYear(v){
 function mnSetMonth(v){sM=v;render();}
 function mnToggleDB(){showDB=!showDB;if(showDB)selPro=null;render();}
 
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+render();
+try{
+  if(typeof supabase!=='undefined'){
+    loadFromSupabase().then(function(){render();}).catch(function(){});
+  } else {
+    window.addEventListener('load',function(){
+      try{
+        if(typeof supabase!=='undefined')loadFromSupabase().then(function(){render();}).catch(function(){});
+      }catch(e){}
+    });
+  }
+}catch(e){}
+checkBackupReminder();
 </script>
 
 <script>
