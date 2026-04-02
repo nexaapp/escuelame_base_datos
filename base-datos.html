@@ -529,7 +529,7 @@ function renderMonth(){
     sc('Alumnos',allS.length)+sc('Ingresos',totI+'€')+
     sc('Pendiente',totP>0?'<span style="color:#b03020">'+totP+'€</span>':'<span style="color:#2a7a3a">✓</span>')+
     sc('Cursos activos',courses.filter(function(c){return gS(sY,sM,c.id).length>0;}).length+'/'+courses.length);
-  var cont=document.getElementById('courses');cont.innerHTML='';
+  var cont=document.getElementById('content');cont.innerHTML='';
   courses.forEach(function(c,idx){
     var key=sY+'_'+sM+'_'+c.id;
     if(!(key in expanded))expanded[key]=true;
@@ -588,7 +588,7 @@ function renderPro(){
     sc('Turno','<span style="color:#d97706">☀ '+amN+' mañana</span> / <span style="color:#7c3aed">🌙 '+pmN+' tarde</span>')+
     sc('Matrículas por curso',courseInfo)+
     sc('Total matrículas','<strong>'+totMa+'€</strong>'+(totP>0?' <span style="color:#b03020;font-size:12px">('+totP+'€ pdte)</span>':'<span style="color:#2a7a3a;font-size:12px"> ✓</span>'));
-  var cont=document.getElementById('courses');cont.innerHTML='';
+  var cont=document.getElementById('content');cont.innerHTML='';
   courses.forEach(function(c){
     var students=(PS[pk]||{})[c.id]||[];
     var key=pk+'_'+c.id;
@@ -658,7 +658,7 @@ function renderDB(){
   });
   var totAll=Object.values(map).reduce(function(a,v){return a+v.students.length;},0);
   document.getElementById('stats').innerHTML=sc('Total alumnos',totAll)+sc('Tipos de curso',Object.keys(map).filter(function(k){return map[k].students.length>0;}).length);
-  var cont=document.getElementById('courses');cont.innerHTML='';
+  var cont=document.getElementById('content');cont.innerHTML='';
   var entries=Object.entries(map).filter(function(e){return e[1].students.length>0;});
   if(!entries.length){cont.innerHTML='<div class="no-results">No se encontraron resultados</div>';return;}
   entries.forEach(function(entry){
@@ -963,15 +963,15 @@ function mnToggleDB(){showDB=!showDB;if(showDB)selPro=null;render();}
 </script>
 
 <script>
-// Session check - redirect to login if not authenticated
-window.addEventListener('load', function(){
+// Session check - only redirect if explicitly no session after 2s
+setTimeout(function(){
   try{
     if(typeof supabase==='undefined')return;
     const c=supabase.createClient('https://ngpggumhsdqqlintrvlh.supabase.co','sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-');
     c.auth.getSession().then(function(r){
-      if(!r.data||!r.data.session)window.location.href='index.html';
+      if(r.data&&r.data.session===null)window.location.href='index.html';
     }).catch(function(){});
   }catch(e){}
-});
+}, 2000);
 </script></body>
 </html>
