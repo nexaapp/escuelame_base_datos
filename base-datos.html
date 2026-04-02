@@ -203,6 +203,29 @@ body{padding-top:50px!important}
 #backup-reminder .br-skip{padding:7px 10px;background:none;border:none;font-size:12px;color:#aaa;cursor:pointer}
 #backup-reminder .br-ok:hover{background:#e03e35}
 #backup-reminder .br-skip:hover{color:#555}
+
+/* Student status */
+.st-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-right:2px}
+.st-confirmado{background:#22c55e}
+.st-espera{background:#f59e0b}
+.st-cancelado{background:#ef4444}
+.st-none{background:#e2e8f0}
+tr.s-confirmado{border-left:3px solid #22c55e}
+tr.s-espera{border-left:3px solid #f59e0b}
+tr.s-cancelado{border-left:3px solid #ef4444;opacity:.7}
+tr.s-none{border-left:3px solid transparent}
+/* Status select in modal */
+.status-btns{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.status-btn{padding:6px 12px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
+.status-btn.sel-confirmado{border-color:#22c55e;background:#f0fdf4;color:#16a34a}
+.status-btn.sel-espera{border-color:#f59e0b;background:#fffbeb;color:#d97706}
+.status-btn.sel-cancelado{border-color:#ef4444;background:#fef2f2;color:#dc2626}
+.status-btn.sel-none{border-color:#94a3b8;background:#f8fafc;color:#64748b}
+/* Copy students modal */
+.copy-course-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto}
+.copy-course-item{padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;transition:all .15s}
+.copy-course-item:hover{border-color:#fc5248;background:#fff1f0}
+.copy-course-item.sel{border-color:#fc5248;background:#fff1f0;font-weight:600}
 </style>
 </head>
 <body><div id="app-topnav">
@@ -224,6 +247,7 @@ body{padding-top:50px!important}
     <input class="search-box" id="db-search" placeholder="🔍 Buscar..." oninput="renderDB()" style="display:none">
     <div id="topbar-actions" style="display:flex;gap:6px;align-items:center">
       <button class="top-btn" id="btn-copy-month" onclick="copyMonthData()" style="display:none">📋 Copiar</button>
+      <button class="top-btn" id="btn-copy-students" onclick="openCopyStudents()" style="display:none">👥 Copiar alumnos</button>
       <label class="top-btn" id="btn-import-lbl" style="display:none;cursor:pointer">⬆ Importar<input type="file" id="import-file" accept=".csv" style="display:none" onchange="handleImportFile(this)"></label>
       <button class="top-btn" id="btn-export" onclick="doExport()" style="display:none">⬇ Exportar</button>
     </div>
@@ -418,6 +442,8 @@ function tblHTML(students,showPer,editable,y,m,cid){
   var rows=students.length?students.map(function(s,i){
     totI+=s.i||0;
     if(s.p==='Pendiente')totP+=s.i||0;
+    var stClass=s.st?'s-'+s.st:'s-none';
+    var stDot='<span class="st-dot '+(s.st?'st-'+s.st:'st-none')+'"></span>';
     var perCell=showPer?'<td><span class="per-tag">'+esc(s._per||'')+'</span></td>':'';
     var actions=editable?
       '<td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editS('+y+',\''+m+'\',\''+cid+'\','+i+')">✏️</span>'+
@@ -451,7 +477,8 @@ function showDetail(row){
   var dbox=document.getElementById('detail-box');
   var h='<button class="detail-close" onclick="document.getElementById(\'detail-ov\').style.display=\'none\'">✕</button>';
   h+='<h3 style="margin-bottom:14px;font-size:17px">'+esc(s.n)+' '+esc(s.ap)+'</h3>';
-  var fields=[['Teléfono',s.t],['Mail',s.m],['Localidad',s.l],['Importe',(s.i||0)+'€'],['Estado pago',pTag(s.p)],['Observaciones',esc(s.o)]];
+  var stLabels={'confirmado':'🟢 Confirmado','espera':'🟡 En espera','cancelado':'🔴 Cancelado'};
+  var fields=[['Teléfono',s.t],['Mail',s.m],['Localidad',s.l],['Importe',(s.i||0)+'€'],['Estado pago',pTag(s.p)],['Estado alumno',s.st?stLabels[s.st]||'':'—'],['Observaciones',esc(s.o)]];
   if(s._per) fields.unshift(['Período',esc(s._per)]);
   fields.forEach(function(f){if(f[1])h+='<div class="det-row"><div class="det-lbl">'+f[0]+'</div><div class="det-val">'+f[1]+'</div></div>';});
   if(s._editable) h+='<div style="display:flex;gap:8px;margin-top:12px">'+
@@ -783,6 +810,13 @@ function openModal(mode,extra){
       '<label>Localidad</label><input id="m-l" value="'+esc(s&&s.l||'')+'">'+
       '<label>Importe (€)</label><input type="number" id="m-i" value="'+(s&&s.i||0)+'">'+
       '<label>Estado pago</label><select id="m-p">'+pagoOpts+'</select>'+
+      '<label>Estado del alumno</label>'+
+      '<div class="status-btns">'+
+        '<button type="button" class="status-btn'+(s&&s.st==='confirmado'?' sel-confirmado':'')+'" onclick="selStatus(this,'confirmado')">🟢 Confirmado</button>'+
+        '<button type="button" class="status-btn'+(s&&s.st==='espera'?' sel-espera':'')+'" onclick="selStatus(this,'espera')">🟡 En espera</button>'+
+        '<button type="button" class="status-btn'+(s&&s.st==='cancelado'?' sel-cancelado':'')+'" onclick="selStatus(this,'cancelado')">🔴 Cancelado</button>'+
+        '<button type="button" class="status-btn'+((!s||!s.st)?' sel-none':'')+'" onclick="selStatus(this,'')">⬜ Sin estado</button>'+
+      '</div>'+
       '<label>Observaciones</label><textarea id="m-o">'+esc(s&&s.o||'')+'</textarea>';
     if(isEdit) left.innerHTML='<button class="btn-danger" onclick="delS('+sY+',\''+sM+'\',\''+_ex.cid+'\','+_ex.idx+');closeModal()">Eliminar</button>';
   }
@@ -858,11 +892,11 @@ function confirmModal(){
     var cid=gv('m-sc')||_ex.cid;
     var n=gv('m-n');if(!n){alert('Nombre obligatorio');return;}
     if(!ST[sY])ST[sY]={};if(!ST[sY][sM])ST[sY][sM]={};if(!ST[sY][sM][cid])ST[sY][sM][cid]=[];
-    ST[sY][sM][cid].push({n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o')});
+    ST[sY][sM][cid].push({n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o'),st:getSelStatus()});
   }
   else if(_mode==='edit-student'){
     var s=ST[sY][sM][_ex.cid][_ex.idx];
-    Object.assign(s,{n:gv('m-n'),ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o')});
+    Object.assign(s,{n:gv('m-n'),ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o'),st:getSelStatus()});
   }
   else if(_mode==='add-pro-s'||_mode==='edit-pro-s'){
     var pk=_ex.pk,cid=_ex.cid,idx=_ex.idx;
@@ -908,10 +942,144 @@ function toggleDB(){
   if(showDB)selPro=null;
   render();
 }
+// Status selection
+function selStatus(btn, val){
+  document.querySelectorAll('.status-btn').forEach(function(b){
+    b.className='status-btn';
+  });
+  if(val==='confirmado') btn.className='status-btn sel-confirmado';
+  else if(val==='espera') btn.className='status-btn sel-espera';
+  else if(val==='cancelado') btn.className='status-btn sel-cancelado';
+  else btn.className='status-btn sel-none';
+  btn.dataset.val=val;
+}
+function getSelStatus(){
+  var sel=document.querySelector('.status-btn.sel-confirmado,.status-btn.sel-espera,.status-btn.sel-cancelado,.status-btn.sel-none');
+  return sel?sel.dataset.val||'':'';
+}
+
+// Copy students between months
+var _copyBuffer=null;
+function openCopyStudents(){
+  var courses=gM(sY,sM);
+  if(!courses.length){alert('No hay cursos en '+sM+' '+sY);return;}
+  var title=document.getElementById('modal-title');
+  var body=document.getElementById('modal-body');
+  var ok=document.getElementById('modal-ok');
+  var left=document.getElementById('modal-left');
+  title.textContent='Copiar alumnos a otro mes';
+  left.innerHTML='';
+  ok.style.display='none';
+  // Step 1: pick source course
+  var courseItems=courses.map(function(c,i){
+    var ss=gS(sY,sM,c.id);
+    return '<div class="copy-course-item" data-idx="'+i+'" onclick="pickCopySrc(this,'+i+')">'+
+      '<strong>'+esc(c.label)+'</strong> — '+ss.length+' alumno'+(ss.length!==1?'s':'')+'</div>';
+  }).join('');
+  body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:12px">¿Qué curso de <strong>'+sM+' '+sY+'</strong> quieres copiar?</p>'+
+    '<div class="copy-course-list">'+courseItems+'</div>';
+  document.getElementById('modal').style.display='flex';
+}
+
+function pickCopySrc(el, idx){
+  document.querySelectorAll('.copy-course-item').forEach(function(i){i.classList.remove('sel');});
+  el.classList.add('sel');
+  var c=gM(sY,sM)[idx];
+  var students=gS(sY,sM,c.id);
+  if(!students.length){alert('Este curso no tiene alumnos');return;}
+  _copyBuffer={students:students,label:c.label,fromM:sM,fromY:sY};
+  // Step 2: pick destination
+  showCopyDest();
+}
+
+function showCopyDest(){
+  var body=document.getElementById('modal-body');
+  var ok=document.getElementById('modal-ok');
+  // Build year/month selector
+  var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){
+    return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';
+  }).join('');
+  body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:12px">Copiar <strong>'+esc(_copyBuffer.label)+'</strong> ('+_copyBuffer.students.length+' alumnos) a:</p>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px">'+
+      '<select id="cp-year" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updateCpMonths()">'+yearOpts+'</select>'+
+      '<select id="cp-month" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px"></select>'+
+    '</div>'+
+    '<div id="cp-course-list" class="copy-course-list"></div>';
+  ok.style.display='';
+  ok.textContent='Copiar alumnos';
+  ok.onclick=function(){doCopyStudents();};
+  updateCpMonths();
+}
+
+function updateCpMonths(){
+  var y=parseInt(document.getElementById('cp-year').value);
+  var mos=Object.keys(MC[y]||{});
+  var moSel=document.getElementById('cp-month');
+  moSel.innerHTML=mos.map(function(m){return '<option>'+m+'</option>';}).join('');
+  updateCpCourses();
+  moSel.onchange=updateCpCourses;
+}
+
+function updateCpCourses(){
+  var y=parseInt(document.getElementById('cp-year').value);
+  var m=document.getElementById('cp-month').value;
+  var courses=gM(y,m);
+  var list=document.getElementById('cp-course-list');
+  if(!courses.length){list.innerHTML='<div style="color:#aaa;font-size:13px;padding:8px">No hay cursos en este mes. Se creará uno nuevo.</div>';return;}
+  list.innerHTML='<p style="font-size:12px;color:#888;margin-bottom:6px">¿En qué curso pegarlos?</p>'+
+    courses.map(function(c,i){
+      return '<div class="copy-course-item" data-cidx="'+i+'" onclick="selCpCourse(this)">'+esc(c.label)+'</div>';
+    }).join('');
+}
+
+function selCpCourse(el){
+  document.querySelectorAll('#cp-course-list .copy-course-item').forEach(function(i){i.classList.remove('sel');});
+  el.classList.add('sel');
+}
+
+function doCopyStudents(){
+  var y=parseInt(document.getElementById('cp-year').value);
+  var m=document.getElementById('cp-month').value;
+  var selC=document.querySelector('#cp-course-list .copy-course-item.sel');
+  var courses=gM(y,m);
+  var cid;
+  if(selC){
+    cid=courses[parseInt(selC.dataset.cidx)].id;
+  } else if(courses.length===1){
+    cid=courses[0].id;
+  } else if(courses.length===0){
+    // Create new course
+    cid='c'+Date.now();
+    if(!MC[y])MC[y]={};if(!MC[y][m])MC[y][m]=[];
+    MC[y][m].push({id:cid,label:_copyBuffer.label,cls:'ch-blue',pill:'pill-blue',subtitle:''});
+    if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};ST[y][m][cid]=[];
+  } else {
+    alert('Selecciona un curso de destino');return;
+  }
+  if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][cid])ST[y][m][cid]=[];
+  var copied=_copyBuffer.students.map(function(s){return Object.assign({},s);});
+  ST[y][m][cid]=ST[y][m][cid].concat(copied);
+  closeModal();
+  alert('✓ '+copied.length+' alumno'+(copied.length!==1?'s':'')+' copiado'+(copied.length!==1?'s':'')+' a '+m+' '+y);
+  sY=y;sM=m;selPro=null;showDB=false;
+  render();
+}
+
 function render(){
   scheduleSave();
   renderNav();
   renderMobileNav();
+  // Show/hide topbar buttons
+  var isMonth=!showDB&&!selPro;
+  var isPro=!showDB&&!!selPro;
+  var btnCopy=document.getElementById('btn-copy-month');
+  var btnImport=document.getElementById('btn-import-lbl');
+  var btnExport=document.getElementById('btn-export');
+  var btnCopyS=document.getElementById('btn-copy-students');
+  if(btnCopy) btnCopy.style.display=isMonth?'':'none';
+  if(btnImport) btnImport.style.display=isMonth?'':'none';
+  if(btnExport) btnExport.style.display=(isMonth||isPro)?'':'none';
+  if(btnCopyS) btnCopyS.style.display=isMonth?'':'none';
   if(showDB)renderDB();
   else if(selPro)renderPro();
   else renderMonth();
