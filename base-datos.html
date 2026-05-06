@@ -944,6 +944,16 @@ function render(){
   else renderMonth();
 }
 render();
+try{
+  if(typeof supabase!=='undefined'){
+    loadFromSupabase().then(function(){render();}).catch(function(){});
+  } else {
+    document.addEventListener('DOMContentLoaded',function(){
+      try{if(typeof supabase!=='undefined')loadFromSupabase().then(function(){render();}).catch(function(){});}catch(e){}
+    });
+  }
+}catch(e){}
+checkBackupReminder();
 
 
 // Status selection
@@ -1084,7 +1094,7 @@ function mnSetMonth(v){sM=v;render();}
 function mnToggleDB(){showDB=!showDB;if(showDB)selPro=null;render();}
 
 // Supabase
-let _saveTimer=null,_supaLoaded=false,_db=null;
+var _saveTimer=null,_supaLoaded=false,_db=null;
 function getDB(){if(!_db&&typeof supabase!=='undefined')_db=supabase.createClient('https://ngpggumhsdqqlintrvlh.supabase.co','sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-');return _db;}
 async function loadFromSupabase(){
   if(typeof supabase==='undefined')return;
