@@ -1076,15 +1076,13 @@ confirmModal=function(){
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 render();
-try{
-  if(typeof supabase!=='undefined'){
-    loadFromSupabase().then(function(){render();}).catch(function(){});
-  } else {
-    document.addEventListener('DOMContentLoaded',function(){
-      try{if(typeof supabase!=='undefined')loadFromSupabase().then(function(){render();});}catch(e){}
-    });
-  }
-}catch(e){}
+window.addEventListener('load',function(){
+  try{
+    if(typeof supabase!=='undefined'){
+      loadFromSupabase().then(function(){render();}).catch(function(){});
+    }
+  }catch(e){}
+});
 </script>
 </body>
 </html>
