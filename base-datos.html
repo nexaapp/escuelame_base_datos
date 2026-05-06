@@ -199,6 +199,9 @@ tr.s-cancelado{opacity:.7}
 .cloud-status.warn{background:#fef3c7;color:#92400e}
 .cloud-status.err{background:#fee2e2;color:#991b1b}
 .top-btn{padding:5px 11px;border:1px solid #d1d5db;border-radius:6px;background:white;cursor:pointer;font-size:12px;color:#374151;white-space:nowrap}
+
+.wl-obs-row{background:#fffbeb}
+.wl-obs-row textarea{font-family:inherit;line-height:1.5;color:#1a202c}
 </style>
 </head>
 <body>
@@ -252,10 +255,11 @@ tr.s-cancelado{opacity:.7}
     <button class="br-skip" onclick="document.getElementById('backup-reminder').style.display='none';localStorage.setItem('me_bk',Date.now())">Ahora no</button>
   </div>
 </div>
+
+<div id="toast"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-
-
 const YEARS=[2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
 const ALL_MONTHS=["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 let MC={},ST={};
@@ -341,9 +345,10 @@ const COLORS=[
 // PRO_KEYS already declared in data section
 
 // State
-let sY=2026, sM='Marzo', selPro=null, showDB=false;
+let sY=2026, sM='Marzo', selPro=null, showDB=false, showWL=false;
 let expanded={}, dbExp={};
 let _mode='', _ex={};
+var WL=[]; // waiting list
 
 // Helpers
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -502,7 +507,7 @@ function renderNav(){
     var yb=document.createElement('button');
     yb.className='year-btn'+(y===sY&&!showDB&&!selPro?' active':'');
     yb.innerHTML=y+'<span class="arr">'+(y===sY&&!showDB&&!selPro?'▾':'▸')+'</span>';
-    yb.onclick=function(){sY=y;sM=ALL_MONTHS.find(function(m){return MC[y]&&MC[y][m];})||'Enero';selPro=null;showDB=false;render();};
+    yb.onclick=function(){sY=y;sM=ALL_MONTHS.find(function(m){return MC[y]&&MC[y][m];})||'Enero';selPro=null;showDB=false;showWL=false;render();};
     nav.appendChild(yb);
     if(y===sY&&!showDB&&!selPro){
       var ml=document.createElement('div');ml.className='months-list';
@@ -844,6 +849,17 @@ function openModalProS(pk,cid,idx){
 // ── confirmModal ──────────────────────────────────────────────────────────────
 function confirmModal(){
   try{
+  if(_mode==='add-wl'){
+    var n=gv('m-n');if(!n){alert('El nombre es obligatorio');return;}
+    WL.push({n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o'),st:getSelStatus()});
+    closeModal();render();scheduleSave();return;
+  }
+  if(_mode==='edit-wl'){
+    var s=WL[_ex.i];if(!s)return;
+    Object.assign(s,{n:gv('m-n'),ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o'),st:getSelStatus()});
+    closeModal();render();scheduleSave();return;
+  }
+  if(_mode==='assign-wl'){return;}
   if(_mode==='year'){
     var y=parseInt(gv('m-year'));
     if(!y||YEARS.indexOf(y)>=0){alert('Año inválido o ya existe');return;}
@@ -939,7 +955,8 @@ function render(){
   updateTopbarBtns();
   renderNav();
   renderMobileNav();
-  if(showDB)renderDB();
+  if(showWL)renderWL();
+  else if(showDB)renderDB();
   else if(selPro)renderPro();
   else renderMonth();
 }
@@ -1117,6 +1134,7 @@ async function loadFromSupabase(){
       }
       if(r.data.pc&&Object.keys(r.data.pc).length)Object.assign(PC,r.data.pc);
       if(r.data.ps&&Object.keys(r.data.ps).length)Object.assign(PS,r.data.ps);
+      if(r.data.wl&&r.data.wl.length)WL.splice(0,WL.length,...r.data.wl);
     }
     _supaLoaded=true;
     showStatus('✅ Conectado','ok');
@@ -1126,7 +1144,7 @@ async function loadFromSupabase(){
 async function saveToSupabase(){
   if(!_supaLoaded)return;
   try{
-    var r=await getDB().from('app_data').upsert({id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,updated_at:new Date().toISOString()},{onConflict:'id'});
+    var r=await getDB().from('app_data').upsert({id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,wl:WL,updated_at:new Date().toISOString()},{onConflict:'id'});
     if(!r.error){showStatus('☁️ Guardado','ok');setTimeout(function(){showStatus('','');},2000);}
   }catch(e){}
 }
@@ -1144,14 +1162,188 @@ function checkBackupReminder(){
 }
 
 // Topbar buttons visibility
+
+// ── WAITING LIST ──────────────────────────────────────────────────────────────
+function renderWL(){
+  var content=document.getElementById('content');
+  var html='<div class="month-header"><h2>&#9201; Alumnos en espera</h2></div>';
+  html+='<div class="course-block" style="margin-top:12px">';
+  html+='<div class="course-header" style="display:flex;align-items:center;gap:10px">';
+  html+='<span style="flex:1;font-weight:600;color:#555">'+WL.length+' alumno'+(WL.length!==1?'s':'')+' pendiente'+(WL.length!==1?'s':'')+'</span>';
+  html+='<button class="tbl-btn" onclick="addWLStudent()" style="background:#fc5248;color:#fff;border-radius:8px;padding:5px 12px;font-size:12px;border:none;cursor:pointer">+ Añadir</button>';
+  html+='</div>';
+  
+  if(!WL.length){
+    html+='<div style="padding:32px;text-align:center;color:#aaa;font-size:14px">No hay alumnos en espera</div>';
+  } else {
+    html+='<div class="tbl-wrap"><table><thead><tr>';
+    html+='<th></th><th>Nombre</th><th>Apellidos</th><th>Tel</th><th>Mail</th><th>Localidad</th><th>Importe</th><th>Pago</th><th>Observaciones</th><th></th>';
+    html+='</tr></thead><tbody>';
+    WL.forEach(function(s,i){
+      var stCls=s.st?'s-'+s.st:'s-none';
+      var stDot='<span class="st-dot '+(s.st?'st-'+s.st:'st-none')+'"></span>';
+      html+='<tr class="'+stCls+'" style="cursor:pointer" onclick="toggleWLObs('+i+')" id="wl-row-'+i+'">'+
+        '<td>'+stDot+'</td>'+
+        '<td><strong>'+esc(s.n)+'</strong></td>'+
+        '<td>'+esc(s.ap)+'</td>'+
+        '<td style="white-space:nowrap">'+esc(s.t)+'</td>'+
+        '<td>'+esc(s.m)+'</td>'+
+        '<td>'+esc(s.l)+'</td>'+
+        '<td>'+(s.i||0)+'€</td>'+
+        '<td>'+pTag(s.p)+'</td>'+
+        '<td class="obs-td">'+esc(s.o||'').slice(0,40)+(s.o&&s.o.length>40?'…':'')+'</td>'+
+        '<td style="white-space:nowrap">'+
+          '<span class="tbl-btn" onclick="event.stopPropagation();editWLS('+i+')" title="Editar">✏️</span>'+
+          '<span class="tbl-btn" onclick="event.stopPropagation();assignWLS('+i+')" title="Asignar a curso" style="color:#2a7a3a">➡️</span>'+
+          '<span class="tbl-btn del" onclick="event.stopPropagation();delWLS('+i+')" title="Eliminar">🗑</span>'+
+        '</td>'+
+      '</tr>';
+      // Expandable obs row
+      html+='<tr id="wl-obs-'+i+'" style="display:none"><td colspan="10" style="padding:0">';
+      html+='<div style="padding:8px 16px;background:#fffbeb;border-bottom:2px solid #fde68a">';
+      html+='<textarea id="wl-obs-ta-'+i+'" style="width:100%;border:none;background:transparent;font-size:13px;font-family:inherit;resize:vertical;min-height:60px;outline:none" placeholder="Observaciones..." onblur="saveWLObs('+i+')" onclick="event.stopPropagation()">'+esc(s.o||'')+'</textarea>';
+      html+='</div></td></tr>';
+    });
+    html+='</tbody></table></div>';
+  }
+  html+='</div>';
+  content.innerHTML=html;
+}
+
+function toggleWLObs(i){
+  var row=document.getElementById('wl-obs-'+i);
+  if(!row)return;
+  var isOpen=row.style.display!=='none';
+  // Close all
+  WL.forEach(function(_,j){var r=document.getElementById('wl-obs-'+j);if(r)r.style.display='none';});
+  if(!isOpen){row.style.display='';setTimeout(function(){var ta=document.getElementById('wl-obs-ta-'+i);if(ta)ta.focus();},50);}
+}
+
+function saveWLObs(i){
+  var ta=document.getElementById('wl-obs-ta-'+i);
+  if(!ta||!WL[i])return;
+  WL[i].o=ta.value;
+  scheduleSave();
+}
+
+function addWLStudent(){
+  _mode='add-wl';_ex={};
+  openModal('Añadir alumno en espera',studentFormHTML(null));
+}
+
+function editWLS(i){
+  _mode='edit-wl';_ex={i:i};
+  openModal('Editar alumno en espera',studentFormHTML(WL[i]));
+}
+
+function delWLS(i){
+  if(!confirm('¿Eliminar este alumno de la lista de espera?'))return;
+  WL.splice(i,1);
+  render();scheduleSave();
+}
+
+function assignWLS(i){
+  var s=WL[i];if(!s)return;
+  // Build year/month/course picker modal
+  var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){
+    return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';
+  }).join('');
+  var body='<p style="font-size:13px;color:#666;margin-bottom:14px">Asignar <strong>'+esc(s.n)+' '+esc(s.ap)+'</strong> a:</p>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px">'+
+      '<select id="as-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsMonths()">'+yearOpts+'</select>'+
+      '<select id="as-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsCourses()"></select>'+
+    '</div>'+
+    '<div id="as-courses" style="display:flex;flex-direction:column;gap:8px"></div>';
+  openModal('Asignar a curso',body);
+  document.getElementById('modal-ok').style.display='none';
+  document.getElementById('modal-left').innerHTML='<span style="font-size:12px;color:#aaa">Haz clic en un curso para asignar</span>';
+  _ex={wlIdx:i};
+  _mode='assign-wl';
+  updAsMonths();
+}
+
+function updAsMonths(){
+  var y=parseInt(document.getElementById('as-y').value);
+  var mo=document.getElementById('as-m');
+  mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');
+  updAsCourses();
+  mo.onchange=updAsCourses;
+}
+
+function updAsCourses(){
+  var y=parseInt(document.getElementById('as-y').value);
+  var m=document.getElementById('as-m').value;
+  var cs=gM(y,m);
+  var div=document.getElementById('as-courses');
+  if(!div)return;
+  if(!cs.length){div.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos en este mes.</div>';return;}
+  div.innerHTML='';
+  cs.forEach(function(c,ci){
+    var d=document.createElement('div');
+    d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:8px';
+    d.innerHTML='<strong>'+esc(c.label)+'</strong>';
+    d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};
+    d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};
+    (function(idx){d.onclick=function(){doAssign(idx);};})(ci);
+    div.appendChild(d);
+  });
+}
+
+function doAssign(courseIdx){
+  var y=parseInt(document.getElementById('as-y').value);
+  var m=document.getElementById('as-m').value;
+  var cs=gM(y,m);
+  var course=cs[courseIdx];if(!course)return;
+  var wlIdx=_ex.wlIdx;var s=WL[wlIdx];if(!s)return;
+  // Add to course
+  if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][course.id])ST[y][m][course.id]=[];
+  var student=Object.assign({},s);
+  delete student._wl;
+  ST[y][m][course.id].push(student);
+  // Remove from WL
+  WL.splice(wlIdx,1);
+  closeModal();
+  // Navigate to the course
+  sY=y;sM=m;selPro=null;showDB=false;showWL=false;
+  render();scheduleSave();
+  showToast('✅ Alumno asignado a '+esc(course.label)+' · '+m+' '+y);
+}
+
+
+function toggleObs(event,obsId,sData){
+  // If click came from action buttons, do detail instead
+  if(event.target.closest('.tbl-btn')){return;}
+  var row=document.getElementById(obsId);
+  if(!row)return;
+  var allObs=document.querySelectorAll('.obs-expand-row');
+  var isOpen=row.style.display!=='none';
+  allObs.forEach(function(r){r.style.display='none';});
+  if(!isOpen){
+    row.style.display='';
+    setTimeout(function(){var ta=row.querySelector('textarea');if(ta)ta.focus();},50);
+  } else {
+    // If was open, show detail on second click (toggle off = just collapse)
+  }
+}
+
+function saveObs(ta,y,m,cid,i){
+  var yr=ST[y]?y:String(y);
+  if(ST[yr]&&ST[yr][m]&&ST[yr][m][cid]&&ST[yr][m][cid][i]!==undefined){
+    ST[yr][m][cid][i].o=ta.value;
+    scheduleSave();
+  }
+}
+
+
 function updateTopbarBtns(){
-  var isMonth=!showDB&&!selPro;
-  var isPro=!showDB&&!!selPro;
+  var isMonth=!showDB&&!selPro&&!showWL;
+  var isPro=!showDB&&!!selPro&&!showWL;
   var ids=['btn-copy-month','btn-copy-students','btn-import-lbl'];
   ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=isMonth?'':'none';});
   var exp=document.getElementById('btn-export');
   if(exp)exp.style.display=(isMonth||isPro)?'':'none';
 }
+
 
 </script>
 </body>
