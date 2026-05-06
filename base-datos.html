@@ -542,7 +542,7 @@ function renderNav(){
     var pb=document.createElement('button');
     pb.className='year-btn pro-year'+(selPro===pk?' active':'');
     pb.innerHTML=pk+'<span class="arr">'+(selPro===pk?'▾':'▸')+'</span>';
-    pb.onclick=function(){selPro=pk;showDB=false;render();};
+    pb.onclick=function(){selPro=pk;showDB=false;showWL=false;render();};
     nav.appendChild(pb);
     if(selPro===pk){
       var pl=document.createElement('div');pl.className='months-list';
@@ -555,6 +555,22 @@ function renderNav(){
       nav.appendChild(pl);
     }
   });
+
+  // ── Waiting list ───────────────────────────────────────────────────────────
+  var wlSep=document.createElement('div');
+  wlSep.className='nav-section-lbl';
+  wlSep.textContent='EN ESPERA';
+  nav.appendChild(wlSep);
+
+  var wlBtn=document.createElement('button');
+  wlBtn.className='year-btn'+(showWL?' active':'');
+  var wlCount=document.createElement('span');
+  wlCount.style.cssText='background:#f59e0b;color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:6px';
+  wlCount.textContent=WL.length;
+  wlBtn.innerHTML='&#9201; En espera ';
+  wlBtn.appendChild(wlCount);
+  wlBtn.onclick=function(){showWL=true;showDB=false;selPro=null;render();};
+  nav.appendChild(wlBtn);
 }
 
 // ── Month view ────────────────────────────────────────────────────────────────
