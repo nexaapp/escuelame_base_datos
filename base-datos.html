@@ -340,9 +340,8 @@ function tblHTML(students,showPer,editable,y,m,cid){
       '<td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editS('+y+',\''+m+'\',\''+cid+'\','+i+')">✏️</span>'+
       '<span class="tbl-btn del" onclick="event.stopPropagation();delS('+y+',\''+m+'\',\''+cid+'\','+i+')">🗑</span></td>':
       '<td></td>';
-    return '<tr onclick="showDetail(this)" style="cursor:pointer" data-json=\''+escJson(Object.assign({},s,{_editable:editable,_y:y,_m:m,_cid:cid,_i:i}))+'\'>'+
-      perCell+
-      '<td>'+esc(s.n)+'</td><td>'+esc(s.ap)+'</td>' +
+    var obsId='ob'+String(cid).replace(/[^a-z0-9]/gi,'_')+'_'+i;
+    return '<tr style="cursor:pointer" onclick="toggleObs(event,\''+obsId+'\','+y+',\''+m+'\',\''+cid+'\','+i+')" data-json=\''+escJson(Object.assign({},s,{_editable:editable,_y:y,_m:m,_cid:cid,_i:i}))+'\'>' +
       '<td style="white-space:nowrap">'+esc(s.t)+'</td>' +
       '<td class="mail-link">'+esc(s.m)+'</td>' +
       '<td>'+esc(s.l)+'</td>' +
