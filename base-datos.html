@@ -149,6 +149,27 @@ body{padding-top:50px!important}
 .nav-section-lbl{font-size:10px;font-weight:700;color:#fc5248;letter-spacing:.08em;padding:14px 16px 4px;text-transform:uppercase}
 .copy-course-item{padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;transition:all .15s}
 .copy-course-item:hover{border-color:#fc5248;background:#fff1f0}
+
+@media (max-width: 700px) {
+  body { height:auto !important; overflow:auto !important; flex-direction:column; }
+  #app-topnav { height:44px; padding:0 12px; gap:8px; }
+  body { padding-top:44px !important; }
+  #sidebar { display:none; }
+  #main { flex:1; width:100%; overflow:visible; }
+  #topbar { flex-wrap:wrap; padding:8px 10px; gap:6px; min-height:auto; }
+  #topbar-actions { flex-wrap:wrap; gap:4px; }
+  .top-btn { font-size:11px; padding:4px 8px; }
+  #breadcrumb { font-size:13px; }
+  #stats { flex-wrap:wrap; padding:8px 10px; }
+  .stat { min-width:120px; flex:1; }
+  #content { padding:8px 10px; overflow-x:hidden; overflow-y:visible; flex:none; }
+  .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  table { font-size:11px; min-width:520px; }
+  table th, table td { padding:6px 8px; white-space:nowrap; }
+  .modal-box { width:95vw; max-width:95vw; max-height:90vh; overflow-y:auto; }
+  .course-block { border-radius:8px; }
+  .month-header h2 { font-size:16px; }
+}
 </style>
 </head>
 <body>
@@ -1202,15 +1223,24 @@ async function saveToSupabase(){
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
 
 // ── Init ──────────────────────────────────────────────────────────────────────
-render();
+// Show loading state
+document.addEventListener('DOMContentLoaded',function(){
+  var content=document.getElementById('content');
+  if(content)content.innerHTML='<div style="padding:60px;text-align:center;color:#a0aec0;font-size:14px"><div style="font-size:32px;margin-bottom:12px">&#128247;</div><div>Cargando datos...</div></div>';
+});
+
 window.addEventListener('load',function(){
   try{
     if(typeof supabase!=='undefined'){
-      loadFromSupabase().then(function(){render();}).catch(function(e){console.error(e);});
+      loadFromSupabase().then(function(){render();}).catch(function(e){
+        console.error('load err:',e);
+        render(); // render with local data if load fails
+      });
     } else {
       console.warn('Supabase CDN not loaded');
+      render();
     }
-  }catch(e){console.error(e);}
+  }catch(e){console.error(e);render();}
   checkBackupReminder();
 });
 </script>
