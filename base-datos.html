@@ -135,7 +135,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;}
 table tbody tr:hover{background:#f8f6f2;}
 
 
-#app-topnav{position:fixed;top:0;left:0;right:0;height:50px;background:#fff;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;padding:0 16px;gap:12px;z-index:9999;font-family:-apple-system,'Montserrat',sans-serif}
+#app-topnav{position:fixed;top:0;left:0;right:0;height:50px;background:#fff;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;padding:0 16px;gap:12px;z-index:9999;font-family:inherit}
 .tn-back{background:none;border:none;font-size:22px;cursor:pointer;color:#999;padding:0 4px;line-height:1}
 .tn-back:hover{color:#1a1a1a}
 .tn-logo{width:26px;height:26px;border-radius:50%;object-fit:cover}
@@ -143,33 +143,13 @@ table tbody tr:hover{background:#f8f6f2;}
 body{padding-top:50px!important}
 .top-btn{padding:5px 11px;border:1px solid #d1d5db;border-radius:6px;background:white;cursor:pointer;font-size:12px;color:#374151;white-space:nowrap;font-family:inherit}
 .top-btn:hover{border-color:#fc5248;color:#fc5248}
-#cloud-status{font-size:11px;padding:3px 8px;border-radius:10px;white-space:nowrap;transition:all .3s}
+#cloud-status{font-size:11px;padding:3px 8px;border-radius:10px;white-space:nowrap}
 .cloud-status.ok{background:#d1fae5;color:#065f46}
 .cloud-status.err{background:#fee2e2;color:#991b1b}
 .nav-section-lbl{font-size:10px;font-weight:700;color:#fc5248;letter-spacing:.08em;padding:14px 16px 4px;text-transform:uppercase}
 .copy-course-item{padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;transition:all .15s}
 .copy-course-item:hover{border-color:#fc5248;background:#fff1f0}
-
-@media (max-width: 700px) {
-  body { height:auto !important; overflow:auto !important; flex-direction:column; }
-  #app-topnav { height:44px; padding:0 12px; gap:8px; }
-  body { padding-top:44px !important; }
-  #sidebar { display:none; }
-  #main { flex:1; width:100%; overflow:visible; }
-  #topbar { flex-wrap:wrap; padding:8px 10px; gap:6px; min-height:auto; }
-  #topbar-actions { flex-wrap:wrap; gap:4px; }
-  .top-btn { font-size:11px; padding:4px 8px; }
-  #breadcrumb { font-size:13px; }
-  #stats { flex-wrap:wrap; padding:8px 10px; }
-  .stat { min-width:120px; flex:1; }
-  #content { padding:8px 10px; overflow-x:hidden; overflow-y:visible; flex:none; }
-  .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
-  table { font-size:11px; min-width:520px; }
-  table th, table td { padding:6px 8px; white-space:nowrap; }
-  .modal-box { width:95vw; max-width:95vw; max-height:90vh; overflow-y:auto; }
-  .course-block { border-radius:8px; }
-  .month-header h2 { font-size:16px; }
-}
+@media(max-width:700px){body{height:auto!important;overflow:auto!important;flex-direction:column}#sidebar{display:none}#main{width:100%;overflow:visible}#topbar{flex-wrap:wrap;padding:8px 10px;gap:6px;min-height:auto}#topbar-actions{flex-wrap:wrap;gap:4px}.top-btn{font-size:11px;padding:4px 8px}#content{padding:8px 10px;overflow-x:hidden;overflow-y:visible;flex:none}.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}table{font-size:11px;min-width:500px}table th,table td{padding:5px 7px;white-space:nowrap}.modal-box{width:95vw;max-width:95vw;max-height:90vh;overflow-y:auto}#stats{flex-wrap:wrap;padding:8px 10px}}
 </style>
 </head>
 <body>
@@ -515,13 +495,8 @@ function renderNav(){
       nav.appendChild(pl);
     }
   });
-  var wlSep=document.createElement('div');wlSep.className='nav-section-lbl';
-  wlSep.textContent='EN ESPERA';nav.appendChild(wlSep);
-  var wlBtn=document.createElement('button');
-  wlBtn.className='year-btn'+(showWL?' active':'');
-  wlBtn.innerHTML='&#9201; En espera <span style="background:#f59e0b;color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:6px">'+WL.length+'</span>';
-  wlBtn.onclick=function(){showWL=true;showDB=false;selPro=null;render();};
-  nav.appendChild(wlBtn);
+  var wlSep=document.createElement('div');wlSep.className='nav-section-lbl';wlSep.textContent='EN ESPERA';nav.appendChild(wlSep);
+  var wlBtn=document.createElement('button');wlBtn.className='year-btn'+(showWL?' active':'');wlBtn.innerHTML='&#9201; En espera <span style="background:#f59e0b;color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:6px">'+WL.length+'</span>';wlBtn.onclick=function(){showWL=true;showDB=false;selPro=null;render();};nav.appendChild(wlBtn);
 
 }
 
@@ -812,7 +787,7 @@ function confirmModal(){
   if(_mode==='add-wl'){var n=gv('m-n');if(!n){alert('Nombre obligatorio');return;}WL.push({n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o')});closeModal();render();scheduleSave();return;}
   if(_mode==='edit-wl'){var sw=WL[_ex.i];if(!sw)return;Object.assign(sw,{n:gv('m-n'),ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o')});closeModal();render();scheduleSave();return;}
   if(_mode==='assign-wl')return;
-  // original below:
+  //original:
   if(_mode==='year'){
     var y=parseInt(gv('m-year'));
     if(!y||YEARS.indexOf(y)>=0){alert('Año inválido o ya existe');return;}
@@ -901,293 +876,32 @@ function render(){
   else renderMonth();
 }
 
-
-// ── Obs expand ────────────────────────────────────────────────────────────────
-function toggleObs(event,obsId,y,m,cid,i){
-  if(event.target.closest('.tbl-btn')||event.target.closest('.icon-btn')){return;}
-  var row=document.getElementById(obsId);if(!row)return;
-  var isOpen=row.style.display!=='none';
-  document.querySelectorAll('tr[id^="ob"]').forEach(function(r){r.style.display='none';});
-  if(!isOpen){row.style.display='';setTimeout(function(){var ta=row.querySelector('textarea');if(ta)ta.focus();},50);}
-}
-function saveObs(ta,y,m,cid,i){
-  var yr=ST[y]?y:(ST[String(y)]?String(y):y);
-  if(ST[yr]&&ST[yr][m]&&ST[yr][m][cid]&&ST[yr][m][cid][i]!==undefined){
-    ST[yr][m][cid][i].o=ta.value;scheduleSave();
-  }
-}
-
-// ── Topbar buttons visibility ─────────────────────────────────────────────────
-function updateTopbarBtns(){
-  var isMonth=!showDB&&!selPro&&!showWL;
-  var isPro=!showDB&&!!selPro&&!showWL;
-  var ids=['btn-copy-month','btn-copy-students','btn-import-lbl'];
-  ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=isMonth?'':'none';});
-  var exp=document.getElementById('btn-export');if(exp)exp.style.display=(isMonth||isPro)?'':'none';
-}
-
-// ── Cloud status ──────────────────────────────────────────────────────────────
+function toggleObs(event,obsId,y,m,cid,i){if(event.target.closest('.tbl-btn')||event.target.closest('.icon-btn'))return;var row=document.getElementById(obsId);if(!row)return;var isOpen=row.style.display!=='none';document.querySelectorAll('tr[id^="ob"]').forEach(function(r){r.style.display='none';});if(!isOpen){row.style.display='';setTimeout(function(){var ta=row.querySelector('textarea');if(ta)ta.focus();},50);}}
+function saveObs(ta,y,m,cid,i){var yr=ST[y]?y:(ST[String(y)]?String(y):y);if(ST[yr]&&ST[yr][m]&&ST[yr][m][cid]&&ST[yr][m][cid][i]!==undefined){ST[yr][m][cid][i].o=ta.value;scheduleSave();}}
+function updateTopbarBtns(){var isMonth=!showDB&&!selPro&&!showWL,isPro=!showDB&&!!selPro&&!showWL;['btn-copy-month','btn-copy-students','btn-import-lbl'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=isMonth?'':'none';});var exp=document.getElementById('btn-export');if(exp)exp.style.display=(isMonth||isPro)?'':'none';}
 function showStatus(msg,type){var el=document.getElementById('cloud-status');if(!el)return;el.textContent=msg;el.className='cloud-status '+(type||'');}
-
-// ── Copy month text ───────────────────────────────────────────────────────────
-function copyMonthData(){
-  var courses=gM(sY,sM);
-  var lines=[sY+' > '+sM];
-  courses.forEach(function(course){
-    lines.push('\\n'+course.label);
-    gS(sY,sM,course.id).forEach(function(s){lines.push(s.n+' '+s.ap+' | '+s.t+' | '+(s.i||0)+'\\u20ac | '+s.p);});
-  });
-  navigator.clipboard.writeText(lines.join('\\n')).then(function(){showToastMsg('\\uD83D\\uDCCB Copiado');}).catch(function(){showToastMsg('Error');});
-}
-
-// ── Copy students between months ──────────────────────────────────────────────
+function copyMonthData(){var courses=gM(sY,sM),lines=[sY+' > '+sM];courses.forEach(function(c){lines.push('\n'+c.label);gS(sY,sM,c.id).forEach(function(s){lines.push(s.n+' '+s.ap+' | '+s.t+' | '+(s.i||0)+'€ | '+s.p);});});navigator.clipboard.writeText(lines.join('\n')).then(function(){showToastMsg('Copiado');}).catch(function(){showToastMsg('Error');});}
 var _copyBuf=null;
-function openCopyStudents(){
-  var courses=gM(sY,sM);if(!courses.length){showToastMsg('No hay cursos en '+sM+' '+sY);return;}
-  var title=document.getElementById('modal-title');var body=document.getElementById('modal-body');
-  var ok=document.getElementById('modal-ok');var left=document.getElementById('modal-left');
-  title.textContent='Copiar alumnos a otro mes';left.innerHTML='';ok.style.display='none';
-  body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:12px">\\u00bfQu\\u00e9 curso copiar?</p>'+
-    '<div id="cp-src" style="display:flex;flex-direction:column;gap:8px">'+
-    courses.map(function(c,i){
-      var ss=gS(sY,sM,c.id);
-      return '<div class="copy-course-item" onclick="pickSrc(this,'+i+')"><strong>'+esc(c.label)+'</strong> \\u00b7 '+ss.length+' alumno'+(ss.length!==1?'s':'')+'</div>';
-    }).join('')+'</div>';
-  document.getElementById('modal').style.display='flex';
-}
-function pickSrc(el,idx){
-  document.querySelectorAll('.copy-course-item').forEach(function(i){i.style.borderColor='#e2e8f0';i.style.background='';});
-  el.style.borderColor='#fc5248';el.style.background='#fff1f0';
-  var c=gM(sY,sM)[idx];var ss=gS(sY,sM,c.id);
-  if(!ss.length){showToastMsg('Sin alumnos');return;}
-  _copyBuf={students:ss,label:c.label};
-  // Show destination
-  var body=document.getElementById('modal-body');
-  var ok=document.getElementById('modal-ok');
-  var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){
-    return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';
-  }).join('');
-  body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:12px">Destino para <strong>'+esc(c.label)+'</strong>:</p>'+
-    '<div style="display:flex;gap:8px;margin-bottom:12px">'+
-      '<select id="cp-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updCpMo()">'+yearOpts+'</select>'+
-      '<select id="cp-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updCpCourses()"></select>'+
-    '</div><div id="cp-list" style="display:flex;flex-direction:column;gap:8px"></div>';
-  ok.style.display='';ok.textContent='Copiar alumnos';ok.onclick=function(){execCopy();};
-  updCpMo();
-}
-function updCpMo(){
-  var y=parseInt(document.getElementById('cp-y').value);
-  var mo=document.getElementById('cp-m');
-  mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');
-  updCpCourses();mo.onchange=updCpCourses;
-}
-function updCpCourses(){
-  var y=parseInt(document.getElementById('cp-y').value);var m=document.getElementById('cp-m').value;
-  var cs=gM(y,m);var list=document.getElementById('cp-list');
-  list.innerHTML='';
-  if(!cs.length){list.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos. Se crear\\u00e1 uno nuevo.</div>';return;}
-  cs.forEach(function(c,i){
-    var d=document.createElement('div');d.className='copy-course-item';d.innerHTML='<strong>'+esc(c.label)+'</strong>';d.dataset.ci=i;
-    d.onclick=function(){document.querySelectorAll('#cp-list .copy-course-item').forEach(function(x){x.style.borderColor='#e2e8f0';x.style.background='';});this.style.borderColor='#fc5248';this.style.background='#fff1f0';};
-    list.appendChild(d);
-  });
-}
-function execCopy(){
-  var y=parseInt(document.getElementById('cp-y').value);var m=document.getElementById('cp-m').value;
-  var selC=document.querySelector('#cp-list .copy-course-item[style*="fc5248"]');
-  var cs=gM(y,m);var cid;
-  if(selC){cid=cs[parseInt(selC.dataset.ci)].id;}
-  else if(cs.length===1){cid=cs[0].id;}
-  else if(!cs.length){
-    cid='c'+Date.now();
-    if(!MC[y])MC[y]={};if(!MC[y][m])MC[y][m]=[];
-    MC[y][m].push({id:cid,label:_copyBuf.label,cls:'ch-blue',pill:'pill-blue',subtitle:''});
-    if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};ST[y][m][cid]=[];
-  } else {showToastMsg('Selecciona un curso destino');return;}
-  if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][cid])ST[y][m][cid]=[];
-  var copied=_copyBuf.students.map(function(s){return Object.assign({},s);});
-  ST[y][m][cid]=ST[y][m][cid].concat(copied);
-  closeModal();showToastMsg('\\u2705 '+copied.length+' alumnos copiados a '+m+' '+y);
-  sY=y;sM=m;selPro=null;showDB=false;showWL=false;render();
-}
-
-// ── Import CSV ────────────────────────────────────────────────────────────────
-function handleImportFile(inp){
-  var file=inp.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    var lines=e.target.result.split('\\n');
-    var imported=0;
-    var courses=gM(sY,sM);
-    if(!courses.length){showToastMsg('A\\u00f1ade un curso primero');return;}
-    var cid=courses[0].id;
-    if(!ST[sY])ST[sY]={};if(!ST[sY][sM])ST[sY][sM]={};if(!ST[sY][sM][cid])ST[sY][sM][cid]=[];
-    lines.slice(1).forEach(function(line){
-      var parts=line.split(',');if(!parts[0])return;
-      ST[sY][sM][cid].push({n:(parts[0]||'').trim(),ap:(parts[1]||'').trim(),t:(parts[2]||'').trim(),m:(parts[3]||'').trim(),l:(parts[4]||'').trim(),i:parseInt(parts[5])||0,p:(parts[6]||'Pendiente').trim(),o:(parts[7]||'').trim()});
-      imported++;
-    });
-    inp.value='';render();scheduleSave();showToastMsg('\\u2705 '+imported+' alumnos importados');
-  };
-  reader.readAsText(file);
-}
-
-// ── Export CSV ────────────────────────────────────────────────────────────────
-function doExport(){
-  var courses=gM(sY,sM);
-  var rows=[['Nombre','Apellidos','Tel','Mail','Localidad','Importe','Pago','Observaciones']];
-  courses.forEach(function(course){
-    gS(sY,sM,course.id).forEach(function(s){
-      rows.push([s.n||'',s.ap||'',s.t||'',s.m||'',s.l||'',s.i||0,s.p||'',s.o||'']);
-    });
-  });
-  var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\\n');
-  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download='alumnos-'+sM+'-'+sY+'.csv';a.click();
-  URL.revokeObjectURL(url);
-}
-
-// ── Toast ─────────────────────────────────────────────────────────────────────
-function showToastMsg(msg){
-  var t=document.getElementById('toast-msg');
-  if(!t){t=document.createElement('div');t.id='toast-msg';t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a202c;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;z-index:9999;font-family:inherit;display:none';document.body.appendChild(t);}
-  t.textContent=msg;t.style.display='block';
-  clearTimeout(t._t);t._t=setTimeout(function(){t.style.display='none';},2500);
-}
-
-// ── Backup reminder ───────────────────────────────────────────────────────────
-function checkBackupReminder(){
-  try{
-    var last=localStorage.getItem('me_bk');
-    if(!last||(Date.now()-parseInt(last))>30*24*60*60*1000)
-      setTimeout(function(){var el=document.getElementById('backup-reminder');if(el)el.style.display='flex';},5000);
-  }catch(e){}
-}
-
-// ── Waiting list render ───────────────────────────────────────────────────────
-function renderWL(){
-  var cont=document.getElementById('content');
-  var h='<div class="month-header"><h2>\\u23F1 Alumnos en espera</h2></div>';
-  h+='<div class="course-block" style="margin-top:12px">';
-  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">';
-  h+='<span style="flex:1;font-weight:600;color:#555">'+WL.length+' alumno'+(WL.length!==1?'s':'')+' pendiente'+(WL.length!==1?'s':'')+'</span>';
-  h+='<button onclick="addWLStudent()" style="background:#fc5248;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">+ A\\u00f1adir</button>';
-  h+='</div>';
-  if(!WL.length){
-    h+='<div style="padding:32px;text-align:center;color:#aaa;font-size:14px">No hay alumnos en espera.</div>';
-  } else {
-    h+='<div class="tbl-wrap"><table><thead><tr>';
-    h+='<th>Nombre</th><th>Apellidos</th><th>Tel</th><th>Mail</th><th>Localidad</th><th>Importe</th><th>Pago</th><th>Observaciones</th><th></th>';
-    h+='</tr></thead><tbody>';
-    WL.forEach(function(st,i){
-      var obsPrev=st.o&&st.o.length>40?esc(st.o.slice(0,40))+'\\u2026':esc(st.o||'');
-      h+='<tr onclick="toggleWLObs('+i+')" style="cursor:pointer">'+
-        '<td><strong>'+esc(st.n||'')+'</strong></td><td>'+esc(st.ap||'')+'</td>'+
-        '<td style="white-space:nowrap">'+esc(st.t||'')+'</td><td>'+esc(st.m||'')+'</td>'+
-        '<td>'+esc(st.l||'')+'</td><td>'+(st.i||0)+'\\u20ac</td>'+
-        '<td>'+pTag(st.p)+'</td><td class="obs-td">'+obsPrev+'</td>'+
-        '<td style="white-space:nowrap">'+
-          '<span class="tbl-btn" onclick="event.stopPropagation();editWLS('+i+')" title="Editar">\\u270E</span>'+
-          '<span class="tbl-btn" onclick="event.stopPropagation();assignWLS('+i+')" title="Asignar a curso" style="color:#2a7a3a">\\u2192</span>'+
-          '<span class="tbl-btn del" onclick="event.stopPropagation();delWLS('+i+')" title="Eliminar">\\uD83D\\uDDD1</span>'+
-        '</td></tr>'+
-        '<tr id="wlo'+i+'" style="display:none"><td colspan="9" style="padding:0">'+
-          '<div style="padding:8px 16px;background:#fffbeb;border-bottom:2px solid #fde68a">'+
-            '<textarea id="wlta'+i+'" style="width:100%;border:none;background:transparent;font-size:13px;font-family:inherit;resize:vertical;min-height:54px;outline:none" placeholder="Observaciones..." onblur="saveWLObs('+i+')" onclick="event.stopPropagation()">'+esc(st.o||'')+'</textarea>'+
-          '</div></td></tr>';
-    });
-    h+='</tbody></table></div>';
-  }
-  h+='</div>';
-  cont.innerHTML=h;
-}
-function toggleWLObs(i){
-  var row=document.getElementById('wlo'+i);if(!row)return;
-  var isOpen=row.style.display!=='none';
-  WL.forEach(function(_,j){var r=document.getElementById('wlo'+j);if(r)r.style.display='none';});
-  if(!isOpen){row.style.display='';setTimeout(function(){var ta=document.getElementById('wlta'+i);if(ta)ta.focus();},50);}
-}
+function openCopyStudents(){var courses=gM(sY,sM);if(!courses.length){showToastMsg('No hay cursos');return;}var title=document.getElementById('modal-title'),body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');title.textContent='Copiar alumnos a otro mes';left.innerHTML='';ok.style.display='none';body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:12px">¿Qué curso copiar?</p><div id="cp-src" style="display:flex;flex-direction:column;gap:8px">'+courses.map(function(c,i){return '<div class="copy-course-item" onclick="pickSrc(this,'+i+')"><strong>'+esc(c.label)+'</strong> · '+gS(sY,sM,c.id).length+' alumnos</div>';}).join('')+'</div>';document.getElementById('modal').style.display='flex';}
+function pickSrc(el,idx){document.querySelectorAll('.copy-course-item').forEach(function(i){i.style.borderColor='#e2e8f0';i.style.background='';});el.style.borderColor='#fc5248';el.style.background='#fff1f0';var c=gM(sY,sM)[idx],ss=gS(sY,sM,c.id);if(!ss.length){showToastMsg('Sin alumnos');return;}_copyBuf={students:ss,label:c.label};var body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok');var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';}).join('');body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:12px">Destino para <strong>'+esc(c.label)+'</strong>:</p><div style="display:flex;gap:8px;margin-bottom:12px"><select id="cp-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updCpMo()">'+yearOpts+'</select><select id="cp-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updCpCourses()"></select></div><div id="cp-list" style="display:flex;flex-direction:column;gap:8px"></div>';ok.style.display='';ok.textContent='Copiar alumnos';ok.onclick=function(){execCopy();};updCpMo();}
+function updCpMo(){var y=parseInt(document.getElementById('cp-y').value);var mo=document.getElementById('cp-m');mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');updCpCourses();mo.onchange=updCpCourses;}
+function updCpCourses(){var y=parseInt(document.getElementById('cp-y').value),m=document.getElementById('cp-m').value,cs=gM(y,m),list=document.getElementById('cp-list');list.innerHTML='';if(!cs.length){list.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos. Se creará uno nuevo.</div>';return;}cs.forEach(function(c,i){var d=document.createElement('div');d.className='copy-course-item';d.innerHTML='<strong>'+esc(c.label)+'</strong>';d.dataset.ci=i;d.onclick=function(){document.querySelectorAll('#cp-list .copy-course-item').forEach(function(x){x.style.borderColor='#e2e8f0';x.style.background='';});this.style.borderColor='#fc5248';this.style.background='#fff1f0';};list.appendChild(d);});}
+function execCopy(){var y=parseInt(document.getElementById('cp-y').value),m=document.getElementById('cp-m').value;var selC=document.querySelector('#cp-list .copy-course-item[style*="fc5248"]'),cs=gM(y,m),cid;if(selC){cid=cs[parseInt(selC.dataset.ci)].id;}else if(cs.length===1){cid=cs[0].id;}else if(!cs.length){cid='c'+Date.now();if(!MC[y])MC[y]={};if(!MC[y][m])MC[y][m]=[];MC[y][m].push({id:cid,label:_copyBuf.label,cls:'ch-blue',pill:'pill-blue',subtitle:''});if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};ST[y][m][cid]=[];}else{showToastMsg('Selecciona destino');return;}if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][cid])ST[y][m][cid]=[];var copied=_copyBuf.students.map(function(s){return Object.assign({},s);});ST[y][m][cid]=ST[y][m][cid].concat(copied);closeModal();showToastMsg('✅ '+copied.length+' alumnos copiados a '+m+' '+y);sY=y;sM=m;selPro=null;showDB=false;showWL=false;render();}
+function handleImportFile(inp){var file=inp.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(e){var lines=e.target.result.split('\n'),imported=0,courses=gM(sY,sM);if(!courses.length){showToastMsg('Añade un curso primero');return;}var cid=courses[0].id;if(!ST[sY])ST[sY]={};if(!ST[sY][sM])ST[sY][sM]={};if(!ST[sY][sM][cid])ST[sY][sM][cid]=[];lines.slice(1).forEach(function(line){var parts=line.split(',');if(!parts[0])return;ST[sY][sM][cid].push({n:(parts[0]||'').trim(),ap:(parts[1]||'').trim(),t:(parts[2]||'').trim(),m:(parts[3]||'').trim(),l:(parts[4]||'').trim(),i:parseInt(parts[5])||0,p:(parts[6]||'Pendiente').trim(),o:(parts[7]||'').trim()});imported++;});inp.value='';render();scheduleSave();showToastMsg('✅ '+imported+' alumnos importados');};reader.readAsText(file);}
+function doExport(){var courses=gM(sY,sM),rows=[['Nombre','Apellidos','Tel','Mail','Localidad','Importe','Pago','Observaciones']];courses.forEach(function(c){gS(sY,sM,c.id).forEach(function(s){rows.push([s.n||'',s.ap||'',s.t||'',s.m||'',s.l||'',s.i||0,s.p||'',s.o||'']);});});var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\n');var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='alumnos-'+sM+'-'+sY+'.csv';a.click();URL.revokeObjectURL(url);}
+function showToastMsg(msg){var t=document.getElementById('toast-msg');if(!t){t=document.createElement('div');t.id='toast-msg';t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a202c;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;z-index:9999;font-family:inherit;display:none';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(function(){t.style.display='none';},2500);}
+function checkBackupReminder(){try{var last=localStorage.getItem('me_bk');if(!last||(Date.now()-parseInt(last))>30*24*60*60*1000)setTimeout(function(){var el=document.getElementById('backup-reminder');if(el)el.style.display='flex';},5000);}catch(e){}}
+function renderWL(){var cont=document.getElementById('content');var rows='';WL.forEach(function(st,i){var obsPrev=st.o&&st.o.length>40?esc(st.o.slice(0,40))+'...':esc(st.o||'');rows+='<tr onclick="toggleWLObs('+i+')" style="cursor:pointer"><td><strong>'+esc(st.n||'')+'</strong></td><td>'+esc(st.ap||'')+'</td><td>'+esc(st.t||'')+'</td><td>'+esc(st.m||'')+'</td><td>'+esc(st.l||'')+'</td><td>'+(st.i||0)+'€</td><td>'+pTag(st.p)+'</td><td>'+obsPrev+'</td><td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editWLS('+i+')">✎</span> <span class="tbl-btn" onclick="event.stopPropagation();assignWLS('+i+')" style="color:#2a7a3a">→</span> <span class="tbl-btn del" onclick="event.stopPropagation();delWLS('+i+')">&#128465;</span></td></tr><tr id="wlo'+i+'" style="display:none"><td colspan="9" style="padding:0"><div style="padding:8px 16px;background:#fffbeb;border-bottom:2px solid #fde68a"><textarea id="wlta'+i+'" style="width:100%;border:none;background:transparent;font-size:13px;font-family:inherit;resize:vertical;min-height:54px;outline:none" placeholder="Observaciones..." onblur="saveWLObs('+i+')" onclick="event.stopPropagation()">'+esc(st.o||'')+'</textarea></div></td></tr>';});cont.innerHTML='<div class="month-header"><h2>⏱ Alumnos en espera</h2></div><div class="course-block" style="margin-top:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="flex:1;font-weight:600;color:#555">'+WL.length+' alumno'+(WL.length!==1?'s':'')+' pendiente'+(WL.length!==1?'s':'')+'</span><button onclick="addWLStudent()" style="background:#fc5248;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">+ Añadir</button></div>'+(WL.length?'<div class="tbl-wrap"><table><thead><tr><th>Nombre</th><th>Apellidos</th><th>Tel</th><th>Mail</th><th>Localidad</th><th>Importe</th><th>Pago</th><th>Observaciones</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div style="padding:32px;text-align:center;color:#aaa;font-size:14px">No hay alumnos en espera.</div>')+'</div>';}
+function toggleWLObs(i){var row=document.getElementById('wlo'+i);if(!row)return;var isOpen=row.style.display!=='none';WL.forEach(function(_,j){var r=document.getElementById('wlo'+j);if(r)r.style.display='none';});if(!isOpen){row.style.display='';setTimeout(function(){var ta=document.getElementById('wlta'+i);if(ta)ta.focus();},50);}}
 function saveWLObs(i){var ta=document.getElementById('wlta'+i);if(!ta||!WL[i])return;WL[i].o=ta.value;scheduleSave();}
-
-function wlFormHTML(st){
-  var pagoOpts=PAGOS.map(function(p){return '<option'+(st&&st.p===p?' selected':'')+'>'+p+'</option>';}).join('');
-  return '<label>Nombre *</label><input id="m-n" value="'+esc(st&&st.n||'')+'">'+
-    '<label>Apellidos</label><input id="m-ap" value="'+esc(st&&st.ap||'')+'">'+
-    '<label>Tel\\u00e9fono</label><input id="m-t" value="'+esc(st&&st.t||'')+'">'+
-    '<label>Mail</label><input id="m-m" value="'+esc(st&&st.m||'')+'">'+
-    '<label>Localidad</label><input id="m-l" value="'+esc(st&&st.l||'')+'">'+
-    '<label>Importe</label><input type="number" id="m-i" value="'+(st&&st.i||0)+'">'+
-    '<label>Estado pago</label><select id="m-p">'+pagoOpts+'</select>'+
-    '<label>Observaciones</label><textarea id="m-o" style="resize:vertical;min-height:60px">'+esc(st&&st.o||'')+'</textarea>';
-}
-function addWLStudent(){
-  _mode='add-wl';_ex={};
-  var title=document.getElementById('modal-title');var body=document.getElementById('modal-body');
-  var ok=document.getElementById('modal-ok');var left=document.getElementById('modal-left');
-  title.textContent='A\\u00f1adir alumno en espera';body.innerHTML=wlFormHTML(null);
-  ok.textContent='Guardar';ok.style.display='';left.innerHTML='';
-  document.getElementById('modal').style.display='flex';
-}
-function editWLS(i){
-  _mode='edit-wl';_ex={i:i};
-  var title=document.getElementById('modal-title');var body=document.getElementById('modal-body');
-  var ok=document.getElementById('modal-ok');var left=document.getElementById('modal-left');
-  title.textContent='Editar alumno en espera';body.innerHTML=wlFormHTML(WL[i]);
-  ok.textContent='Guardar';ok.style.display='';left.innerHTML='';
-  document.getElementById('modal').style.display='flex';
-}
-function delWLS(i){if(!confirm('\\u00bfEliminar este alumno?'))return;WL.splice(i,1);render();scheduleSave();}
-function assignWLS(i){
-  var st=WL[i];if(!st)return;
-  var title=document.getElementById('modal-title');var body=document.getElementById('modal-body');
-  var ok=document.getElementById('modal-ok');var left=document.getElementById('modal-left');
-  title.textContent='Asignar a curso';
-  var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){
-    return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';
-  }).join('');
-  body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:14px">Asignar <strong>'+esc(st.n)+' '+esc(st.ap||'')+'</strong> a:</p>'+
-    '<div style="display:flex;gap:8px;margin-bottom:12px">'+
-      '<select id="as-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsM()">'+yearOpts+'</select>'+
-      '<select id="as-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsC()"></select>'+
-    '</div><div id="as-c" style="display:flex;flex-direction:column;gap:8px"></div>';
-  ok.style.display='none';left.innerHTML='<span style="font-size:12px;color:#aaa">Haz clic en un curso</span>';
-  _ex={wlIdx:i};_mode='assign-wl';
-  document.getElementById('modal').style.display='flex';
-  updAsM();
-}
-function updAsM(){
-  var y=parseInt(document.getElementById('as-y').value);
-  var mo=document.getElementById('as-m');
-  mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');
-  updAsC();mo.onchange=updAsC;
-}
-function updAsC(){
-  var y=parseInt(document.getElementById('as-y').value);var m=document.getElementById('as-m').value;
-  var cs=gM(y,m);var div=document.getElementById('as-c');if(!div)return;div.innerHTML='';
-  if(!cs.length){div.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos en este mes.</div>';return;}
-  cs.forEach(function(c,ci){
-    var d=document.createElement('div');
-    d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:4px';
-    d.innerHTML='<strong>'+esc(c.label)+'</strong>';
-    d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};
-    d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};
-    (function(idx){d.onclick=function(){doAssign(idx);};})(ci);
-    div.appendChild(d);
-  });
-}
-function doAssign(courseIdx){
-  var y=parseInt(document.getElementById('as-y').value);var m=document.getElementById('as-m').value;
-  var cs=gM(y,m);var course=cs[courseIdx];if(!course)return;
-  var wlIdx=_ex.wlIdx;var st=WL[wlIdx];if(!st)return;
-  if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][course.id])ST[y][m][course.id]=[];
-  ST[y][m][course.id].push(Object.assign({},st));
-  WL.splice(wlIdx,1);
-  closeModal();sY=y;sM=m;selPro=null;showDB=false;showWL=false;
-  render();scheduleSave();showToastMsg('\\u2705 Alumno asignado a '+esc(course.label)+' \\u00b7 '+m+' '+y);
-}
-
-// ── Supabase ──────────────────────────────────────────────────────────────────
+function wlFormHTML(st){var pagoOpts=PAGOS.map(function(p){return '<option'+(st&&st.p===p?' selected':'')+'>'+p+'</option>';}).join('');return '<label>Nombre *</label><input id="m-n" value="'+esc(st&&st.n||'')+'"><label>Apellidos</label><input id="m-ap" value="'+esc(st&&st.ap||'')+'"><label>Teléfono</label><input id="m-t" value="'+esc(st&&st.t||'')+'"><label>Mail</label><input id="m-m" value="'+esc(st&&st.m||'')+'"><label>Localidad</label><input id="m-l" value="'+esc(st&&st.l||'')+'"><label>Importe</label><input type="number" id="m-i" value="'+(st&&st.i||0)+'"><label>Estado pago</label><select id="m-p">'+pagoOpts+'</select><label>Observaciones</label><textarea id="m-o" style="resize:vertical;min-height:60px">'+esc(st&&st.o||'')+'</textarea>';}
+function addWLStudent(){_mode='add-wl';_ex={};var t=document.getElementById('modal-title'),b=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),l=document.getElementById('modal-left');t.textContent='Añadir alumno en espera';b.innerHTML=wlFormHTML(null);ok.textContent='Guardar';ok.style.display='';l.innerHTML='';document.getElementById('modal').style.display='flex';}
+function editWLS(i){_mode='edit-wl';_ex={i:i};var t=document.getElementById('modal-title'),b=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),l=document.getElementById('modal-left');t.textContent='Editar alumno en espera';b.innerHTML=wlFormHTML(WL[i]);ok.textContent='Guardar';ok.style.display='';l.innerHTML='';document.getElementById('modal').style.display='flex';}
+function delWLS(i){if(!confirm('¿Eliminar?'))return;WL.splice(i,1);render();scheduleSave();}
+function assignWLS(i){var st=WL[i];if(!st)return;var title=document.getElementById('modal-title'),body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');title.textContent='Asignar a curso';var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';}).join('');body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:14px">Asignar <strong>'+esc(st.n)+' '+esc(st.ap||'')+'</strong> a:</p><div style="display:flex;gap:8px;margin-bottom:12px"><select id="as-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsM()">'+yearOpts+'</select><select id="as-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsC()"></select></div><div id="as-c" style="display:flex;flex-direction:column;gap:8px"></div>';ok.style.display='none';left.innerHTML='<span style="font-size:12px;color:#aaa">Haz clic en un curso</span>';_ex={wlIdx:i};_mode='assign-wl';document.getElementById('modal').style.display='flex';updAsM();}
+function updAsM(){var y=parseInt(document.getElementById('as-y').value);var mo=document.getElementById('as-m');mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');updAsC();mo.onchange=updAsC;}
+function updAsC(){var y=parseInt(document.getElementById('as-y').value),m=document.getElementById('as-m').value,cs=gM(y,m),div=document.getElementById('as-c');if(!div)return;div.innerHTML='';if(!cs.length){div.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos.</div>';return;}cs.forEach(function(c,ci){var d=document.createElement('div');d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:4px';d.innerHTML='<strong>'+esc(c.label)+'</strong>';d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};(function(idx){d.onclick=function(){doAssign(idx);};})(ci);div.appendChild(d);});}
+function doAssign(courseIdx){var y=parseInt(document.getElementById('as-y').value),m=document.getElementById('as-m').value,cs=gM(y,m),course=cs[courseIdx];if(!course)return;var wlIdx=_ex.wlIdx,st=WL[wlIdx];if(!st)return;if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][course.id])ST[y][m][course.id]=[];ST[y][m][course.id].push(Object.assign({},st));WL.splice(wlIdx,1);closeModal();sY=y;sM=m;selPro=null;showDB=false;showWL=false;render();scheduleSave();showToastMsg('✅ Alumno asignado');}
 var _saveTimer=null,_supaLoaded=false,_db=null;
 function getDB(){if(!_db&&typeof supabase!=='undefined')_db=supabase.createClient('https://ngpggumhsdqqlintrvlh.supabase.co','sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-');return _db;}
 async function loadFromSupabase(){
@@ -1197,58 +911,39 @@ async function loadFromSupabase(){
     if(r.error&&r.error.code!=='PGRST116'){console.error('load err:',r.error);return;}
     if(r.data){
       if(r.data.years&&r.data.years.length)YEARS.splice(0,YEARS.length,...r.data.years);
-      if(r.data.mc&&Object.keys(r.data.mc).length)Object.keys(r.data.mc).forEach(function(k){
-        var key=isNaN(k)?k:parseInt(k);MC[key]=r.data.mc[k];
-      });
-      if(r.data.st&&Object.keys(r.data.st).length)Object.keys(r.data.st).forEach(function(k){
-        var key=isNaN(k)?k:parseInt(k);ST[key]=r.data.st[k];
-      });
+      if(r.data.mc&&Object.keys(r.data.mc).length)Object.keys(r.data.mc).forEach(function(k){var key=isNaN(k)?k:parseInt(k);MC[key]=r.data.mc[k];});
+      if(r.data.st&&Object.keys(r.data.st).length)Object.keys(r.data.st).forEach(function(k){var key=isNaN(k)?k:parseInt(k);ST[key]=r.data.st[k];});
       if(r.data.pc&&Object.keys(r.data.pc).length)Object.assign(PC,r.data.pc);
       if(r.data.ps&&Object.keys(r.data.ps).length)Object.assign(PS,r.data.ps);
       if(r.data.wl&&r.data.wl.length)WL.splice(0,WL.length,...r.data.wl);
     }
     _supaLoaded=true;
-    showStatus('\\u2705 Conectado','ok');
-    setTimeout(function(){showStatus('','');},3000);
+    showStatus('☁️ Conectado','ok');setTimeout(function(){showStatus('','');},3000);
   }catch(e){console.error('loadFromSupabase:',e);}
 }
 async function saveToSupabase(){
   if(!_supaLoaded)return;
   try{
     var r=await getDB().from('app_data').upsert({id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,wl:WL,updated_at:new Date().toISOString()},{onConflict:'id'});
-    if(!r.error){showStatus('\\u2601\\uFE0F Guardado','ok');setTimeout(function(){showStatus('','');},2000);}
-    else{showStatus('\\u26A0 Error al guardar','err');console.error('save err:',r.error);}
+    if(!r.error){showStatus('☁️ Guardado','ok');setTimeout(function(){showStatus('','');},2000);}
+    else{showStatus('⚠ Error','err');console.error(r.error);}
   }catch(e){console.error('saveToSupabase:',e);}
 }
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
-
-// ── Init ──────────────────────────────────────────────────────────────────────
-// Show loading state
-document.addEventListener('DOMContentLoaded',function(){
-  var content=document.getElementById('content');
-  if(content)content.innerHTML='<div style="padding:60px;text-align:center;color:#a0aec0;font-size:14px"><div style="font-size:32px;margin-bottom:12px">&#128247;</div><div>Cargando datos...</div></div>';
-});
-
 window.addEventListener('load',function(){
   try{
     if(typeof supabase!=='undefined'){
-      loadFromSupabase().then(function(){render();}).catch(function(e){
-        console.error('load err:',e);
-        render(); // render with local data if load fails
-      });
-    } else {
-      console.warn('Supabase CDN not loaded');
-      render();
-    }
+      loadFromSupabase().then(function(){render();}).catch(function(e){console.error(e);render();});
+    }else{render();}
   }catch(e){console.error(e);render();}
   checkBackupReminder();
 });
-</script>
 
+</script>
 
 <div id="backup-reminder" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:14px 18px;box-shadow:0 4px 24px rgba(0,0,0,.10);z-index:9999;align-items:center;gap:12px;max-width:420px;width:90%;font-size:13px">
   <span style="font-size:20px">&#128190;</span>
-  <div style="flex:1;line-height:1.4"><strong style="display:block;font-weight:700;margin-bottom:2px">Copia de seguridad</strong><span style="color:#718096;font-size:12px">Exporta tus datos una vez al mes</span></div>
+  <div style="flex:1;line-height:1.4"><strong style="display:block;font-weight:700;margin-bottom:2px">Copia de seguridad</strong><span style="color:#718096;font-size:12px">Exporta una vez al mes</span></div>
   <div style="display:flex;gap:8px">
     <button onclick="document.getElementById('backup-reminder').style.display='none';doExport();localStorage.setItem('me_bk',Date.now())" style="padding:7px 14px;background:#fc5248;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">Exportar ahora</button>
     <button onclick="document.getElementById('backup-reminder').style.display='none';localStorage.setItem('me_bk',Date.now())" style="padding:7px 10px;background:none;border:none;font-size:12px;color:#aaa;cursor:pointer">Ahora no</button>
