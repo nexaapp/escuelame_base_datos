@@ -326,7 +326,7 @@ function proMonths(students){
 // ── PRO table ─────────────────────────────────────────────────────────────────
 function tblProHTML(students,cid,pk){
   var mos=proMonths(students);
-  var cols=['Nombre','Apellidos','Tel','Mail','Localidad','Matrícula','Turno','Cuota/mes','Pago'].concat(mos).concat(['Total pagado','Obs','']);
+  var cols=['Nombre','Apellidos','Tel','Mail','Localidad','Matrícula','Turno','Cuota/mes','Pag. pend.'].concat(mos).concat(['Total pagado','Obs','']);
   var totMa=0,totP=0,totPagado=0;
   var moTot={};
   var rows=students.length?students.map(function(s,i){
@@ -347,12 +347,13 @@ function tblProHTML(students,cid,pk){
       '<td><strong>'+(s.ma||0)+'€</strong></td>' +
       '<td style="white-space:nowrap">'+(s.tu==='Mañana'?'☀ Mañana':s.tu==='Tarde'?'🌙 Tarde':'—')+'</td>' +
       '<td>'+(s.cu||'—')+'</td>' +
-      '<td>'+pTag(s.p)+'</td>' +
+      '<td style="text-align:center;font-weight:700;color:'+(s.pp>0?'#b03020':'#2a7a3a')+'">'+(s.pp!==undefined?s.pp:'—')+'</td>' +
       moCells +
       '<td style="text-align:center;font-weight:600;color:#2a7a3a">'+(rowPag?rowPag+'€':'—')+'</td>' +
       '<td class="obs-td" title="'+esc(s.o)+'">'+esc(s.o)+'</td>' +
       '<td style="white-space:nowrap">' +
         '<span class="tbl-btn" onclick="event.stopPropagation();editPS(event,\''+pk+'\',\''+cid+'\','+i+')">✏️</span>' +
+        '<span class="tbl-btn" onclick="event.stopPropagation();openMoveProStudent(\''+pk+'\',\''+cid+'\','+i+')" title="Mover a otro curso" style="color:#2a7a3a">↪</span>' +
         '<span class="tbl-btn del" onclick="event.stopPropagation();delPS(\''+pk+'\',\''+cid+'\','+i+')">🗑</span>' +
       '</td></tr>';
   }).join(''):'<tr class="empty-row"><td colspan="'+cols.length+'">Sin alumnos</td></tr>';
@@ -361,7 +362,7 @@ function tblProHTML(students,cid,pk){
     '<tr class="totals-row">' +
       '<td colspan="5" style="text-align:right;font-weight:600">Total:</td>' +
       '<td><strong>'+totMa+'€</strong></td><td></td><td></td>' +
-      '<td>'+(totP>0?'<span style="color:#b03020">'+totP+'€ pdte</span>':'<span style="color:#2a7a3a">✓</span>')+'</td>' +
+      '<td></td>' +
       moTotCells +
       '<td style="text-align:center;font-weight:700;color:#2a7a3a">'+totPagado+'€</td>' +
       '<td colspan="2"></td>' +
@@ -380,6 +381,7 @@ function tblHTML(students,showPer,editable,y,m,cid){
     var perCell=showPer?'<td><span class="per-tag">'+esc(s._per||'')+'</span></td>':'';
     var actions=editable?
       '<td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editS('+y+',\''+m+'\',\''+cid+'\','+i+')">✏️</span>'+
+      '<span class="tbl-btn" onclick="event.stopPropagation();openMoveStudent('+y+',\''+m+'\',\''+cid+'\','+i+')" title="Mover a otro curso" style="color:#2a7a3a">↪</span>'+
       '<span class="tbl-btn del" onclick="event.stopPropagation();delS('+y+',\''+m+'\',\''+cid+'\','+i+')">🗑</span></td>':
       '<td></td>';
     return '<tr onclick="showDetail(this)" style="cursor:pointer" data-json=\''+escJson(Object.assign({},s,{_editable:editable,_y:y,_m:m,_cid:cid,_i:i}))+'\'>'+
@@ -389,7 +391,7 @@ function tblHTML(students,showPer,editable,y,m,cid){
       '<td class="mail-link">'+esc(s.m)+'</td>' +
       '<td>'+esc(s.l)+'</td>' +
       '<td>'+(s.i||0)+'€</td>' +
-      '<td>'+pTag(s.p)+'</td>' +
+      '<td style="text-align:center;font-weight:700;color:'+(s.pp>0?'#b03020':'#2a7a3a')+'">'+(s.pp!==undefined?s.pp:'—')+'</td>' +
       '<td class="obs-td" title="'+esc(s.o)+'">'+esc(s.o)+'</td>' +
       actions+'</tr>';
   }).join(''):'<tr class="empty-row"><td colspan="'+cols.length+'">Sin alumnos</td></tr>';
@@ -503,6 +505,14 @@ function renderNav(){
       nav.appendChild(pl);
     }
   });
+
+    // Add PRO year button
+  var addPro=document.createElement('button');
+  addPro.className='add-year-btn';
+  addPro.textContent='+ Añadir año PRO';
+  addPro.onclick=function(){openModal('add-pro-year');};
+  nav.appendChild(addPro);
+
   var wlSep=document.createElement('div');wlSep.className='nav-section-lbl';wlSep.textContent='EN ESPERA';nav.appendChild(wlSep);
   var wlBtn=document.createElement('button');wlBtn.className='year-btn'+(showWL?' active':'');wlBtn.innerHTML='&#9201; En espera <span style="background:#f59e0b;color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:6px">'+WL.length+'</span>';wlBtn.onclick=function(){showWL=true;showDB=false;selPro=null;render();};nav.appendChild(wlBtn);
 
@@ -617,16 +627,24 @@ function copyProMails(pk,cid){
 }
 
 function bulkMonthPay(pk,cid){
-  var mo=prompt('¿En qué mes aplicas el pago?\n(OCT NOV DIC ENE FEB MAR ABR MAY JUN JUL AGO SEP)','');
-  if(!mo)return;
-  var moU=mo.trim().toUpperCase();
-  if(MO_ORDER.indexOf(moU)<0){alert('Mes no reconocido: '+moU);return;}
-  var amount=parseInt(prompt('Importe para todos los alumnos en '+moU+' (€):','195'));
-  if(isNaN(amount)||amount<=0)return;
+  var title=document.getElementById('modal-title'),body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');
+  title.textContent='Pago mensual masivo';
+  left.innerHTML='';ok.style.display='';ok.textContent='Aplicar';
+  // Build month options
+  var moOpts=MO_ORDER.map(function(mo){return '<option value="'+mo+'">'+mo+'</option>';}).join('');
+  // Get default amount from first student's cu field
   var ss=(PS[pk]||{})[cid]||[];
-  ss.forEach(function(s){if(!s.pm)s.pm={};s.pm[moU]=amount;});
-  alert('✓ '+ss.length+' alumnos actualizados: '+amount+'€ en '+moU);
-  renderPro();
+  var defAmount=ss.length&&ss[0].cu?parseInt(ss[0].cu)||195:195;
+  body.innerHTML=
+    '<p style="font-size:13px;color:#666;margin-bottom:14px">Registrar pago de <strong>'+esc(cid)+'</strong> para todos los alumnos:</p>'+
+    '<label>Mes</label>'+
+    '<select id="bp-mo" style="width:100%;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;margin-bottom:12px">'+moOpts+'</select>'+
+    '<label>Importe (€)</label>'+
+    '<input type="number" id="bp-amt" value="'+defAmount+'" style="margin-bottom:12px">'+
+    '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:normal">'+
+      '<input type="checkbox" id="bp-dec" checked> Descontar 1 pago pendiente por alumno</label>';
+  _mode='bulk-pay';_ex={pk:pk,cid:cid};
+  document.getElementById('modal').style.display='flex';
 }
 
 // ── Global DB view ────────────────────────────────────────────────────────────
@@ -783,6 +801,7 @@ function openModalProS(pk,cid,idx){
     '</div>'+
     '<label>Cuota mensual (€)</label><input id="m-cu" value="'+esc(s&&s.cu||'')+'">'+
     '<label>Estado pago matrícula</label><select id="m-p">'+pagoOpts+'</select>'+
+    '<label>Pagos pendientes (número total)</label><input type="number" id="m-pp" value="'+(s&&s.pp!==undefined?s.pp:12)+'" min="0" max="99">'+
     '<label>Pagos mensuales</label>'+
     '<div style="display:flex;flex-wrap:wrap;padding:6px 0">'+moInputs+'</div>'+
     '<label>Observaciones</label><textarea id="m-o">'+esc(s&&s.o||'')+'</textarea>';
@@ -796,6 +815,19 @@ function confirmModal(){
   if(_mode==='edit-wl'){var sw=WL[_ex.i];if(!sw)return;Object.assign(sw,{n:gv('m-n'),ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),i:parseInt(gv('m-i'))||0,p:gv('m-p'),o:gv('m-o')});closeModal();render();scheduleSave();return;}
   if(_mode==='assign-wl')return;
   //original:
+  if(_mode==='add-pro-year'){
+    var pn=gv('m-proname');if(!pn)return;
+    var pk='PRO '+pn.trim();
+    if(PRO_KEYS.indexOf(pk)>=0){alert('Ya existe '+pk);return;}
+    PRO_KEYS.push(pk);PC[pk]=[];PS[pk]={};
+    // Add default courses (Fotografía + Vídeo)
+    var pid1='p'+Date.now()+'a',pid2='p'+Date.now()+'b';
+    PC[pk].push({id:pid1,label:'Profesional de fotografía',cls:'ch-purple',pill:'pill-purple'});
+    PC[pk].push({id:pid2,label:'Profesional de vídeo',cls:'ch-blue',pill:'pill-blue'});
+    PS[pk][pid1]=[];PS[pk][pid2]=[];
+    selPro=pk;showDB=false;showWL=false;
+    closeModal();render();scheduleSave();return;
+  }
   if(_mode==='year'){
     var y=parseInt(gv('m-year'));
     if(!y||YEARS.indexOf(y)>=0){alert('Año inválido o ya existe');return;}
@@ -835,10 +867,26 @@ function confirmModal(){
     var n=gv('m-n');if(!n){alert('Nombre obligatorio');return;}
     var tu=document.getElementById('btn-am').classList.contains('sel')?'Mañana':document.getElementById('btn-pm').classList.contains('sel')?'Tarde':'';
     var pm={};MO_ORDER.forEach(function(mo){var v=gv('m-pm-'+mo);if(v)pm[mo]=parseInt(v)||0;});
-    var obj={n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),ma:parseInt(gv('m-ma'))||0,tu:tu,cu:gv('m-cu'),p:gv('m-p'),pm:pm,o:gv('m-o')};
+    var pp=gv('m-pp');var obj={n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),ma:parseInt(gv('m-ma'))||0,tu:tu,cu:gv('m-cu'),p:gv('m-p'),pp:pp!==''?parseInt(pp):undefined,pm:pm,o:gv('m-o')};
     if(!PS[pk])PS[pk]={};if(!PS[pk][cid])PS[pk][cid]=[];
     if(_mode==='add-pro-s')PS[pk][cid].push(obj);
     else PS[pk][cid][idx]=obj;
+  }
+  else if(_mode==='bulk-pay'){
+    var pk=_ex.pk,cid=_ex.cid;
+    var moU=document.getElementById('bp-mo').value;
+    var amount=parseInt(document.getElementById('bp-amt').value)||0;
+    var dec=document.getElementById('bp-dec').checked;
+    if(!moU||!amount){alert('Rellena todos los campos');return;}
+    var ss=(PS[pk]||{})[cid]||[];
+    ss.forEach(function(s){
+      if(!s.pm)s.pm={};
+      s.pm[moU]=amount;
+      if(dec&&s.pp!==undefined&&s.pp>0)s.pp--;
+    });
+    closeModal();scheduleSave();renderPro();
+    showToastMsg('✅ '+ss.length+' alumnos: '+amount+'€ en '+moU+(dec?' · pagos decrementados':''));
+    return;
   }
   closeModal();render();
 }
@@ -906,7 +954,64 @@ function wlFormHTML(st){var pagoOpts=PAGOS.map(function(p){return '<option'+(st&
 function addWLStudent(){_mode='add-wl';_ex={};var t=document.getElementById('modal-title'),b=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),l=document.getElementById('modal-left');t.textContent='Añadir alumno en espera';b.innerHTML=wlFormHTML(null);ok.textContent='Guardar';ok.style.display='';l.innerHTML='';document.getElementById('modal').style.display='flex';}
 function editWLS(i){_mode='edit-wl';_ex={i:i};var t=document.getElementById('modal-title'),b=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),l=document.getElementById('modal-left');t.textContent='Editar alumno en espera';b.innerHTML=wlFormHTML(WL[i]);ok.textContent='Guardar';ok.style.display='';l.innerHTML='';document.getElementById('modal').style.display='flex';}
 function delWLS(i){if(!confirm('¿Eliminar?'))return;WL.splice(i,1);render();scheduleSave();}
-function assignWLS(i){var st=WL[i];if(!st)return;var title=document.getElementById('modal-title'),body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');title.textContent='Asignar a curso';var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';}).join('');body.innerHTML='<p style="font-size:13px;color:#666;margin-bottom:14px">Asignar <strong>'+esc(st.n)+' '+esc(st.ap||'')+'</strong> a:</p><div style="display:flex;gap:8px;margin-bottom:12px"><select id="as-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsM()">'+yearOpts+'</select><select id="as-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsC()"></select></div><div id="as-c" style="display:flex;flex-direction:column;gap:8px"></div>';ok.style.display='none';left.innerHTML='<span style="font-size:12px;color:#aaa">Haz clic en un curso</span>';_ex={wlIdx:i};_mode='assign-wl';document.getElementById('modal').style.display='flex';updAsM();}
+function assignWLS(i){
+  var st=WL[i];if(!st)return;
+  var title=document.getElementById('modal-title'),body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');
+  title.textContent='Asignar a curso';
+  // Build tabs: Regular | PRO
+  var yearOpts=YEARS.filter(function(y){return MC[y]&&Object.keys(MC[y]).length;}).map(function(y){return '<option value="'+y+'"'+(y===sY?' selected':'')+'>'+y+'</option>';}).join('');
+  var proOpts=PRO_KEYS.map(function(pk){return '<option value="'+pk+'">'+(pk)+'</option>';}).join('');
+  body.innerHTML=
+    '<p style="font-size:13px;color:#666;margin-bottom:12px">Asignar <strong>'+esc(st.n)+' '+esc(st.ap||'')+'</strong> a:</p>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px">'+
+      '<button type="button" id="as-tab-reg" onclick="asTab(\"reg\")" class="top-btn" style="flex:1;border-color:#fc5248;color:#fc5248">Curso mensual</button>'+
+      '<button type="button" id="as-tab-pro" onclick="asTab(\"pro\")" class="top-btn" style="flex:1">Curso PRO</button>'+
+    '</div>'+
+    '<div id="as-reg-panel">'+
+      '<div style="display:flex;gap:8px;margin-bottom:12px">'+
+        '<select id="as-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsM()">'+yearOpts+'</select>'+
+        '<select id="as-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAsC()"></select>'+
+      '</div>'+
+      '<div id="as-c" style="display:flex;flex-direction:column;gap:8px"></div>'+
+    '</div>'+
+    '<div id="as-pro-panel" style="display:none">'+
+      '<select id="as-pk" style="width:100%;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;margin-bottom:12px" onchange="updAsProC()">'+proOpts+'</select>'+
+      '<div id="as-pro-c" style="display:flex;flex-direction:column;gap:8px"></div>'+
+    '</div>';
+  ok.style.display='none';left.innerHTML='<span style="font-size:12px;color:#aaa">Haz clic en un curso</span>';
+  _ex={wlIdx:i};_mode='assign-wl';document.getElementById('modal').style.display='flex';
+  updAsM();
+}
+function asTab(tab){
+  document.getElementById('as-reg-panel').style.display=tab==='reg'?'':'none';
+  document.getElementById('as-pro-panel').style.display=tab==='pro'?'':'none';
+  var reg=document.getElementById('as-tab-reg'),pro=document.getElementById('as-tab-pro');
+  reg.style.borderColor=tab==='reg'?'#fc5248':'#d1d5db';reg.style.color=tab==='reg'?'#fc5248':'#374151';
+  pro.style.borderColor=tab==='pro'?'#fc5248':'#d1d5db';pro.style.color=tab==='pro'?'#fc5248':'#374151';
+  if(tab==='pro')updAsProC();
+}
+function updAsProC(){
+  var pk=document.getElementById('as-pk').value;
+  var div=document.getElementById('as-pro-c');if(!div)return;div.innerHTML='';
+  (PC[pk]||[]).forEach(function(c,ci){
+    var d=document.createElement('div');d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:4px';
+    d.innerHTML='<strong>'+esc(c.label)+'</strong>';
+    d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};
+    d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};
+    d.onclick=function(){doAssignPro(pk,c.id);};
+    div.appendChild(d);
+  });
+}
+function doAssignPro(pk,cid){
+  var wlIdx=_ex.wlIdx,st=WL[wlIdx];if(!st)return;
+  if(!PS[pk])PS[pk]={};if(!PS[pk][cid])PS[pk][cid]=[];
+  // Convert WL student to PRO student format
+  var proSt={n:st.n,ap:st.ap||'',t:st.t||'',m:st.m||'',l:st.l||'',ma:st.i||0,tu:'',cu:'',p:st.p||'Pendiente',pm:{},o:st.o||''};
+  PS[pk][cid].push(proSt);
+  WL.splice(wlIdx,1);
+  closeModal();selPro=pk;showDB=false;showWL=false;render();scheduleSave();
+  showToastMsg('✅ Alumno asignado a '+pk+' · '+esc(cid));
+}
 function updAsM(){var y=parseInt(document.getElementById('as-y').value);var mo=document.getElementById('as-m');mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');updAsC();mo.onchange=updAsC;}
 function updAsC(){var y=parseInt(document.getElementById('as-y').value),m=document.getElementById('as-m').value,cs=gM(y,m),div=document.getElementById('as-c');if(!div)return;div.innerHTML='';if(!cs.length){div.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos.</div>';return;}cs.forEach(function(c,ci){var d=document.createElement('div');d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:4px';d.innerHTML='<strong>'+esc(c.label)+'</strong>';d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};(function(idx){d.onclick=function(){doAssign(idx);};})(ci);div.appendChild(d);});}
 function doAssign(courseIdx){var y=parseInt(document.getElementById('as-y').value),m=document.getElementById('as-m').value,cs=gM(y,m),course=cs[courseIdx];if(!course)return;var wlIdx=_ex.wlIdx,st=WL[wlIdx];if(!st)return;if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][course.id])ST[y][m][course.id]=[];ST[y][m][course.id].push(Object.assign({},st));WL.splice(wlIdx,1);closeModal();sY=y;sM=m;selPro=null;showDB=false;showWL=false;render();scheduleSave();showToastMsg('✅ Alumno asignado');}
@@ -954,6 +1059,102 @@ function closeMobileMenu(){
   if(sb)sb.classList.remove('mobile-open');
   if(ov)ov.style.display='none';
 }
+
+// ── Move student between courses ─────────────────────────────────────────────
+function openMoveStudent(y,m,cid,i){
+  var st=(ST[y]&&ST[y][m]&&ST[y][m][cid])?ST[y][m][cid][i]:null;
+  if(!st){alert('Alumno no encontrado');return;}
+  _mode='move-student';_ex={y:y,m:m,cid:cid,i:i};
+  var title=document.getElementById('modal-title'),body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');
+  title.textContent='Mover alumno a otro curso';
+  left.innerHTML='';ok.style.display='none';
+  var yearOpts=YEARS.filter(function(yr){return MC[yr]&&Object.keys(MC[yr]).length;}).map(function(yr){return '<option value="'+yr+'"'+(yr===y?' selected':'')+'>'+yr+'</option>';}).join('');
+  body.innerHTML=
+    '<p style="font-size:13px;color:#666;margin-bottom:12px">Mover <strong>'+esc(st.n)+' '+esc(st.ap||'')+'</strong> a:</p>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px">'+
+      '<select id="mv-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updMvM()">'+yearOpts+'</select>'+
+      '<select id="mv-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updMvC()"></select>'+
+    '</div>'+
+    '<div id="mv-c" style="display:flex;flex-direction:column;gap:8px"></div>';
+  document.getElementById('modal').style.display='flex';
+  updMvM();
+}
+function updMvM(){
+  var y=parseInt(document.getElementById('mv-y').value);
+  var mo=document.getElementById('mv-m');
+  mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');
+  updMvC();mo.onchange=updMvC;
+}
+function updMvC(){
+  var y=parseInt(document.getElementById('mv-y').value),m=document.getElementById('mv-m').value;
+  var cs=gM(y,m),div=document.getElementById('mv-c');if(!div)return;div.innerHTML='';
+  if(!cs.length){div.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos en este mes.</div>';return;}
+  cs.forEach(function(c){
+    var d=document.createElement('div');
+    d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:4px';
+    d.innerHTML='<strong>'+esc(c.label)+'</strong>';
+    d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};
+    d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};
+    (function(cid){d.onclick=function(){doMoveStudent(y,m,cid);};})(c.id);
+    div.appendChild(d);
+  });
+}
+function doMoveStudent(destY,destM,destCid){
+  var srcY=_ex.y,srcM=_ex.m,srcCid=_ex.cid,srcI=_ex.i;
+  var st=ST[srcY]&&ST[srcY][srcM]&&ST[srcY][srcM][srcCid]?ST[srcY][srcM][srcCid][srcI]:null;
+  if(!st){alert('Error al mover alumno');return;}
+  // Add to destination
+  if(!ST[destY])ST[destY]={};if(!ST[destY][destM])ST[destY][destM]={};if(!ST[destY][destM][destCid])ST[destY][destM][destCid]=[];
+  ST[destY][destM][destCid].push(Object.assign({},st));
+  // Remove from source
+  ST[srcY][srcM][srcCid].splice(srcI,1);
+  closeModal();
+  // Navigate to destination
+  sY=destY;sM=destM;selPro=null;showDB=false;showWL=false;
+  render();scheduleSave();
+  showToastMsg('✅ Alumno movido a '+destM+' '+destY);
+}
+
+function openMoveProStudent(pk,cid,i){
+  var st=(PS[pk]&&PS[pk][cid])?PS[pk][cid][i]:null;
+  if(!st){alert('Alumno no encontrado');return;}
+  _mode='move-pro-student';_ex={pk:pk,cid:cid,i:i};
+  var title=document.getElementById('modal-title'),body=document.getElementById('modal-body'),ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');
+  title.textContent='Mover alumno PRO';
+  left.innerHTML='';ok.style.display='none';
+  // Show all PRO options
+  var proOpts=PRO_KEYS.map(function(p){return '<option value="'+p+'"'+(p===pk?' selected':'')+'>'+p+'</option>';}).join('');
+  body.innerHTML=
+    '<p style="font-size:13px;color:#666;margin-bottom:12px">Mover <strong>'+esc(st.n)+' '+esc(st.ap||'')+'</strong> a:</p>'+
+    '<select id="mvp-pk" style="width:100%;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;margin-bottom:12px" onchange="updMvPC()">'+proOpts+'</select>'+
+    '<div id="mvp-c" style="display:flex;flex-direction:column;gap:8px"></div>';
+  document.getElementById('modal').style.display='flex';
+  updMvPC();
+}
+function updMvPC(){
+  var pk=document.getElementById('mvp-pk').value;
+  var div=document.getElementById('mvp-c');if(!div)return;div.innerHTML='';
+  (PC[pk]||[]).forEach(function(c){
+    var d=document.createElement('div');
+    d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:4px';
+    d.innerHTML='<strong>'+esc(c.label)+'</strong>';
+    d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};
+    d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};
+    (function(destCid){d.onclick=function(){doMoveProStudent(pk,destCid);};})(c.id);
+    div.appendChild(d);
+  });
+}
+function doMoveProStudent(destPk,destCid){
+  var srcPk=_ex.pk,srcCid=_ex.cid,srcI=_ex.i;
+  var st=PS[srcPk]&&PS[srcPk][srcCid]?PS[srcPk][srcCid][srcI]:null;
+  if(!st)return;
+  if(!PS[destPk])PS[destPk]={};if(!PS[destPk][destCid])PS[destPk][destCid]=[];
+  PS[destPk][destCid].push(Object.assign({},st));
+  PS[srcPk][srcCid].splice(srcI,1);
+  closeModal();selPro=destPk;render();scheduleSave();
+  showToastMsg('✅ Alumno movido a '+destPk);
+}
+
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
 window.addEventListener('load',function(){
   try{
