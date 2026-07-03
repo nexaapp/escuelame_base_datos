@@ -637,12 +637,11 @@ function bulkMonthPay(pk,cid){
   var defAmount=ss.length&&ss[0].cu?parseInt(ss[0].cu)||195:195;
   body.innerHTML=
     '<p style="font-size:13px;color:#666;margin-bottom:14px">Registrar pago de <strong>'+esc(cid)+'</strong> para todos los alumnos:</p>'+
+    '<p style="font-size:12px;color:#f59e0b;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:8px;margin-bottom:12px">Los alumnos con 0 pagos pendientes quedan excluidos (ya pagaron el curso completo).</p>'+
     '<label>Mes</label>'+
     '<select id="bp-mo" style="width:100%;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;margin-bottom:12px">'+moOpts+'</select>'+
     '<label>Importe (€)</label>'+
-    '<input type="number" id="bp-amt" value="'+defAmount+'" style="margin-bottom:12px">'+
-    '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:normal">'+
-      '<input type="checkbox" id="bp-dec" checked> Descontar 1 pago pendiente por alumno</label>';
+    '<input type="number" id="bp-amt" value="'+defAmount+'">';
   _mode='bulk-pay';_ex={pk:pk,cid:cid};
   document.getElementById('modal').style.display='flex';
 }
@@ -869,8 +868,20 @@ function confirmModal(){
     var pm={};MO_ORDER.forEach(function(mo){var v=gv('m-pm-'+mo);if(v)pm[mo]=parseInt(v)||0;});
     var pp=gv('m-pp');var obj={n:n,ap:gv('m-ap'),t:gv('m-t'),m:gv('m-m'),l:gv('m-l'),ma:parseInt(gv('m-ma'))||0,tu:tu,cu:gv('m-cu'),p:gv('m-p'),pp:pp!==''?parseInt(pp):undefined,pm:pm,o:gv('m-o')};
     if(!PS[pk])PS[pk]={};if(!PS[pk][cid])PS[pk][cid]=[];
-    if(_mode==='add-pro-s')PS[pk][cid].push(obj);
-    else PS[pk][cid][idx]=obj;
+    if(_mode==='add-pro-s'){
+      PS[pk][cid].push(obj);
+    } else {
+      // Check if new months were added compared to existing
+      var existing=PS[pk][cid][idx];
+      var oldMonths=existing&&existing.pm?Object.keys(existing.pm).length:0;
+      var newMonths=Object.keys(obj.pm).length;
+      var addedMonths=newMonths-oldMonths;
+      // If pp not manually changed and new months added, decrement by difference
+      if(existing&&existing.pp!==undefined&&obj.pp===existing.pp&&addedMonths>0){
+        obj.pp=Math.max(0,obj.pp-addedMonths);
+      }
+      PS[pk][cid][idx]=obj;
+    }
   }
   else if(_mode==='bulk-pay'){
     var pk=_ex.pk,cid=_ex.cid;
@@ -879,13 +890,16 @@ function confirmModal(){
     var dec=document.getElementById('bp-dec').checked;
     if(!moU||!amount){alert('Rellena todos los campos');return;}
     var ss=(PS[pk]||{})[cid]||[];
-    ss.forEach(function(s){
-      if(!s.pm)s.pm={};
-      s.pm[moU]=amount;
-      if(dec&&s.pp!==undefined&&s.pp>0)s.pp--;
+    var applied=0,skipped=0;
+    ss.forEach(function(st){
+      if(st.pp===0){skipped++;return;} // ya pagó completo, saltar
+      if(!st.pm)st.pm={};
+      st.pm[moU]=amount;
+      if(st.pp!==undefined&&st.pp>0)st.pp--;
+      applied++;
     });
     closeModal();scheduleSave();renderPro();
-    showToastMsg('✅ '+ss.length+' alumnos: '+amount+'€ en '+moU+(dec?' · pagos decrementados':''));
+    showToastMsg('✅ '+applied+' alumnos: '+amount+'€ en '+moU+(skipped?' · '+skipped+' excluidos (pp=0)':''));
     return;
   }
   closeModal();render();
