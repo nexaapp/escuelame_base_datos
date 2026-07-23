@@ -375,7 +375,7 @@ function tblProHTML(students,cid,pk){
       '<td colspan="2"></td>' +
     '</tr>':'';
   var heads=cols.map(function(c){return '<th>'+c+'</th>';}).join('');
-  return '<div class="tbl-wrap"><table><thead><tr>'+heads+'</tr></thead><tbody>'+rows+tot+'</tbody></table></div>';
+  return '<div class="tbl-wrap"><table id="tbl-'+cid+'" ><thead><tr>'+heads+'</tr></thead><tbody>'+rows+tot+'</tbody></table></div>';
 }
 
 // ── Regular table ─────────────────────────────────────────────────────────────
@@ -561,6 +561,8 @@ function renderMonth(){
       body.innerHTML=tblHTML(students,false,true,sY,sM,c.id)+
         '<button class="add-row" onclick="openModal(\'student\',{cid:\''+c.id+'\'})">+ Añadir alumno</button>';
       card.appendChild(body);
+      // Init drag after render
+      (function(cy,cm,ccid){setTimeout(function(){initDragRows('tbl-'+ccid,'student',{y:cy,m:cm,cid:ccid});},0);})(sY,sM,c.id);
     }
     cont.appendChild(card);
   });
@@ -625,6 +627,16 @@ function renderPro(){
     }
     cont.appendChild(card);
   });
+
+  // Init drag for PRO tables
+  if(selPro){
+    setTimeout(function(){
+      (PC[selPro]||[]).forEach(function(c){
+        initDragRows('tbl-'+c.id,'pro',{pk:selPro,cid:c.id});
+      });
+    },50);
+  }
+
 }
 
 function copyProMails(pk,cid){
@@ -1004,7 +1016,9 @@ function doMandatoryBackup(){
   if(ov)ov.style.display='none';
   showToastMsg('Copia de seguridad guardada');
 }
-function renderWL(){var cont=document.getElementById('content');var rows='';WL.forEach(function(st,i){var obsPrev=st.o&&st.o.length>40?esc(st.o.slice(0,40))+'...':esc(st.o||'');rows+='<tr onclick="toggleWLObs('+i+')" style="cursor:pointer"><td><strong>'+esc(st.n||'')+'</strong>'+tagPill(st.tags)+'</td><td>'+esc(st.ap||'')+'</td><td>'+esc(st.t||'')+'</td><td>'+esc(st.m||'')+'</td><td>'+esc(st.l||'')+'</td><td>'+(st.i||0)+'€</td><td>'+pTag(st.p)+'</td><td>'+obsPrev+'</td><td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editWLS('+i+')">✎</span> <span class="tbl-btn" onclick="event.stopPropagation();assignWLS('+i+')" style="color:#2a7a3a">→</span> <span class="tbl-btn del" onclick="event.stopPropagation();delWLS('+i+')">&#128465;</span></td></tr><tr id="wlo'+i+'" style="display:none"><td colspan="9" style="padding:0"><div style="padding:8px 16px;background:#fffbeb;border-bottom:2px solid #fde68a"><textarea id="wlta'+i+'" style="width:100%;border:none;background:transparent;font-size:13px;font-family:inherit;resize:vertical;min-height:54px;outline:none" placeholder="Observaciones..." onblur="saveWLObs('+i+')" onclick="event.stopPropagation()">'+esc(st.o||'')+'</textarea></div></td></tr>';});cont.innerHTML='<div class="month-header"><h2>⏱ Alumnos en espera</h2></div><div class="course-block" style="margin-top:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="flex:1;font-weight:600;color:#555">'+WL.length+' alumno'+(WL.length!==1?'s':'')+' pendiente'+(WL.length!==1?'s':'')+'</span><button onclick="addWLStudent()" style="background:#fc5248;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">+ Añadir</button></div>'+(WL.length?'<div class="tbl-wrap"><table><thead><tr><th>Nombre</th><th>Apellidos</th><th>Tel</th><th>Mail</th><th>Localidad</th><th>Importe</th><th>Pago</th><th>Observaciones</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div style="padding:32px;text-align:center;color:#aaa;font-size:14px">No hay alumnos en espera.</div>')+'</div>';}
+function renderWL(){var cont=document.getElementById('content');var rows='';WL.forEach(function(st,i){var obsPrev=st.o&&st.o.length>40?esc(st.o.slice(0,40))+'...':esc(st.o||'');rows+='<tr onclick="toggleWLObs('+i+')" style="cursor:pointer"><td><strong>'+esc(st.n||'')+'</strong>'+tagPill(st.tags)+'</td><td>'+esc(st.ap||'')+'</td><td>'+esc(st.t||'')+'</td><td>'+esc(st.m||'')+'</td><td>'+esc(st.l||'')+'</td><td>'+(st.i||0)+'€</td><td>'+pTag(st.p)+'</td><td>'+obsPrev+'</td><td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editWLS('+i+')">✎</span> <span class="tbl-btn" onclick="event.stopPropagation();assignWLS('+i+')" style="color:#2a7a3a">→</span> <span class="tbl-btn del" onclick="event.stopPropagation();delWLS('+i+')">&#128465;</span></td></tr><tr id="wlo'+i+'" style="display:none"><td colspan="9" style="padding:0"><div style="padding:8px 16px;background:#fffbeb;border-bottom:2px solid #fde68a"><textarea id="wlta'+i+'" style="width:100%;border:none;background:transparent;font-size:13px;font-family:inherit;resize:vertical;min-height:54px;outline:none" placeholder="Observaciones..." onblur="saveWLObs('+i+')" onclick="event.stopPropagation()">'+esc(st.o||'')+'</textarea></div></td></tr>';});cont.innerHTML='<div class="month-header"><h2>⏱ Alumnos en espera</h2></div><div class="course-block" style="margin-top:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="flex:1;font-weight:600;color:#555">'+WL.length+' alumno'+(WL.length!==1?'s':'')+' pendiente'+(WL.length!==1?'s':'')+'</span><button onclick="addWLStudent()" style="background:#fc5248;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">+ Añadir</button></div>'+(WL.length?'<div class="tbl-wrap"><table id="wl-table"><thead><tr><th>Nombre</th><th>Apellidos</th><th>Tel</th><th>Mail</th><th>Localidad</th><th>Importe</th><th>Pago</th><th>Observaciones</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div style="padding:32px;text-align:center;color:#aaa;font-size:14px">No hay alumnos en espera.</div>')+'</div>';
+  initDragRows('wl-table','wl',null);
+}
 function toggleWLObs(i){var row=document.getElementById('wlo'+i);if(!row)return;var isOpen=row.style.display!=='none';WL.forEach(function(_,j){var r=document.getElementById('wlo'+j);if(r)r.style.display='none';});if(!isOpen){row.style.display='';setTimeout(function(){var ta=document.getElementById('wlta'+i);if(ta)ta.focus();},50);}}
 function saveWLObs(i){var ta=document.getElementById('wlta'+i);if(!ta||!WL[i])return;WL[i].o=ta.value;scheduleSave();}
 function wlFormHTML(st){var pagoOpts=PAGOS.map(function(p){return '<option'+(st&&st.p===p?' selected':'')+'>'+p+'</option>';}).join('');return '<label>Nombre *</label><input id="m-n" value="'+esc(st&&st.n||'')+'"><label>Apellidos</label><input id="m-ap" value="'+esc(st&&st.ap||'')+'"><label>Teléfono</label><input id="m-t" value="'+esc(st&&st.t||'')+'"><label>Mail</label><input id="m-m" value="'+esc(st&&st.m||'')+'"><label>Localidad</label><input id="m-l" value="'+esc(st&&st.l||'')+'"><label>Importe</label><input type="number" id="m-i" value="'+(st&&st.i||0)+'"><label>Estado pago</label><select id="m-p">'+pagoOpts+'</select><label>Observaciones</label><textarea id="m-o" style="resize:vertical;min-height:60px">'+esc(st&&st.o||'')+'</textarea>'+tagSelectHTML(st&&st.tags||null);}
@@ -1307,6 +1321,54 @@ function deleteTag(i){
   Object.keys(PS).forEach(function(pk){Object.keys(PS[pk]||{}).forEach(function(cid){(PS[pk][cid]||[]).forEach(function(s){if(s.tags)s.tags=s.tags.filter(function(t){return t!==tid;});});});});
   WL.forEach(function(s){if(s.tags)s.tags=s.tags.filter(function(t){return t!==tid;});});
   scheduleSave();openTagsModal();
+}
+
+
+// ── Drag & Drop reordering ────────────────────────────────────────────────────
+var _dragSrc=null,_dragType=null,_dragCtx=null;
+
+function initDragRows(tableId, type, ctx){
+  var tbl=document.getElementById(tableId);
+  if(!tbl)return;
+  var rows=tbl.querySelectorAll('tbody tr:not(.obs-expand-row):not([id^="wlo"])');
+  rows.forEach(function(row,i){
+    row.setAttribute('draggable','true');
+    row.style.cursor='grab';
+    row.addEventListener('dragstart',function(e){
+      _dragSrc=i;_dragType=type;_dragCtx=ctx;
+      row.style.opacity='0.4';
+      e.dataTransfer.effectAllowed='move';
+    });
+    row.addEventListener('dragend',function(){row.style.opacity='1';});
+    row.addEventListener('dragover',function(e){
+      e.preventDefault();e.dataTransfer.dropEffect='move';
+      row.style.background='#fff1f0';row.style.outline='2px dashed #fc5248';
+    });
+    row.addEventListener('dragleave',function(){
+      row.style.background='';row.style.outline='';
+    });
+    row.addEventListener('drop',function(e){
+      e.preventDefault();row.style.background='';row.style.outline='';
+      if(_dragSrc===null||_dragSrc===i)return;
+      // Reorder the data array
+      if(_dragType==='wl'){
+        var item=WL.splice(_dragSrc,1)[0];
+        WL.splice(i,0,item);
+        renderWL();scheduleSave();
+      } else if(_dragType==='student'){
+        var arr=ST[_dragCtx.y][_dragCtx.m][_dragCtx.cid];
+        var item2=arr.splice(_dragSrc,1)[0];
+        arr.splice(i,0,item2);
+        render();scheduleSave();
+      } else if(_dragType==='pro'){
+        var arr2=PS[_dragCtx.pk][_dragCtx.cid];
+        var item3=arr2.splice(_dragSrc,1)[0];
+        arr2.splice(i,0,item3);
+        renderPro();scheduleSave();
+      }
+      _dragSrc=null;
+    });
+  });
 }
 
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
