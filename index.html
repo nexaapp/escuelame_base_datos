@@ -163,7 +163,7 @@ async function doLogin(){
   if(!pwd)return;
   try{
     if(typeof supabase==='undefined'){showErr('Error de conexión');return;}
-    const c=supabase.createClient('https://ngpggumhsdqqlintrvlh.supabase.co','sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-');
+    const c=supabase.createClient('https://uokmrmfcsplwjbxqqgxm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVva21ybWZjc3Bsd2pieHFxZ3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3Mzg4NDksImV4cCI6MjEwMDMxNDg0OX0.AYi0xEOQH1rqlsLfDzw1udXMPKGnZcpUUVdVrHorz_c');
     const r=await c.auth.signInWithPassword({email:'manuel@manuelesteves.es',password:pwd});
     if(r.error){showErr('Contraseña incorrecta');document.getElementById('pwd').value='';document.getElementById('pwd').focus();return;}
     window.location.href='dashboard.html';
@@ -175,7 +175,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 window.addEventListener('load',function(){
   try{
     if(typeof supabase==='undefined')return;
-    const c=supabase.createClient('https://ngpggumhsdqqlintrvlh.supabase.co','sb_publishable_Te0JWrsRvbti3_srVi6MrQ_-RHxfJv-');
+    const c=supabase.createClient('https://uokmrmfcsplwjbxqqgxm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVva21ybWZjc3Bsd2pieHFxZ3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3Mzg4NDksImV4cCI6MjEwMDMxNDg0OX0.AYi0xEOQH1rqlsLfDzw1udXMPKGnZcpUUVdVrHorz_c');
     c.auth.getSession().then(function(r){
       if(r.data&&r.data.session)window.location.href='dashboard.html';
     }).catch(function(){});
