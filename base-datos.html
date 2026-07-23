@@ -189,6 +189,7 @@ body{padding-top:50px!important}
       <label class="top-btn" id="btn-import-lbl" style="display:none;cursor:pointer">&#8679; Importar<input type="file" id="import-file" accept=".csv" style="display:none" onchange="handleImportFile(this)"></label>
       <button class="top-btn" id="btn-export" onclick="doExport()" style="display:none">&#8681; Exportar mes</button>
       <button class="top-btn" id="btn-backup" onclick="exportFullBackup()" title="Backup completo">&#128190; Backup</button>
+      <button class="top-btn" id="btn-save" onclick="forceSave()" title="Guardar ahora en Supabase" style="background:#fc5248;color:#fff;border-color:#fc5248">&#9729; Guardar</button>
       <button class="top-btn" id="btn-restore" onclick="openRestoreModal()" title="Restaurar desde backup">&#128268; Restaurar</button>
       <button class="top-btn" id="btn-tags" onclick="openTagsModal()">&#127991; Etiquetas</button>
     </div>
@@ -206,9 +207,7 @@ body{padding-top:50px!important}
   </div>
 </div>
 
-<div class="detail-ov" id="detail-ov" onclick="if(event.target===this)this.style.display='none'">
-  <div class="detail-box" id="detail
-
+<div class="detail-ov" id="detail-ov"
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const YEARS=[2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
@@ -1097,16 +1096,41 @@ async function loadFromSupabase(){
       if(r.data.tags&&r.data.tags.length)TAGS.splice(0,TAGS.length,...r.data.tags);
     }
     _supaLoaded=true;
+    console.log('Supabase loaded. WL items:', WL.length, 'ST years:', Object.keys(ST).length);
     showStatus('☁️ Conectado','ok');setTimeout(function(){showStatus('','');},3000);
-  }catch(e){console.error('loadFromSupabase:',e);}
+  }catch(e){
+    console.error('loadFromSupabase error:',e);
+    showStatus('⚠ Error de conexión','err');
+    // Still allow saves after error
+    _supaLoaded=true;
+  }
 }
 async function saveToSupabase(){
-  if(!_supaLoaded)return;
+  if(!_supaLoaded){console.warn('Save skipped: not loaded yet');return;}
   try{
-    var r=await getDB().from('app_data').upsert({id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,wl:WL,tags:TAGS,updated_at:new Date().toISOString()},{onConflict:'id'});
-    if(!r.error){showStatus('☁️ Guardado','ok');setTimeout(function(){showStatus('','');},2000);}
-    else{showStatus('⚠ Error','err');console.error(r.error);}
-  }catch(e){console.error('saveToSupabase:',e);}
+    var db=getDB();
+    if(!db){console.error('No DB client');showStatus('⚠ Sin conexión','err');return;}
+    var payload={id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,wl:WL,tags:TAGS,updated_at:new Date().toISOString()};
+    var r=await db.from('app_data').upsert(payload,{onConflict:'id'});
+    if(r.error){
+      console.error('Save error:',r.error);
+      showStatus('⚠ Error al guardar','err');
+      showToastMsg('Error al guardar: '+r.error.message);
+    } else {
+      showStatus('☁️ Guardado','ok');
+      setTimeout(function(){showStatus('','');},2000);
+    }
+  }catch(e){
+    console.error('saveToSupabase exception:',e);
+    showStatus('⚠ Error','err');
+    showToastMsg('Error: '+e.message);
+  }
+}
+
+// Force save button for debugging
+function forceSave(){
+  if(!_supaLoaded){showToastMsg('Supabase no conectado aún');return;}
+  saveToSupabase().then(function(){showToastMsg('Guardado forzado OK');});
 }
 function toggleMobileMenu(){
   var sb=document.getElementById('sidebar');
@@ -1446,7 +1470,9 @@ function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSup
 window.addEventListener('load',function(){
   try{
     if(typeof supabase!=='undefined'){
-      loadFromSupabase().then(function(){render();}).catch(function(e){console.error(e);render();});
+      lo
+
+adFromSupabase().then(function(){render();}).catch(function(e){console.error(e);render();});
     }else{render();}
   }catch(e){console.error(e);render();}
   checkBackupReminder();
