@@ -1452,15 +1452,6 @@ window.addEventListener('load',function(){
   checkBackupReminder();
 });
 
-istener('load',function(){
-  try{
-    if(typeof supabase!=='undefined'){
-      loadFromSupabase().then(function(){render();}).catch(function(e){console.error(e);render();});
-    }else{render();}
-  }catch(e){console.error(e);render();}
-  checkBackupReminder();
-});
-
 </script>
 
 <div id="mobile-overlay" onclick="closeMobileMenu()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:998"></div>
