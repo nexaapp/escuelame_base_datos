@@ -1487,25 +1487,39 @@ function doRestore(){
 }
 
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
-(function(){
-  console.log('Init running, supabase available:', typeof supabase!=='undefined');
-  render();
-  var tryLoad=function(){
-    console.log('tryLoad called, supabase:', typeof supabase);
-    if(typeof supabase!=='undefined'){
-      loadFromSupabase().then(function(){render();}).catch(function(e){
-        console.error('load error:',e);_supaLoaded=true;render();
-      });
-    } else {
-      var n=0;var t=setInterval(function(){n++;
-        if(typeof supabase!=='undefined'){clearInterval(t);loadFromSupabase().then(function(){render();}).catch(function(){_supaLoaded=true;render();});}
-        else if(n>20){clearInterval(t);console.error('Supabase CDN not loaded');_supaLoaded=true;}
-      },200);
-    }
-  };
-  tryLoad();
+// Wait for DOM then init Supabase
+function initSupabase(){
+  console.log('initSupabase, supabase:', typeof supabase);
+  if(typeof supabase!=='undefined'){
+    loadFromSupabase().then(function(){render();}).catch(function(e){
+      console.error('load error:',e);_supaLoaded=true;render();
+    });
+  } else {
+    var n=0;
+    var t=setInterval(function(){
+      n++;
+      console.log('waiting for supabase... attempt', n);
+      if(typeof supabase!=='undefined'){
+        clearInterval(t);
+        loadFromSupabase().then(function(){render();}).catch(function(e){
+          console.error(e);_supaLoaded=true;render();
+        });
+      } else if(n>50){
+        clearInterval(t);
+        console.error('Supabase CDN failed after 50 attempts');
+        showToastMsg('Error: no se pudo conectar con Supabase');
+        _supaLoaded=true;
+      }
+    },300);
+  }
+}
+render();
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', function(){initSupabase();checkBackupReminder();});
+} else {
+  initSupabase();
   checkBackupReminder();
-})();
+}
 
 </script>
 </body>
