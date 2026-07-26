@@ -1467,16 +1467,23 @@ function doRestore(){
 }
 
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
-window.addEventListener('load',function(){
-  try{
+(function(){
+  render();
+  var tryLoad=function(){
     if(typeof supabase!=='undefined'){
-      lo
-
-adFromSupabase().then(function(){render();}).catch(function(e){console.error(e);render();});
-    }else{render();}
-  }catch(e){console.error(e);render();}
+      loadFromSupabase().then(function(){render();}).catch(function(e){
+        console.error('load error:',e);_supaLoaded=true;render();
+      });
+    } else {
+      var n=0;var t=setInterval(function(){n++;
+        if(typeof supabase!=='undefined'){clearInterval(t);loadFromSupabase().then(function(){render();}).catch(function(){_supaLoaded=true;render();});}
+        else if(n>20){clearInterval(t);console.error('Supabase CDN not loaded');_supaLoaded=true;}
+      },200);
+    }
+  };
+  tryLoad();
   checkBackupReminder();
-});
+})();
 
 </script>
 
