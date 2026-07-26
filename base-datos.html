@@ -209,6 +209,21 @@ body{padding-top:50px!important}
 </div>
 
 <div class="detail-ov" id="detail-ov"
+
+
+<div id="mobile-overlay" onclick="closeMobileMenu()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:998"></div>
+<div id="backup-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:99999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:20px;padding:32px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="font-size:48px;margin-bottom:16px">💾</div>
+    <h2 style="font-size:20px;font-weight:800;color:#1a202c;margin-bottom:8px">Copia de seguridad obligatoria</h2>
+    <p style="font-size:14px;color:#718096;line-height:1.6;margin-bottom:8px">Han pasado más de 7 días desde tu última copia de seguridad.</p>
+    <p style="font-size:13px;color:#e53e3e;font-weight:600;margin-bottom:24px">Debes exportar tus datos antes de continuar.</p>
+    <button onclick="doMandatoryBackup()" style="width:100%;padding:14px;background:#fc5248;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit">⬇ Exportar copia de seguridad</button>
+    <p style="font-size:11px;color:#a0aec0;margin-top:12px">Se descargará un archivo CSV con todos los datos del mes actual.</p>
+  </div>
+</div>
+<div id="toast-msg" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a202c;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;z-index:9999"></div>
+
 <script>
 const YEARS=[2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
 const ALL_MONTHS=["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -1493,18 +1508,5 @@ function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSup
 })();
 
 </script>
-
-<div id="mobile-overlay" onclick="closeMobileMenu()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:998"></div>
-<div id="backup-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:99999;align-items:center;justify-content:center">
-  <div style="background:#fff;border-radius:20px;padding:32px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)">
-    <div style="font-size:48px;margin-bottom:16px">💾</div>
-    <h2 style="font-size:20px;font-weight:800;color:#1a202c;margin-bottom:8px">Copia de seguridad obligatoria</h2>
-    <p style="font-size:14px;color:#718096;line-height:1.6;margin-bottom:8px">Han pasado más de 7 días desde tu última copia de seguridad.</p>
-    <p style="font-size:13px;color:#e53e3e;font-weight:600;margin-bottom:24px">Debes exportar tus datos antes de continuar.</p>
-    <button onclick="doMandatoryBackup()" style="width:100%;padding:14px;background:#fc5248;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit">⬇ Exportar copia de seguridad</button>
-    <p style="font-size:11px;color:#a0aec0;margin-top:12px">Se descargará un archivo CSV con todos los datos del mes actual.</p>
-  </div>
-</div>
-<div id="toast-msg" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a202c;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;z-index:9999"></div>
 </body>
 </html>
