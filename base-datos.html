@@ -1567,21 +1567,26 @@ function doSearch(q){
     box.innerHTML='<div style="padding:12px 14px;color:#aaa;font-size:13px;text-align:center">Sin resultados</div>'+
       '<div class="sr-add" onmousedown="searchAddToWL(this.dataset.name)" data-name="'+esc(searchTerm)+'">+ A\u00f1adir \u201c'+esc(searchTerm)+'\u201d a lista de espera</div>';
   } else {
+    window._srResults=results;
     var html='';
     var hasReg=results.some(function(r){return r.type==='regular';});
     var hasPro=results.some(function(r){return r.type==='pro';});
     var hasWL=results.some(function(r){return r.type==='wl';});
+    var globalIdx=0;
     if(hasReg)html+='<div class="sr-section">Cursos mensuales</div>';
-    results.filter(function(r){return r.type==='regular';}).forEach(function(r,idx){
-      html+='<div class="sr-item" onmousedown="searchGoTo('+JSON.stringify(r)+')"><div class="sr-name">'+esc(r.label)+'</div><div class="sr-sub">'+esc(r.sub)+'</div></div>';
+    results.filter(function(r){return r.type==='regular';}).forEach(function(r){
+      var gi=results.indexOf(r);
+      html+='<div class="sr-item" onmousedown="searchGoTo(window._srResults['+gi+'])"><div class="sr-name">'+esc(r.label)+'</div><div class="sr-sub">'+esc(r.sub)+'</div></div>';
     });
     if(hasPro)html+='<div class="sr-section">Cursos PRO</div>';
     results.filter(function(r){return r.type==='pro';}).forEach(function(r){
-      html+='<div class="sr-item" onmousedown="searchGoTo('+JSON.stringify(r)+')"><div class="sr-name">'+esc(r.label)+'</div><div class="sr-sub">'+esc(r.sub)+'</div></div>';
+      var gi=results.indexOf(r);
+      html+='<div class="sr-item" onmousedown="searchGoTo(window._srResults['+gi+'])"><div class="sr-name">'+esc(r.label)+'</div><div class="sr-sub">'+esc(r.sub)+'</div></div>';
     });
     if(hasWL)html+='<div class="sr-section">En espera</div>';
     results.filter(function(r){return r.type==='wl';}).forEach(function(r){
-      html+='<div class="sr-item" onmousedown="searchGoTo('+JSON.stringify(r)+')"><div class="sr-name">'+esc(r.label)+'</div><div class="sr-sub">'+esc(r.sub)+'</div></div>';
+      var gi=results.indexOf(r);
+      html+='<div class="sr-item" onmousedown="searchGoTo(window._srResults['+gi+'])"><div class="sr-name">'+esc(r.label)+'</div><div class="sr-sub">'+esc(r.sub)+'</div></div>';
     });
     html+='<div class="sr-add" onmousedown="searchAddWLCurrent()">+ A\u00f1adir a lista de espera</div>';
     box.innerHTML=html;
@@ -1610,21 +1615,20 @@ function searchGoTo(r){
   if(r.type==='regular'){
     sY=r.y;sM=r.m;selPro=null;showDB=false;showWL=false;
     render();
-    // Open student detail after render
     setTimeout(function(){
-      var arr=ST[r.y]&&ST[r.y][r.m]&&ST[r.y][r.m][r.cid];
-      if(arr&&arr[r.i])editS(r.y,r.m,r.cid,r.i);
-    },100);
+      // editS uses global sY,sM which are now set
+      editS(r.y,r.m,r.cid,r.i);
+    },200);
   } else if(r.type==='pro'){
     selPro=r.pk;showDB=false;showWL=false;
     render();
     setTimeout(function(){
       editPS(null,r.pk,r.cid,r.i);
-    },100);
+    },200);
   } else if(r.type==='wl'){
     showWL=true;showDB=false;selPro=null;
     render();
-    setTimeout(function(){editWLS(r.i);},100);
+    setTimeout(function(){editWLS(r.i);},200);
   }
 }
 
