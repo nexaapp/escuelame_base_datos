@@ -1082,9 +1082,14 @@ function doAssign(courseIdx){var y=parseInt(document.getElementById('as-y').valu
 var _saveTimer=null,_supaLoaded=false,_db=null;
 function getDB(){if(!_db&&typeof supabase!=='undefined')_db=supabase.createClient('https://uokmrmfcsplwjbxqqgxm.supabase.co','sb_publishable_q7idsJwKogug3y_OFZEteg_CE-B09ul');return _db;}
 async function loadFromSupabase(){
-  if(typeof supabase==='undefined')return;
+  console.log('loadFromSupabase called, supabase:', typeof supabase);
+  if(typeof supabase==='undefined'){console.error('supabase undefined!');return;}
   try{
-    var r=await getDB().from('app_data').select('*').eq('id','main').single();
+    console.log('Calling getDB()...');
+    var db=getDB();
+    console.log('DB client:', !!db);
+    var r=await db.from('app_data').select('*').eq('id','main').single();
+    console.log('Supabase response - error:', r.error, 'data:', !!r.data);
     if(r.error&&r.error.code!=='PGRST116'){console.error('load err:',r.error);return;}
     if(r.data){
       if(r.data.years&&r.data.years.length)YEARS.splice(0,YEARS.length,...r.data.years);
@@ -1468,8 +1473,10 @@ function doRestore(){
 
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
 (function(){
+  console.log('Init running, supabase available:', typeof supabase!=='undefined');
   render();
   var tryLoad=function(){
+    console.log('tryLoad called, supabase:', typeof supabase);
     if(typeof supabase!=='undefined'){
       loadFromSupabase().then(function(){render();}).catch(function(e){
         console.error('load error:',e);_supaLoaded=true;render();
