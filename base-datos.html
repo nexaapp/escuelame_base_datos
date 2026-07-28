@@ -526,7 +526,17 @@ function renderNav(){
     pb.className='year-btn pro-year'+(selPro===pk?' active':'');
     pb.innerHTML=pk+'<span class="arr">'+(selPro===pk?'▾':'▸')+'</span>';
     pb.onclick=function(){selPro=pk;showDB=false;showWL=false;closeMobileMenu();render();};
-    nav.appendChild(pb);
+    var proRow=document.createElement('div');proRow.style.cssText='display:flex;align-items:center';
+    proRow.appendChild(pb);
+    var delPro=document.createElement('button');
+    delPro.innerHTML='&#10005;';
+    delPro.title='Eliminar '+pk;
+    delPro.style.cssText='background:none;border:none;color:#ccc;cursor:pointer;font-size:12px;padding:2px 6px;flex-shrink:0;line-height:1';
+    delPro.onmouseover=function(){this.style.color='#e53e3e';};
+    delPro.onmouseout=function(){this.style.color='#ccc';};
+    (function(k){delPro.onclick=function(e){e.stopPropagation();delProYear(k);};})(pk);
+    proRow.appendChild(delPro);
+    nav.appendChild(proRow);
     if(selPro===pk){
       var pl=document.createElement('div');pl.className='months-list';
       (PC[pk]||[]).forEach(function(c){
@@ -1652,6 +1662,21 @@ function searchAddToWL(name){
   document.getElementById('modal').style.display='flex';
   // Focus first empty field after name
   setTimeout(function(){var el=document.getElementById('m-ap');if(el)el.focus();},100);
+}
+
+
+function delProYear(pk){
+  var students=0;
+  Object.keys(PS[pk]||{}).forEach(function(cid){students+=(PS[pk][cid]||[]).length;});
+  var msg=students>0?
+    '¿Eliminar '+pk+'? Tiene '+students+' alumno'+(students!==1?'s':'')+'. Se perderán todos los datos.':
+    '¿Eliminar '+pk+'?';
+  if(!confirm(msg))return;
+  var idx=PRO_KEYS.indexOf(pk);
+  if(idx>=0)PRO_KEYS.splice(idx,1);
+  delete PC[pk];delete PS[pk];
+  if(selPro===pk){selPro=PRO_KEYS.length?PRO_KEYS[PRO_KEYS.length-1]:null;}
+  render();scheduleSave();
 }
 
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
