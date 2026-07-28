@@ -756,6 +756,14 @@ function openModal(mode,extra){
   var body=document.getElementById('modal-body');
   var ok=document.getElementById('modal-ok');
   var left=document.getElementById('modal-left');
+  if(mode==='add-pro-year'){
+    title.textContent='Nuevo año PRO';
+    body.innerHTML='<label>Número de año (ej: 27)</label><input id="m-proname" placeholder="27" maxlength="4" style="font-size:20px;text-align:center;font-weight:700;padding:12px">';
+    ok.textContent='Crear';ok.style.display='';left.innerHTML='';
+    document.getElementById('modal').style.display='flex';
+    setTimeout(function(){var el=document.getElementById('m-proname');if(el)el.focus();},100);
+    return;
+  }
   left.innerHTML='';ok.textContent='Guardar';ok.style.display='';
 
   if(mode==='year'){
