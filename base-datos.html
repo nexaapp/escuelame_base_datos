@@ -1163,6 +1163,9 @@ async function loadFromSupabase(){
       if(r.data.pc&&Object.keys(r.data.pc).length)Object.assign(PC,r.data.pc);
       if(r.data.ps&&Object.keys(r.data.ps).length)Object.assign(PS,r.data.ps);
       if(r.data.wl&&r.data.wl.length)WL.splice(0,WL.length,...r.data.wl);
+      if(r.data.prokeys&&r.data.prokeys.length){
+        PRO_KEYS.splice(0,PRO_KEYS.length,...r.data.prokeys);
+      }
       if(r.data.tags&&r.data.tags.length)TAGS.splice(0,TAGS.length,...r.data.tags);
     }
     _supaLoaded=true;
@@ -1180,7 +1183,7 @@ async function saveToSupabase(){
   try{
     var db=getDB();
     if(!db){console.error('No DB client');showStatus('⚠ Sin conexión','err');return;}
-    var payload={id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,wl:WL,tags:TAGS,updated_at:new Date().toISOString()};
+    var payload={id:'main',years:YEARS,mc:MC,st:ST,pc:PC,ps:PS,wl:WL,tags:TAGS,prokeys:PRO_KEYS,updated_at:new Date().toISOString()};
     var r=await db.from('app_data').upsert(payload,{onConflict:'id'});
     if(r.error){
       console.error('Save error:',r.error);
