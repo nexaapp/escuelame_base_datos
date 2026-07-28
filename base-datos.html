@@ -415,6 +415,7 @@ function tblHTML(students,showPer,editable,y,m,cid){
     var actions=editable?
       '<td style="white-space:nowrap"><span class="tbl-btn" onclick="event.stopPropagation();editS('+y+',\''+m+'\',\''+cid+'\','+i+')">✏️</span>'+
       '<span class="tbl-btn" onclick="event.stopPropagation();openMoveStudent('+y+',\''+m+'\',\''+cid+'\','+i+')" title="Mover a otro curso" style="color:#2a7a3a">↪</span>'+
+      '<span class="tbl-btn" onclick="event.stopPropagation();openAssignStudent('+y+',\''+m+'\',\''+cid+'\','+i+')" title="Asignar a otro curso (sin mover)" style="color:#3b82f6">⊕</span>'+
       '<span class="tbl-btn del" onclick="event.stopPropagation();delS('+y+',\''+m+'\',\''+cid+'\','+i+')">🗑</span></td>':
       '<td></td>';
     return '<tr onclick="showDetail(this)" style="cursor:pointer" data-json=\''+escJson(Object.assign({},s,{_editable:editable,_y:y,_m:m,_cid:cid,_i:i}))+'\'>'+
@@ -829,6 +830,7 @@ function openModal(mode,extra){
     if(isEdit) left.innerHTML='<button class="btn-danger" onclick="delS('+sY+',\''+sM+'\',\''+_ex.cid+'\','+_ex.idx+');closeModal()">Eliminar</button>';
   }
   document.getElementById('modal').style.display='flex';
+  setTimeout(function(){initAutocomplete('m-n');},50);
 }
 
 function openModalProS(pk,cid,idx){
@@ -1677,6 +1679,186 @@ function delProYear(pk){
   delete PC[pk];delete PS[pk];
   if(selPro===pk){selPro=PRO_KEYS.length?PRO_KEYS[PRO_KEYS.length-1]:null;}
   render();scheduleSave();
+}
+
+
+// ── Student autocomplete ──────────────────────────────────────────────────────
+function getAllStudents(){
+  var all=[];
+  // Regular courses
+  Object.keys(ST).forEach(function(y){
+    Object.keys(ST[y]||{}).forEach(function(m){
+      Object.keys(ST[y][m]||{}).forEach(function(cid){
+        (ST[y][m][cid]||[]).forEach(function(s){
+          if(s.n)all.push({n:s.n,ap:s.ap||'',t:s.t||'',m:s.m||'',l:s.l||'',i:s.i||0,p:s.p||'Pendiente',o:s.o||''});
+        });
+      });
+    });
+  });
+  // PRO courses
+  Object.keys(PS).forEach(function(pk){
+    Object.keys(PS[pk]||{}).forEach(function(cid){
+      (PS[pk][cid]||[]).forEach(function(s){
+        if(s.n)all.push({n:s.n,ap:s.ap||'',t:s.t||'',m:s.m||'',l:s.l||'',i:s.i||0,p:s.p||'Pendiente',o:s.o||''});
+      });
+    });
+  });
+  // WL
+  WL.forEach(function(s){
+    if(s.n)all.push({n:s.n,ap:s.ap||'',t:s.t||'',m:s.m||'',l:s.l||'',i:s.i||0,p:s.p||'Pendiente',o:s.o||''});
+  });
+  // Deduplicate by name+tel
+  var seen={};
+  return all.filter(function(s){
+    var key=(s.n+s.ap+s.t).toLowerCase();
+    if(seen[key])return false;
+    seen[key]=true;return true;
+  });
+}
+
+function initAutocomplete(inputId){
+  var input=document.getElementById(inputId);
+  if(!input)return;
+  // Create dropdown
+  var wrap=input.parentNode;
+  var drop=document.createElement('div');
+  drop.id=inputId+'-ac';
+  drop.style.cssText='position:absolute;background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:200px;overflow-y:auto;z-index:99999;left:0;right:0;display:none;margin-top:2px';
+  // Wrap input in relative div if not already
+  if(wrap.style.position!=='relative'){
+    var relWrap=document.createElement('div');
+    relWrap.style.position='relative';
+    wrap.insertBefore(relWrap,input);
+    relWrap.appendChild(input);
+    relWrap.appendChild(drop);
+  } else {
+    wrap.appendChild(drop);
+  }
+  input.addEventListener('input',function(){
+    var q=this.value.trim().toLowerCase();
+    if(q.length<2){drop.style.display='none';return;}
+    var all=getAllStudents();
+    var matches=all.filter(function(s){
+      return (s.n||'').toLowerCase().indexOf(q)>=0||
+             (s.ap||'').toLowerCase().indexOf(q)>=0||
+             (s.t||'').toLowerCase().indexOf(q)>=0;
+    }).slice(0,8);
+    if(!matches.length){drop.style.display='none';return;}
+    drop.innerHTML=matches.map(function(s,i){
+      return '<div style="padding:8px 12px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:13px" '+
+        'onmousedown="fillStudentForm('+i+')" '+
+        'data-idx="'+i+'">'+
+        '<strong>'+esc(s.n)+' '+esc(s.ap)+'</strong>'+
+        (s.t?'<span style="color:#888;font-size:11px;margin-left:6px">'+esc(s.t)+'</span>':'')+
+      '</div>';
+    }).join('');
+    drop.style.display='block';
+    window._acMatches=matches;
+  });
+  input.addEventListener('blur',function(){
+    setTimeout(function(){drop.style.display='none';},200);
+  });
+}
+
+function fillStudentForm(idx){
+  var s=window._acMatches&&window._acMatches[idx];
+  if(!s)return;
+  var fields={
+    'm-n':s.n,'m-ap':s.ap,'m-t':s.t,'m-m':s.m,'m-l':s.l
+  };
+  Object.keys(fields).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.value=fields[id]||'';
+  });
+  // Close dropdown
+  var drops=document.querySelectorAll('[id$="-ac"]');
+  drops.forEach(function(d){d.style.display='none';});
+  // Focus next empty field
+  var next=document.getElementById('m-t');
+  if(next&&!next.value){next.focus();}
+  else{var ni=document.getElementById('m-i');if(ni)ni.focus();}
+}
+
+// ── Assign to another course (without removing from current) ─────────────────
+function openAssignStudent(y,m,cid,i){
+  var s=ST[y]&&ST[y][m]&&ST[y][m][cid]?ST[y][m][cid][i]:null;
+  if(!s){alert('Alumno no encontrado');return;}
+  _mode='assign-student';_ex={y:y,m:m,cid:cid,i:i};
+  var title=document.getElementById('modal-title'),body=document.getElementById('modal-body');
+  var ok=document.getElementById('modal-ok'),left=document.getElementById('modal-left');
+  title.textContent='Asignar a otro curso';left.innerHTML='';ok.style.display='none';
+  var yearOpts=YEARS.filter(function(yr){return MC[yr]&&Object.keys(MC[yr]).length;}).map(function(yr){
+    return '<option value="'+yr+'"'+(yr===y?' selected':'')+'>'+yr+'</option>';
+  }).join('');
+  // Also add PRO options
+  var proOpts='<optgroup label="Cursos PRO">'+PRO_KEYS.map(function(pk){
+    return '<option value="PRO:'+pk+'">'+pk+'</option>';
+  }).join('')+'</optgroup>';
+  body.innerHTML=
+    '<p style="font-size:13px;color:#666;margin-bottom:14px">Asignar <strong>'+esc(s.n)+' '+esc(s.ap||'')+'</strong> a:</p>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px">'+
+      '<select id="as2-y" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAs2M()">'+yearOpts+proOpts+'</select>'+
+      '<select id="as2-m" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px" onchange="updAs2C()"></select>'+
+    '</div><div id="as2-c" style="display:flex;flex-direction:column;gap:8px"></div>';
+  document.getElementById('modal').style.display='flex';
+  updAs2M();
+}
+
+function updAs2M(){
+  var sel=document.getElementById('as2-y');if(!sel)return;
+  var val=sel.value;
+  var mo=document.getElementById('as2-m');if(!mo)return;
+  if(val.indexOf('PRO:')=== 0){
+    var pk=val.slice(4);
+    mo.innerHTML=(PC[pk]||[]).map(function(c){return '<option value="'+c.id+'">'+esc(c.label)+'</option>';}).join('');
+    mo.onchange=null;
+    updAs2C();
+  } else {
+    var y=parseInt(val)||val;
+    mo.innerHTML=Object.keys(MC[y]||{}).map(function(m){return '<option>'+m+'</option>';}).join('');
+    updAs2C();mo.onchange=updAs2C;
+  }
+}
+
+function updAs2C(){
+  var sel=document.getElementById('as2-y');if(!sel)return;
+  var val=sel.value;
+  var mo=document.getElementById('as2-m');if(!mo)return;
+  var div=document.getElementById('as2-c');if(!div)return;
+  div.innerHTML='';
+  var isPro=val.indexOf('PRO:')===0;
+  var pk=isPro?val.slice(4):null;
+  var y=isPro?null:(parseInt(val)||val);
+  var m=mo.value;
+  var cs=isPro?(PC[pk]||[]):gM(y,m);
+  if(!cs.length){div.innerHTML='<div style="color:#aaa;font-size:13px">No hay cursos.</div>';return;}
+  cs.forEach(function(c){
+    var d=document.createElement('div');
+    d.style.cssText='padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:4px';
+    d.innerHTML='<strong>'+esc(c.label)+'</strong>';
+    d.onmouseover=function(){this.style.borderColor='#fc5248';this.style.background='#fff1f0';};
+    d.onmouseout=function(){this.style.borderColor='#e2e8f0';this.style.background='';};
+    (function(course,isProC,pkC,yC,mC){
+      d.onclick=function(){doAssign2(course,isProC,pkC,yC,mC);};
+    })(c,isPro,pk,y,m);
+    div.appendChild(d);
+  });
+}
+
+function doAssign2(course,isPro,pk,y,m){
+  var ex=_ex;
+  var src=ST[ex.y]&&ST[ex.y][ex.m]&&ST[ex.y][ex.m][ex.cid]?ST[ex.y][ex.m][ex.cid][ex.i]:null;
+  if(!src)return;
+  var copy=Object.assign({},src);
+  if(isPro){
+    if(!PS[pk])PS[pk]={};if(!PS[pk][course.id])PS[pk][course.id]=[];
+    PS[pk][course.id].push(copy);
+  } else {
+    if(!ST[y])ST[y]={};if(!ST[y][m])ST[y][m]={};if(!ST[y][m][course.id])ST[y][m][course.id]=[];
+    ST[y][m][course.id].push(copy);
+  }
+  closeModal();render();scheduleSave();
+  showToastMsg('✅ '+esc(src.n)+' asignado a '+esc(course.label));
 }
 
 function scheduleSave(){clearTimeout(_saveTimer);_saveTimer=setTimeout(saveToSupabase,1500);}
